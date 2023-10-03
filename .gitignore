@@ -75,7 +75,7 @@ StyleCopReport.xml
 *_h.h
 *.ilk
 *.meta
-*.obj
+#*.obj モデルとしてのobjも対象になってしまうため
 *.iobj
 *.pch
 *.pdb
@@ -97,6 +97,7 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+x64/**
 
 # Chutzpah Test files
 _Chutzpah*
