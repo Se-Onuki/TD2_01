@@ -22,12 +22,12 @@ GameScene::~GameScene() {
 void GameScene::OnEnter() {
 	light_.reset(DirectionLight::Create());
 
-	model_ = ModelManager::GetInstance()->AddModel("Fence", Model::LoadObjFile("Model/Fence/", "fence.obj"));
-	transform_.UpdateMatrix();
+	//model_ = ModelManager::GetInstance()->AddModel("Fence", Model::LoadObjFile("Model/Fence/", "fence.obj"));
+	//transform_.UpdateMatrix();
 	camera_.Init();
 
-	sprite_.reset(Sprite::Create(TextureManager::Load("white2x2.png")));
-	sprite_->SetScale({ 100.f,100.f });
+	map_ = std::make_unique<Map>();
+	map_->Init();
 }
 
 void GameScene::OnExit() {}
@@ -40,15 +40,15 @@ void GameScene::Update() {
 	camera_.UpdateMatrix();
 
 	ImGui::Begin("Sphere");
-	model_->ImGuiWidget();
-	transform_.ImGuiWidget();
+	//	model_->ImGuiWidget();
+	//	transform_.ImGuiWidget();
 	ImGui::End();
 
 	TextureManager::GetInstance()->ImGuiWindow();
 
 	light_->ImGuiWidget();
 
-	transform_.UpdateMatrix();
+	//	transform_.UpdateMatrix();
 }
 
 void GameScene::Draw()
@@ -76,7 +76,7 @@ void GameScene::Draw()
 	light_->SetLight(commandList);
 
 	// モデルの描画
-	model_->Draw(transform_, camera_);
+//	model_->Draw(transform_, camera_);
 
 	Model::EndDraw();
 
@@ -87,7 +87,7 @@ void GameScene::Draw()
 	Sprite::StartDraw(commandList);
 
 	// スプライトの描画
-	sprite_->Draw();
+	map_->Draw();
 
 	Sprite::EndDraw();
 
