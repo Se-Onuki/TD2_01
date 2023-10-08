@@ -49,7 +49,7 @@ public:
 	/// @brief 任意で実行する初期化
 	virtual void Reset() {};
 	/// @brief 毎フレーム実行される処理
-	virtual void Update() {};
+	virtual void Update(float deltaTime) { deltaTime; };
 	/// @brief 描画処理
 	/// @param vp Cameraクラス
 	virtual void Draw(const Camera<Render::CameraType::Projecction> &) const {};
@@ -96,12 +96,11 @@ public:
 	Transform transform_;
 
 	Entity() = default;
-	//Object(const Object&) = default;
 	virtual ~Entity() = default;
 
 	virtual void Init();
 	virtual void Reset();
-	virtual void Update();
+	virtual void Update(float deltaTime);
 	virtual void Draw(const Camera<Render::CameraType::Projecction> &vp) const;
 
 	/*template<typename T>
@@ -177,7 +176,7 @@ T *const Entity::GetComponent() const {
 
 	const auto &it = componentMap_.find(std::type_index(typeid(T)));
 	if (it != componentMap_.end()) {
-		return static_cast<T *>(it->second.get());
+		return dynamic_cast<T *>(it->second.get());
 	}
 	return nullptr;
 }

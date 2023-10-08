@@ -24,10 +24,13 @@ void GameScene::OnEnter() {
 
 	//model_ = ModelManager::GetInstance()->AddModel("Fence", Model::LoadObjFile("Model/Fence/", "fence.obj"));
 	//transform_.UpdateMatrix();
-	camera_.Init();
+	camera_.translation_ = Vector3{ 0.f,0.f,-50.f };
+	camera_.UpdateMatrix();
+	auto *const modelManager = ModelManager::GetInstance();
+	modelManager->AddModel("Spring", Model::LoadObjFile("", "sphere.obj"));
 
-	map_ = std::make_unique<Map>();
-	map_->Init();
+	gameManager_ = GameManager::GetInstance();
+	gameManager_->Init();
 }
 
 void GameScene::OnExit() {}
@@ -45,6 +48,7 @@ void GameScene::Update() {
 	ImGui::End();
 
 	TextureManager::GetInstance()->ImGuiWindow();
+	gameManager_->Update(1.f / 60.f);
 
 	light_->ImGuiWidget();
 
@@ -76,7 +80,7 @@ void GameScene::Draw()
 	light_->SetLight(commandList);
 
 	// モデルの描画
-//	model_->Draw(transform_, camera_);
+	gameManager_->Draw(camera_);
 
 	Model::EndDraw();
 
@@ -87,7 +91,6 @@ void GameScene::Draw()
 	Sprite::StartDraw(commandList);
 
 	// スプライトの描画
-	map_->Draw();
 
 	Sprite::EndDraw();
 

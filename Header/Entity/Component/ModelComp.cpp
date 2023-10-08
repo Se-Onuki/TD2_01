@@ -1,9 +1,10 @@
 #include "ModelComp.h"
 
-void ModelComp::Update() {
+void ModelComp::Update(float deltaTime) {
 	for (auto &model : modelTree_) {
 		model->Update();
 	}
+	deltaTime;
 }
 
 void ModelComp::Draw(const Camera<Render::CameraType::Projecction> &vp) const {

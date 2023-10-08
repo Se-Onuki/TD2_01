@@ -249,8 +249,11 @@
     <ClCompile Include="Header\Entity\Entity.cpp">
       <Filter>Header\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Object\Map.cpp">
+    <ClCompile Include="Header\Object\GameManager.cpp">
       <Filter>Header\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Entity\Component\SpringObjectComp.cpp">
+      <Filter>Header\Entity\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,8 +449,11 @@
     <ClInclude Include="Header\Entity\Entity.h">
       <Filter>Header\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Object\Map.h">
+    <ClInclude Include="Header\Object\GameManager.h">
       <Filter>Header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Entity\Component\SpringObjectComp.h">
+      <Filter>Header\Entity\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

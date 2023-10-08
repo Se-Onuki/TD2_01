@@ -9,9 +9,9 @@ public:
 	~Rigidbody() = default;
 
 	void Init();
-	void Update();
+	void Update(float deltaTime) override;
 
-	void AddAcceleration(const Vector3 &vec) { acceleration_ += vec; }
+	void AddAcceleration(const Vector3 &vec) { acceleration_ += vec ; }
 	void SetAcceleration(const Vector3 &vec) { acceleration_ = vec; }
 	const Vector3 &GetAcceleration() const { return acceleration_; }
 

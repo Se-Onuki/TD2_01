@@ -13,15 +13,15 @@ void Entity::Reset() {
 	}
 }
 
-void Entity::Update() {
+void Entity::Update(float deltaTime) {
 	auto *const modelComp = GetComponent<ModelComp>();
 	for (auto &component : componentMap_) {
 		if (modelComp != component.second.get())
-			component.second->Update();
+			component.second->Update(deltaTime);
 	}
 	transform_.UpdateMatrix();
 	if (modelComp)
-		modelComp->Update();
+		modelComp->Update(deltaTime);
 }
 void Entity::Draw(const Camera<Render::CameraType::Projecction> &vp) const {
 	for (auto &component : componentMap_) {

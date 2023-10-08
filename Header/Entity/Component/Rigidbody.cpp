@@ -7,10 +7,10 @@ void Rigidbody::Init() {
 	acceleration_ = {};
 }
 
-void Rigidbody::Update() {
+void Rigidbody::Update(float deltaTime) {
 
-	velocity_ += acceleration_ * deltaTime_;
-	object_->transform_.translate += velocity_ * deltaTime_;
+	velocity_ += acceleration_ ;
+	object_->transform_.translate += velocity_ * deltaTime;
 
 	// y座標
 	float &valueY = object_->transform_.translate.y;

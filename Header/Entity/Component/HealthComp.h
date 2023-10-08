@@ -8,7 +8,7 @@ public:
 
 	void Reset() override;
 
-	void Update() override;
+	void Update(float deltaTime) override;
 
 	void SetMaxHealth(const float value);
 	float GetMaxHealth() const { return maxHealth_; }

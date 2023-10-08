@@ -5,10 +5,11 @@ void HealthComp::Reset() {
 	nowHealth_ = maxHealth_;
 }
 
-void HealthComp::Update() {
+void HealthComp::Update(float deltaTime) {
 	if (nowHealth_ <= 0.f) {
 		object_->SetActive(false);
 	}
+	deltaTime;
 }
 
 void HealthComp::SetMaxHealth(const float value) {

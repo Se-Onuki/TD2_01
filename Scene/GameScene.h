@@ -10,7 +10,7 @@
 
 #include "../Engine/DirectBase/Input/Input.h"
 #include "../Engine/DirectBase/Base/Audio.h"
-#include "../Header/Object/Map.h"
+#include "../Header/Object/GameManager.h"
 
 class GameScene : public IScene {
 public:
@@ -30,7 +30,7 @@ private:
 
 	//Model *model_ = nullptr;
 
-	std::unique_ptr<Map> map_ = nullptr;
+	GameManager *gameManager_ = nullptr;
 	//Transform transform_;
 
 	Camera<Render::CameraType::Projecction> camera_;

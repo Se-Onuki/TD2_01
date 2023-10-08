@@ -131,8 +131,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Header\Entity\Component\ModelComp.cpp" />
     <ClCompile Include="Header\Entity\Component\Projectile.cpp" />
     <ClCompile Include="Header\Entity\Component\Rigidbody.cpp" />
+    <ClCompile Include="Header\Entity\Component\SpringObjectComp.cpp" />
     <ClCompile Include="Header\Entity\Entity.cpp" />
-    <ClCompile Include="Header\Object\Map.cpp" />
+    <ClCompile Include="Header\Object\GameManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
@@ -195,8 +196,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Header\Entity\Component\ModelComp.h" />
     <ClInclude Include="Header\Entity\Component\Projectile.h" />
     <ClInclude Include="Header\Entity\Component\Rigidbody.h" />
+    <ClInclude Include="Header\Entity\Component\SpringObjectComp.h" />
     <ClInclude Include="Header\Entity\Entity.h" />
-    <ClInclude Include="Header\Object\Map.h" />
+    <ClInclude Include="Header\Object\GameManager.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\TitleScene.h" />

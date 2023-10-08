@@ -48,7 +48,7 @@ public:
 	}*/
 
 
-	void Update() override;
+	void Update(float deltaTime) override;
 	void Draw(const Camera<Render::CameraType::Projecction> &vp)const override;
 
 	ModelBone *const AddBone(const std::string &key, Model *const model, const Transform &srt = {});
