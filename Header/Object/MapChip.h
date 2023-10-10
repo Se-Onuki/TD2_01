@@ -53,6 +53,7 @@ public:
 	const MapArray &GetMapArray()const { return mapChip_; }
 
 	Vector3 HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius) const;
+	Vector3 NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, float radius) const;
 
 private:
 

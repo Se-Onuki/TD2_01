@@ -97,6 +97,7 @@ public:
 	void HitMapChip(const MapChip &mapChip);
 
 	VariantItem<float> vJumpString_{ "JumpPower",15.f };
+	VariantItem<float> vMoveString_{ "MovePower",1.f };
 
 private:
 	Input *input_ = nullptr;

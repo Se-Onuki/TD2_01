@@ -39,6 +39,13 @@ void DefaultState::Update(float deltaTime) {
 }
 
 void FallingState::Update(float deltaTime) {
+	auto *const rigidbody = stateManager_->parent_->object_->GetComponent<Rigidbody>();
+	if (Input::GetInstance()->GetDirectInput()->IsPress(DIK_A)) {
+		rigidbody->ApplyContinuousForce(Vector3::right * stateManager_->parent_->vMoveString_ * -1.f, deltaTime);
+	}
+	if (Input::GetInstance()->GetDirectInput()->IsPress(DIK_D)) {
+		rigidbody->ApplyContinuousForce(Vector3::right * stateManager_->parent_->vMoveString_, deltaTime);
+	}
 	if (stateManager_->parent_->object_->GetComponent<Rigidbody>()->GetIsGround()) {
 		stateManager_->ChangeState<DefaultState>();
 	}
@@ -52,6 +59,15 @@ void JumpingState::Init(float deltaTime) {
 }
 
 void JumpingState::Update(float deltaTime) {
+
+	auto *const rigidbody = stateManager_->parent_->object_->GetComponent<Rigidbody>();
+	if (Input::GetInstance()->GetDirectInput()->IsPress(DIK_A)) {
+		rigidbody->ApplyContinuousForce(Vector3::right * stateManager_->parent_->vMoveString_ * -1.f, deltaTime);
+	}
+	if (Input::GetInstance()->GetDirectInput()->IsPress(DIK_D)) {
+		rigidbody->ApplyContinuousForce(Vector3::right * stateManager_->parent_->vMoveString_, deltaTime);
+	}
+
 	if (stateManager_->parent_->object_->GetComponent<Rigidbody>()->GetVelocity().y < 0.f) {
 		stateManager_->ChangeState<FallingState>();
 	}

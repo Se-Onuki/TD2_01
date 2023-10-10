@@ -27,17 +27,25 @@ void Rigidbody::Update(float deltaTime) {
 	}
 
 	if (hasCollider_) {
-		const Vector3 hitPos = MapChip::GetInstance()->HitMap(beforePos, afterPos, radius_);
+		const Vector3 hitPos = MapChip::GetInstance()->NewHitMap(beforePos, afterPos, radius_);
 
 		if (hitPos.y != afterPos.y) {
-			isGround_ = true;
+			if (velocity_.y < 0.f) {
+				isGround_ = true;
+			}
+			velocity_.y = 0.f;
 		}
+
+		//if (std::abs(hitPos.x - afterPos.x) < 0.001f) {
+		//	velocity_.x = 0.f;
+		//}
 		if (hitPos != afterPos) {
 			object_->transform_.translate = hitPos;
 		}
 	}
 
 	if (isGround_) {
+		velocity_.x -= velocity_.x * 1.5f * deltaTime;
 
 		if (velocity_.y < 0.f) {
 			velocity_.y = 0.f;
