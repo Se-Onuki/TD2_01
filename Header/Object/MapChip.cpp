@@ -10,16 +10,13 @@ void MapChip::Init() {
 
 	for (uint32_t x = 0u; x < kMapWidth_; ++x) {
 		mapChip_[0][x].chipState_ = ChipState::box;
+		mapChip_[kMapHight_ - 1][x].chipState_ = ChipState::box;
 	}
 	for (uint32_t y = 0u; y < kMapHight_; ++y) {
 		mapChip_[y][0].chipState_ = ChipState::box;
 		mapChip_[y][kMapWidth_ - 1u].chipState_ = ChipState::box;
 	}
-	//for (uint32_t x = 0u; x < kMapWidth_; ++x) {
-	////	if (x % 7u == 0u) {
-	//		mapChip_[5][x].chipState_ = ChipState::box;
-	////	}
-	//}
+
 
 	for (uint32_t y = 0u; y < kMapHight_; ++y) {
 		for (uint32_t x = 0u; x < kMapWidth_; ++x) {
