@@ -45,7 +45,7 @@ void Rigidbody::Update(float deltaTime) {
 	}
 
 	if (isGround_) {
-		velocity_.x -= velocity_.x * 1.5f * deltaTime;
+		velocity_.x = 0.f;
 
 		if (velocity_.y < 0.f) {
 			velocity_.y = 0.f;

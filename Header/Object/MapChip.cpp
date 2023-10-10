@@ -24,8 +24,7 @@ void MapChip::Init() {
 	for (uint32_t y = 0u; y < kMapHight_; ++y) {
 		for (uint32_t x = 0u; x < kMapWidth_; ++x) {
 
-			mapChip_[y][x].transform_.translate = Vector3{ (x - xCentor) , static_cast<float>(y) , 0.f };
-			mapChip_[y][x].transform_.scale = Vector3::one * 0.5f;
+			mapChip_[y][x].transform_.translate = Vector3{ (x - xCentor) * 2.f, static_cast<float>(y) * 2.f + 1.f, 0.f };
 			mapChip_[y][x].transform_.UpdateMatrix();
 
 			mapChip_[y][x].Init();
@@ -416,11 +415,11 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 
 Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, float) const {
 
-	const Vector3 offset = Vector3{ kMapWidth_ / 2.f, 0.f,0.f };
+	const Vector3 offset = Vector3{ kMapWidth_ / 2.f, 0.f,0.f } *kScale_;
 
 	const uint32_t kChipSize = 32u;
 
-	Vector3 resultPos = (afterPos + offset) * kChipSize;
+	Vector3 resultPos = ((afterPos + offset) * kChipSize) / kScale_;
 
 	Vector2 leftTop;// = ((resultPos.ToVec2() + Vector2{ -radius,radius }) * 0.5f + offset);
 	Vector2 rightTop;// = ((resultPos.ToVec2() + Vector2{ radius,radius }) * 0.5f + offset);
@@ -436,6 +435,11 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 	leftDown.y = (resultPos.y - kChipSize / 2.f) / kChipSize;
 	rightDown.x = (resultPos.x + kChipSize / 2.f - 1) / kChipSize;
 	rightDown.y = (resultPos.y - kChipSize / 2.f) / kChipSize;
+
+	//leftTop /= 2.f;
+	//rightTop /= 2.f;
+	//leftDown /= 2.f;
+	//rightDown /= 2.f;
 
 	const float kExtension = 7.f;
 
@@ -791,7 +795,7 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 	///	↑ マップチップとの当たり判定
 	/// 
 
-	return resultPos / kChipSize - offset;
+	return (resultPos * kScale_) / kChipSize - offset;
 
 }
 
