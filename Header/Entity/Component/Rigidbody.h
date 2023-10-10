@@ -11,7 +11,15 @@ public:
 	void Init();
 	void Update(float deltaTime) override;
 
-	void AddAcceleration(const Vector3 &vec) { acceleration_ += vec ; }
+	/// @brief 瞬間的な加速を行う
+	/// @param vec 加速度
+	void ApplyInstantForce(const Vector3 &vec) { acceleration_ += vec; }
+
+	/// @brief 継続的な加速
+	/// @param vec 加速度
+	/// @param deltaTime 時間差分
+	void ApplyContinuousForce(const Vector3 &vec, float deltaTime) { acceleration_ += vec * deltaTime * object_->timeScale_; }
+
 	void SetAcceleration(const Vector3 &vec) { acceleration_ = vec; }
 	const Vector3 &GetAcceleration() const { return acceleration_; }
 
@@ -20,6 +28,10 @@ public:
 	const Vector3 &GetVelocity() const { return velocity_; }
 
 	bool GetIsGround() const { return isGround_; }
+
+	bool hasCollider_ = false;
+	float radius_ = 1.f;
+
 private:
 	Vector3 velocity_{};
 	Vector3 acceleration_{};

@@ -4,6 +4,7 @@
 #include "../../Engine/DirectBase/2D/Sprite.h"
 #include "../../Engine/DirectBase/Model/Model.h"
 #include "../Entity/Entity.h"
+#include "MapChip.h"
 
 class GameManager {
 	GameManager() = default;
@@ -23,6 +24,8 @@ public:
 
 	void Draw(const Camera<Render::CameraType::Projecction> &camera);
 
+	void ImGuiWidget();
+
 	const Vector2 kMapCentor_ = Vector2{ 1280.f, 720.f } / 2.f;
 
 
@@ -30,6 +33,7 @@ public:
 private:
 
 	Entity spring_;
+	MapChip* mapChip_;
 	// Model *spring_ = nullptr;
 
 };

@@ -24,10 +24,11 @@ void GameScene::OnEnter() {
 
 	//model_ = ModelManager::GetInstance()->AddModel("Fence", Model::LoadObjFile("Model/Fence/", "fence.obj"));
 	//transform_.UpdateMatrix();
-	camera_.translation_ = Vector3{ 0.f,0.f,-50.f };
+	camera_.translation_ = Vector3{ 0.f, 0.f, -50.f };
 	camera_.UpdateMatrix();
 	auto *const modelManager = ModelManager::GetInstance();
 	modelManager->AddModel("Spring", Model::LoadObjFile("", "sphere.obj"));
+	modelManager->AddModel("box", Model::LoadObjFile("", "box.obj"));
 
 	gameManager_ = GameManager::GetInstance();
 	gameManager_->Init();
@@ -36,6 +37,7 @@ void GameScene::OnEnter() {
 void GameScene::OnExit() {}
 
 void GameScene::Update() {
+	//const float deltaTime = ImGui::GetIO().DeltaTime;
 
 	ImGui::Begin("Camera");
 	camera_.ImGuiWidget();
@@ -49,6 +51,8 @@ void GameScene::Update() {
 
 	TextureManager::GetInstance()->ImGuiWindow();
 	gameManager_->Update(1.f / 60.f);
+
+	gameManager_->ImGuiWidget();
 
 	light_->ImGuiWidget();
 

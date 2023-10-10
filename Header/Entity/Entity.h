@@ -95,6 +95,8 @@ public:
 	// オブジェクトのSRT
 	Transform transform_;
 
+	float timeScale_ = 1.f;
+
 	Entity() = default;
 	virtual ~Entity() = default;
 
