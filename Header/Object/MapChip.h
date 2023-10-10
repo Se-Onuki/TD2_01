@@ -14,12 +14,13 @@ class MapChip {
 public:
 
 	enum class ChipState : uint32_t {
-		air,	// 空白
-		box,	// 箱
+		kAir,	// 空白
+		kBox,	// 箱
+		kBarrier,	// バリア
 	};
 
 	struct ChipData {
-		ChipState chipState_ = ChipState::air;
+		ChipState chipState_ = ChipState::kAir;
 		Transform transform_;
 		Model *model_;
 

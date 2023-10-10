@@ -8,13 +8,14 @@ void MapChip::Init() {
 	const float xCentor = kMapWidth_ / 2.f - 0.5f;
 	//const float yCentor = kMapHight_ / 2.f - 0.5f;
 
-	for (uint32_t x = 0u; x < kMapWidth_; ++x) {
-		mapChip_[0][x].chipState_ = ChipState::box;
-		mapChip_[kMapHight_ - 1][x].chipState_ = ChipState::box;
-	}
 	for (uint32_t y = 0u; y < kMapHight_; ++y) {
-		mapChip_[y][0].chipState_ = ChipState::box;
-		mapChip_[y][kMapWidth_ - 1u].chipState_ = ChipState::box;
+		mapChip_[y][0].chipState_ = ChipState::kBarrier;
+		mapChip_[y][kMapWidth_ - 1u].chipState_ = ChipState::kBarrier;
+	}
+
+	for (uint32_t x = 0u; x < kMapWidth_; ++x) {
+		mapChip_[0][x].chipState_ = ChipState::kBox;
+		mapChip_[kMapHight_ - 1][x].chipState_ = ChipState::kBox;
 	}
 
 
@@ -63,7 +64,7 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 #pragma region MapChipHit
 	if (afterPos.x - beforePos.x < 0 && afterPos.y - beforePos.y < 0) { //	SA
 		//				Novice::ScreenPrintf(10, 90, "SA");
-		if ((mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air) && (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air)) { //	右元と左頭が移動不可の場合
+		if ((mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir) && (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir)) { //	右元と左頭が移動不可の場合
 			afterPos.x = (leftTop.x + 0.01f) * kChipSize + halfChip;
 			afterPos.y = (rightDown.y + 0.01f) * kChipSize + halfChip;
 
@@ -71,18 +72,18 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 			// // player.box.velocity.y =0;
 			isGround = true;
 		}
-		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air) { //	右元が移動不可の場合
+		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir) { //	右元が移動不可の場合
 
-			if (mapChip_[(int)(rightDown.y + 0.01f)][(int)(rightDown.x)] == ChipState::air) {	//	尚且つ右元の上マスが移動可能の場合
+			if (mapChip_[(int)(rightDown.y + 0.01f)][(int)(rightDown.x)] == ChipState::kAir) {	//	尚且つ右元の上マスが移動可能の場合
 				afterPos.y = (rightDown.y + 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.y =0;
 				isGround = true;
 			}
 		}
-		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) { //	左頭が移動不可の場合
+		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) { //	左頭が移動不可の場合
 
-			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + 0.01f)] == ChipState::air) {  //	尚且つ左頭の右マスが開いている場合。
+			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + 0.01f)] == ChipState::kAir) {  //	尚且つ左頭の右マスが開いている場合。
 				afterPos.x = (leftTop.x + 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.x *= 0.8;
@@ -90,11 +91,11 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 		}
 
 
-		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air) { //	左元が移動不可の場合
+		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir) { //	左元が移動不可の場合
 
 
 			//		尚且つ右と上が開いている場合
-			if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x + 0.01f)] == ChipState::air && mapChip_[(int)(leftDown.y + 0.01f)][(int)(leftDown.x)] == ChipState::air) {
+			if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x + 0.01f)] == ChipState::kAir && mapChip_[(int)(leftDown.y + 0.01f)][(int)(leftDown.x)] == ChipState::kAir) {
 
 				//if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x - 0.01f)] == ChipState::air) {
 				if ((((int)(afterPos.x + (halfChip - 0.01f)) % kChipSize) < ((int)(afterPos.y + (halfChip - 0.01f)) % kChipSize))) {
@@ -113,20 +114,20 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 				//	}
 			}
 			//		尚且つ左元の上マスが開いていて、右マスが移動不可の場合。
-			else if (mapChip_[(int)(leftDown.y + 0.01f)][(int)(leftDown.x)] == ChipState::air && mapChip_[(int)(leftDown.y)][(int)(leftDown.x + 0.01f)] != ChipState::air) {
+			else if (mapChip_[(int)(leftDown.y + 0.01f)][(int)(leftDown.x)] == ChipState::kAir && mapChip_[(int)(leftDown.y)][(int)(leftDown.x + 0.01f)] != ChipState::kAir) {
 				afterPos.y = (leftDown.y + 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.y =0;
 				isGround = true;
 			}
 			//		尚且つ左元の右マスが開いていて、上マスが移動不可の場合。
-			else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x + 0.01f)] == ChipState::air && mapChip_[(int)(leftDown.y + 0.01f)][(int)(leftDown.x)] != ChipState::air) {
+			else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x + 0.01f)] == ChipState::kAir && mapChip_[(int)(leftDown.y + 0.01f)][(int)(leftDown.x)] != ChipState::kAir) {
 				afterPos.x = (leftDown.x + 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.x *= 0.8;
 			}
 			//		尚且つ左元の右マスと上マスが移動不可の場合。
-			else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x + 0.01f)] != ChipState::air && mapChip_[(int)(leftDown.y + 0.01f)][(int)(leftDown.x)] != ChipState::air) {
+			else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x + 0.01f)] != ChipState::kAir && mapChip_[(int)(leftDown.y + 0.01f)][(int)(leftDown.x)] != ChipState::kAir) {
 				afterPos.x = (leftDown.x + 0.01f) * kChipSize + halfChip;
 				afterPos.y = (leftDown.y + 0.01f) * kChipSize + halfChip;
 
@@ -140,17 +141,17 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 
 	else if (afterPos.x - beforePos.x < 0 && afterPos.y - beforePos.y > 0) { //	WA
 		//				Novice::ScreenPrintf(10, 90, "WA");
-		if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) && (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air)) { //	右頭と左元が移動不可の場合
+		if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) && (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir)) { //	右頭と左元が移動不可の場合
 			afterPos.x = (leftDown.x + 0.01f) * kChipSize + halfChip;
 			afterPos.y = (rightTop.y - 0.01f) * kChipSize + halfChip;
 
 			// // player.box.velocity.x *= 0.8;
 			// // player.box.velocity.y =0;
 		}
-		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) { //	右頭が移動不可の場合
+		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) { //	右頭が移動不可の場合
 
-			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - (kExtension / kChipSize))] != ChipState::air) { //	右頭の3ピクセルが移動不可の場合
-				if (mapChip_[(int)(rightTop.y - 0.01f)][(int)(rightTop.x)] == ChipState::air) {	//	尚且つ右頭の下マスが移動可能の場合
+			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - (kExtension / kChipSize))] != ChipState::kAir) { //	右頭の3ピクセルが移動不可の場合
+				if (mapChip_[(int)(rightTop.y - 0.01f)][(int)(rightTop.x)] == ChipState::kAir) {	//	尚且つ右頭の下マスが移動可能の場合
 					afterPos.y = (rightTop.y - 0.01f) * kChipSize + halfChip;
 
 					// // player.box.velocity.y =0;
@@ -160,9 +161,9 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 				afterPos.x = (rightTop.x - 0.01f) * kChipSize + halfChip;
 			}
 		}
-		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air) { //	左元が移動不可の場合
+		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir) { //	左元が移動不可の場合
 
-			if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x + 0.01f)] == ChipState::air) {  //	尚且つ左元の右マスが開いている場合。
+			if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x + 0.01f)] == ChipState::kAir) {  //	尚且つ左元の右マスが開いている場合。
 				afterPos.x = (leftDown.x + 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.x *= 0.8;
@@ -170,11 +171,11 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 		}
 
 
-		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) { //	左頭が移動不可の場合
+		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) { //	左頭が移動不可の場合
 
 
 			//		尚且つ右と下が開いている場合
-			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + 0.01f)] == ChipState::air && mapChip_[(int)(leftTop.y - 0.01f)][(int)(leftTop.x)] == ChipState::air) {
+			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + 0.01f)] == ChipState::kAir && mapChip_[(int)(leftTop.y - 0.01f)][(int)(leftTop.x)] == ChipState::kAir) {
 
 				//if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x - 0.01f)] == ChipState::air) {
 				if (((int)(afterPos.x + (halfChip - 0.01f)) % kChipSize) <= ((kChipSize)-((int)(afterPos.y + (halfChip + 0.01f)) % kChipSize)) % kChipSize) {
@@ -192,19 +193,19 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 				//	}
 			}
 			//		尚且つ左頭の下マスが開いていて、右マスが移動不可の場合。
-			else if (mapChip_[(int)(leftTop.y - 0.01f)][(int)(leftTop.x)] == ChipState::air && mapChip_[(int)(leftTop.y)][(int)(leftTop.x + 0.01f)] != ChipState::air) {
+			else if (mapChip_[(int)(leftTop.y - 0.01f)][(int)(leftTop.x)] == ChipState::kAir && mapChip_[(int)(leftTop.y)][(int)(leftTop.x + 0.01f)] != ChipState::kAir) {
 				afterPos.y = (leftTop.y - 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.y =0;
 			}
 			//		尚且つ左頭の右マスが開いていて、下マスが移動不可の場合。
-			else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + 0.01f)] == ChipState::air && mapChip_[(int)(leftTop.y - 0.01f)][(int)(leftTop.x)] != ChipState::air) {
+			else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + 0.01f)] == ChipState::kAir && mapChip_[(int)(leftTop.y - 0.01f)][(int)(leftTop.x)] != ChipState::kAir) {
 				afterPos.x = (leftTop.x + 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.x *= 0.8;
 			}
 			//		尚且つ左頭の右マスと下マスが移動不可の場合。
-			else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + 0.01f)] != ChipState::air && mapChip_[(int)(leftTop.y - 0.01f)][(int)(leftTop.x)] != ChipState::air) {
+			else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + 0.01f)] != ChipState::kAir && mapChip_[(int)(leftTop.y - 0.01f)][(int)(leftTop.x)] != ChipState::kAir) {
 				afterPos.x = (leftTop.x + 0.01f) * kChipSize + halfChip;
 				afterPos.y = (leftTop.y - 0.01f) * kChipSize + halfChip;
 
@@ -216,7 +217,7 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 
 	else if (afterPos.x - beforePos.x > 0 && afterPos.y - beforePos.y < 0) { //	SD
 		//				Novice::ScreenPrintf(10, 90, "SD");
-		if ((mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air) && (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air)) { //	左元と右頭が移動不可の場合
+		if ((mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir) && (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir)) { //	左元と右頭が移動不可の場合
 			afterPos.x = (rightTop.x - 0.01f) * kChipSize + halfChip;
 			afterPos.y = (leftDown.y + 0.01f) * kChipSize + halfChip;
 
@@ -224,18 +225,18 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 			// // player.box.velocity.y =0;
 			isGround = true;
 		}
-		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air) { //	左元が移動不可の場合
+		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir) { //	左元が移動不可の場合
 
-			if (mapChip_[(int)(leftDown.y + 0.01f)][(int)(leftDown.x)] == ChipState::air) {	//	尚且つ左元の上マスが移動可能の場合
+			if (mapChip_[(int)(leftDown.y + 0.01f)][(int)(leftDown.x)] == ChipState::kAir) {	//	尚且つ左元の上マスが移動可能の場合
 				afterPos.y = (leftDown.y + 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.y =0;
 				isGround = true;
 			}
 		}
-		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) { //	右頭が移動不可の場合
+		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) { //	右頭が移動不可の場合
 
-			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] == ChipState::air) {  //	尚且つ右頭の左マスが開いている場合。
+			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] == ChipState::kAir) {  //	尚且つ右頭の左マスが開いている場合。
 				afterPos.x = (rightTop.x - 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.x *= 0.8;
@@ -243,11 +244,11 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 		}
 
 
-		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air) { //	右元が移動不可の場合
+		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir) { //	右元が移動不可の場合
 
 
 			//		尚且つ左と上が開いている場合
-			if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x - 0.01f)] == ChipState::air && mapChip_[(int)(rightDown.y + 0.01f)][(int)(rightDown.x)] == ChipState::air) {
+			if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x - 0.01f)] == ChipState::kAir && mapChip_[(int)(rightDown.y + 0.01f)][(int)(rightDown.x)] == ChipState::kAir) {
 
 				//if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] == ChipState::air) {
 				if (((kChipSize)-((int)(afterPos.x + (halfChip + 0.01f)) % kChipSize)) % kChipSize < ((int)(afterPos.y + (halfChip - 0.01f)) % kChipSize)) {
@@ -264,20 +265,20 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 				//	}
 			}
 			//		尚且つ右元の上マスが開いていて、左マスが移動不可の場合。
-			else if (mapChip_[(int)(rightDown.y + 0.01f)][(int)(rightDown.x)] == ChipState::air && mapChip_[(int)(rightDown.y)][(int)(rightDown.x - 0.01f)] != ChipState::air) {
+			else if (mapChip_[(int)(rightDown.y + 0.01f)][(int)(rightDown.x)] == ChipState::kAir && mapChip_[(int)(rightDown.y)][(int)(rightDown.x - 0.01f)] != ChipState::kAir) {
 				afterPos.y = (rightDown.y + 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.y =0;
 				isGround = true;
 			}
 			//		尚且つ右元の左マスが開いていて、上マスが移動不可の場合。
-			else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x - 0.01f)] == ChipState::air && mapChip_[(int)(rightDown.y + 0.01f)][(int)(rightDown.x)] != ChipState::air) {
+			else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x - 0.01f)] == ChipState::kAir && mapChip_[(int)(rightDown.y + 0.01f)][(int)(rightDown.x)] != ChipState::kAir) {
 				afterPos.x = (rightDown.x - 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.x *= 0.8;
 			}
 			//		尚且つ右元の左マスと上マスが移動不可の場合。
-			else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x - 0.01f)] != ChipState::air && mapChip_[(int)(rightDown.y + 0.01f)][(int)(rightDown.x)] != ChipState::air) {
+			else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x - 0.01f)] != ChipState::kAir && mapChip_[(int)(rightDown.y + 0.01f)][(int)(rightDown.x)] != ChipState::kAir) {
 				afterPos.x = (rightDown.x - 0.01f) * kChipSize + halfChip;
 				afterPos.y = (rightDown.y + 0.01f) * kChipSize + halfChip;
 
@@ -291,17 +292,17 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 
 	else if (afterPos.x - beforePos.x > 0 && afterPos.y - beforePos.y > 0) { //	WD
 		//				Novice::ScreenPrintf(10, 90, "WD");
-		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) && (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air)) { //	左頭と右元が移動不可の場合
+		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) && (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir)) { //	左頭と右元が移動不可の場合
 			afterPos.x = (rightDown.x - 0.01f) * kChipSize + halfChip;
 			afterPos.y = (leftTop.y - 0.01f) * kChipSize + halfChip;
 
 			// // player.box.velocity.x *= 0.8;
 			// // player.box.velocity.y =0;
 		}
-		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) { //	左頭が移動不可の場合
+		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) { //	左頭が移動不可の場合
 
-			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + (kExtension / kChipSize))] != ChipState::air) { //	左頭の3ピクセルが移動不可の場合
-				if (mapChip_[(int)(leftTop.y - 0.01f)][(int)(leftTop.x)] == ChipState::air) {	//	尚且つ左頭の下マスが移動可能の場合
+			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + (kExtension / kChipSize))] != ChipState::kAir) { //	左頭の3ピクセルが移動不可の場合
+				if (mapChip_[(int)(leftTop.y - 0.01f)][(int)(leftTop.x)] == ChipState::kAir) {	//	尚且つ左頭の下マスが移動可能の場合
 					afterPos.y = (leftTop.y - 0.01f) * kChipSize + halfChip;
 
 					// // player.box.velocity.y =0;
@@ -311,9 +312,9 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 				afterPos.x = (leftTop.x + 0.01f) * kChipSize + halfChip;
 			}
 		}
-		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air) { //	右元が移動不可の場合
+		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir) { //	右元が移動不可の場合
 
-			if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x - 0.01f)] == ChipState::air) {  //	尚且つ右元の左マスが開いている場合。
+			if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x - 0.01f)] == ChipState::kAir) {  //	尚且つ右元の左マスが開いている場合。
 				afterPos.x = (rightDown.x - 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.x *= 0.8;
@@ -321,11 +322,11 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 		}
 
 
-		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) { //	右頭が移動不可の場合
+		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) { //	右頭が移動不可の場合
 
 
 			//		尚且つ左と下が開いている場合
-			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] == ChipState::air && mapChip_[(int)(rightTop.y - 0.01f)][(int)(rightTop.x)] == ChipState::air) {
+			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] == ChipState::kAir && mapChip_[(int)(rightTop.y - 0.01f)][(int)(rightTop.x)] == ChipState::kAir) {
 
 				//if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] == ChipState::air) {
 				if (((kChipSize)-((int)(afterPos.x + (halfChip + 0.01f)) % kChipSize)) % kChipSize <= ((kChipSize)-((int)(afterPos.y + (halfChip + 0.01f)) % kChipSize)) % kChipSize) {
@@ -343,19 +344,19 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 				//	}
 			}
 			//		尚且つ右頭の下マスが開いていて、左マスが移動不可の場合。
-			else if (mapChip_[(int)(rightTop.y - 0.01f)][(int)(rightTop.x)] == ChipState::air && mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] != ChipState::air) {
+			else if (mapChip_[(int)(rightTop.y - 0.01f)][(int)(rightTop.x)] == ChipState::kAir && mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] != ChipState::kAir) {
 				afterPos.y = (rightTop.y - 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.y =0;
 			}
 			//		尚且つ右頭の左マスが開いていて、下マスが移動不可の場合。
-			else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] == ChipState::air && mapChip_[(int)(rightTop.y - 0.01f)][(int)(rightTop.x)] != ChipState::air) {
+			else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] == ChipState::kAir && mapChip_[(int)(rightTop.y - 0.01f)][(int)(rightTop.x)] != ChipState::kAir) {
 				afterPos.x = (rightTop.x - 0.01f) * kChipSize + halfChip;
 
 				// // player.box.velocity.x *= 0.8;
 			}
 			//		尚且つ右頭の左マスと下マスが移動不可の場合。
-			else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] != ChipState::air && mapChip_[(int)(rightTop.y - 0.01f)][(int)(rightTop.x)] != ChipState::air) {
+			else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 0.01f)] != ChipState::kAir && mapChip_[(int)(rightTop.y - 0.01f)][(int)(rightTop.x)] != ChipState::kAir) {
 				afterPos.x = (rightTop.x - 0.01f) * kChipSize + halfChip;
 				afterPos.y = (rightTop.y - 0.01f) * kChipSize + halfChip;
 
@@ -366,26 +367,26 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 	}
 
 	else if (afterPos.x - beforePos.x > 0) {
-		if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) || (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air)) {
+		if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) || (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir)) {
 			afterPos.x = (rightTop.x - 0.01f) * kChipSize + halfChip;
 		}
 	}
 
 	else if (afterPos.x - beforePos.x < 0) {
-		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) || (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air)) {
+		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) || (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir)) {
 			afterPos.x = (leftTop.x + 0.01f) * kChipSize + halfChip;
 		}
 	}
 
 	else if (afterPos.y - beforePos.y > 0) {
-		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) && mapChip_[(int)(leftTop.y)][(int)(leftTop.x + (kExtension / kChipSize))] == ChipState::air) { //	左頭の3ピクセルが移動可の場合
+		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) && mapChip_[(int)(leftTop.y)][(int)(leftTop.x + (kExtension / kChipSize))] == ChipState::kAir) { //	左頭の3ピクセルが移動可の場合
 			afterPos.x = (leftTop.x + 0.01f) * kChipSize + halfChip;
 		}
-		else if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) && mapChip_[(int)(rightTop.y)][(int)(rightTop.x - (kExtension / kChipSize))] == ChipState::air) { //	左頭の3ピクセルが移動可の場合
+		else if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) && mapChip_[(int)(rightTop.y)][(int)(rightTop.x - (kExtension / kChipSize))] == ChipState::kAir) { //	左頭の3ピクセルが移動可の場合
 			afterPos.x = (rightTop.x - 0.01f) * kChipSize + halfChip;
 		}
 
-		else if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) || (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air)) {
+		else if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) || (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir)) {
 			afterPos.y = std::floor(rightTop.y - 1.f) * kChipSize;
 
 			// // player.box.velocity.y =0;
@@ -393,7 +394,7 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, Vector3 afterPos, float radius
 	}
 
 	else if (afterPos.y - beforePos.y < 0) {
-		if ((mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air) || (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air)) {
+		if ((mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir) || (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir)) {
 			afterPos.y = std::ceil(leftDown.y) * kChipSize;
 
 			// // player.box.velocity.y =0;
@@ -445,7 +446,7 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 #pragma region MapChipHit
 	if (afterPos.x - beforePos.x < 0 && afterPos.y - beforePos.y < 0) { //	SA
 		//				Novice::ScreenPrintf(10, 90, "SA");
-		if ((mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air) && (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air)) { //	右元と左頭が移動不可の場合
+		if ((mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir) && (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir)) { //	右元と左頭が移動不可の場合
 			resultPos.x = (int)(leftTop.x + 1) * kChipSize + 16.f;
 			resultPos.y = (int)(rightDown.y + 1) * kChipSize + 16.f;
 
@@ -453,18 +454,18 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 			// player.box.velocity.y = 0;
 			// player.isGround = true;
 		}
-		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air) { //	右元が移動不可の場合
+		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir) { //	右元が移動不可の場合
 
-			if (mapChip_[(int)(rightDown.y) + 1][(int)(rightDown.x)] == ChipState::air) {	//	尚且つ右元の上マスが移動可能の場合
+			if (mapChip_[(int)(rightDown.y) + 1][(int)(rightDown.x)] == ChipState::kAir) {	//	尚且つ右元の上マスが移動可能の場合
 				resultPos.y = (int)(rightDown.y + 1) * kChipSize + 16.f;
 
 				// player.box.velocity.y = 0;
 				// player.isGround = true;
 			}
 		}
-		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) { //	左頭が移動不可の場合
+		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) { //	左頭が移動不可の場合
 
-			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x) + 1] == ChipState::air) {  //	尚且つ左頭の右マスが開いている場合。
+			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x) + 1] == ChipState::kAir) {  //	尚且つ左頭の右マスが開いている場合。
 				resultPos.x = (int)(leftTop.x + 1) * kChipSize + 16.f;
 
 				// player.box.velocity.x *= 0.8;
@@ -472,11 +473,11 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 		}
 
 
-		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air) { //	左元が移動不可の場合
+		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir) { //	左元が移動不可の場合
 
 
 			//		尚且つ右と上が開いている場合
-			if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x) + 1] == ChipState::air && mapChip_[(int)(leftDown.y) + 1][(int)(leftDown.x)] == ChipState::air) {
+			if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x) + 1] == ChipState::kAir && mapChip_[(int)(leftDown.y) + 1][(int)(leftDown.x)] == ChipState::kAir) {
 
 				//if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x - 1)] == ChipState::air) {
 				if ((((int)(resultPos.x + 15.f) % kChipSize) < ((int)(resultPos.y + 15.f) % kChipSize))) {
@@ -495,20 +496,20 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 				//	}
 			}
 			//		尚且つ左元の上マスが開いていて、右マスが移動不可の場合。
-			else if (mapChip_[(int)(leftDown.y) + 1][(int)(leftDown.x)] == ChipState::air && mapChip_[(int)(leftDown.y)][(int)(leftDown.x) + 1] != ChipState::air) {
+			else if (mapChip_[(int)(leftDown.y) + 1][(int)(leftDown.x)] == ChipState::kAir && mapChip_[(int)(leftDown.y)][(int)(leftDown.x) + 1] != ChipState::kAir) {
 				resultPos.y = (int)(leftDown.y + 1) * kChipSize + 16.f;
 
 				// player.box.velocity.y = 0;
 				// player.isGround = true;
 			}
 			//		尚且つ左元の右マスが開いていて、上マスが移動不可の場合。
-			else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x) + 1] == ChipState::air && mapChip_[(int)(leftDown.y) + 1][(int)(leftDown.x)] != ChipState::air) {
+			else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x) + 1] == ChipState::kAir && mapChip_[(int)(leftDown.y) + 1][(int)(leftDown.x)] != ChipState::kAir) {
 				resultPos.x = (int)(leftDown.x + 1) * kChipSize + 16.f;
 
 				// player.box.velocity.x *= 0.8;
 			}
 			//		尚且つ左元の右マスと上マスが移動不可の場合。
-			else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x) + 1] != ChipState::air && mapChip_[(int)(leftDown.y) + 1][(int)(leftDown.x)] != ChipState::air) {
+			else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x) + 1] != ChipState::kAir && mapChip_[(int)(leftDown.y) + 1][(int)(leftDown.x)] != ChipState::kAir) {
 				resultPos.x = (int)(leftDown.x + 1) * kChipSize + 16.f;
 				resultPos.y = (int)(leftDown.y + 1) * kChipSize + 16.f;
 
@@ -522,17 +523,17 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 
 	else if (afterPos.x - beforePos.x < 0 && afterPos.y - beforePos.y > 0) { //	WA
 		//				Novice::ScreenPrintf(10, 90, "WA");
-		if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) && (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air)) { //	右頭と左元が移動不可の場合
+		if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) && (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir)) { //	右頭と左元が移動不可の場合
 			resultPos.x = (int)(leftDown.x + 1) * kChipSize + 16.f;
 			resultPos.y = (int)(rightTop.y - 1) * kChipSize + 16.f;
 
 			// player.box.velocity.x *= 0.8;
 			// player.box.velocity.y = 0;
 		}
-		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) { //	右頭が移動不可の場合
+		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) { //	右頭が移動不可の場合
 
-			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - (kExtension / kChipSize))] != ChipState::air) { //	右頭の3ピクセルが移動不可の場合
-				if (mapChip_[(int)(rightTop.y) - 1][(int)(rightTop.x)] == ChipState::air) {	//	尚且つ右頭の下マスが移動可能の場合
+			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - (kExtension / kChipSize))] != ChipState::kAir) { //	右頭の3ピクセルが移動不可の場合
+				if (mapChip_[(int)(rightTop.y) - 1][(int)(rightTop.x)] == ChipState::kAir) {	//	尚且つ右頭の下マスが移動可能の場合
 					resultPos.y = (int)(rightTop.y - 1) * kChipSize + 16.f;
 
 					// player.box.velocity.y = 0;
@@ -542,9 +543,9 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 				resultPos.x = (int)(rightTop.x - 1) * kChipSize + 16.f;
 			}
 		}
-		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air) { //	左元が移動不可の場合
+		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir) { //	左元が移動不可の場合
 
-			if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x) + 1] == ChipState::air) {  //	尚且つ左元の右マスが開いている場合。
+			if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x) + 1] == ChipState::kAir) {  //	尚且つ左元の右マスが開いている場合。
 				resultPos.x = (int)(leftDown.x + 1) * kChipSize + 16.f;
 
 				// player.box.velocity.x *= 0.8;
@@ -552,11 +553,11 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 		}
 
 
-		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) { //	左頭が移動不可の場合
+		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) { //	左頭が移動不可の場合
 
 
 			//		尚且つ右と下が開いている場合
-			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x) + 1] == ChipState::air && mapChip_[(int)(leftTop.y) - 1][(int)(leftTop.x)] == ChipState::air) {
+			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x) + 1] == ChipState::kAir && mapChip_[(int)(leftTop.y) - 1][(int)(leftTop.x)] == ChipState::kAir) {
 
 				//if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x - 1)] == ChipState::air) {
 				if (((int)(resultPos.x + 15.f) % kChipSize) <= ((kChipSize)-((int)(resultPos.y + 17.f) % kChipSize)) % kChipSize) {
@@ -574,19 +575,19 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 				//	}
 			}
 			//		尚且つ左頭の下マスが開いていて、右マスが移動不可の場合。
-			else if (mapChip_[(int)(leftTop.y) - 1][(int)(leftTop.x)] == ChipState::air && mapChip_[(int)(leftTop.y)][(int)(leftTop.x) + 1] != ChipState::air) {
+			else if (mapChip_[(int)(leftTop.y) - 1][(int)(leftTop.x)] == ChipState::kAir && mapChip_[(int)(leftTop.y)][(int)(leftTop.x) + 1] != ChipState::kAir) {
 				resultPos.y = (int)(leftTop.y - 1) * kChipSize + 16.f;
 
 				// player.box.velocity.y = 0;
 			}
 			//		尚且つ左頭の右マスが開いていて、下マスが移動不可の場合。
-			else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x) + 1] == ChipState::air && mapChip_[(int)(leftTop.y) - 1][(int)(leftTop.x)] != ChipState::air) {
+			else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x) + 1] == ChipState::kAir && mapChip_[(int)(leftTop.y) - 1][(int)(leftTop.x)] != ChipState::kAir) {
 				resultPos.x = (int)(leftTop.x + 1) * kChipSize + 16.f;
 
 				// player.box.velocity.x *= 0.8;
 			}
 			//		尚且つ左頭の右マスと下マスが移動不可の場合。
-			else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x) + 1] != ChipState::air && mapChip_[(int)(leftTop.y) - 1][(int)(leftTop.x)] != ChipState::air) {
+			else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x) + 1] != ChipState::kAir && mapChip_[(int)(leftTop.y) - 1][(int)(leftTop.x)] != ChipState::kAir) {
 				resultPos.x = (int)(leftTop.x + 1) * kChipSize + 16.f;
 				resultPos.y = (int)(leftTop.y - 1) * kChipSize + 16.f;
 
@@ -598,7 +599,7 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 
 	else if (afterPos.x - beforePos.x > 0 && afterPos.y - beforePos.y < 0) { //	SD
 		//				Novice::ScreenPrintf(10, 90, "SD");
-		if ((mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air) && (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air)) { //	左元と右頭が移動不可の場合
+		if ((mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir) && (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir)) { //	左元と右頭が移動不可の場合
 			resultPos.x = (int)(rightTop.x - 1) * kChipSize + 16.f;
 			resultPos.y = (int)(leftDown.y + 1) * kChipSize + 16.f;
 
@@ -606,18 +607,18 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 			// player.box.velocity.y = 0;
 			// player.isGround = true;
 		}
-		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air) { //	左元が移動不可の場合
+		else if (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir) { //	左元が移動不可の場合
 
-			if (mapChip_[(int)(leftDown.y) + 1][(int)(leftDown.x)] == ChipState::air) {	//	尚且つ左元の上マスが移動可能の場合
+			if (mapChip_[(int)(leftDown.y) + 1][(int)(leftDown.x)] == ChipState::kAir) {	//	尚且つ左元の上マスが移動可能の場合
 				resultPos.y = (int)(leftDown.y + 1) * kChipSize + 16.f;
 
 				// player.box.velocity.y = 0;
 				// player.isGround = true;
 			}
 		}
-		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) { //	右頭が移動不可の場合
+		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) { //	右頭が移動不可の場合
 
-			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x) - 1] == ChipState::air) {  //	尚且つ右頭の左マスが開いている場合。
+			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x) - 1] == ChipState::kAir) {  //	尚且つ右頭の左マスが開いている場合。
 				resultPos.x = (int)(rightTop.x - 1) * kChipSize + 16.f;
 
 				// player.box.velocity.x *= 0.8;
@@ -625,11 +626,11 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 		}
 
 
-		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air) { //	右元が移動不可の場合
+		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir) { //	右元が移動不可の場合
 
 
 			//		尚且つ左と上が開いている場合
-			if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x) - 1] == ChipState::air && mapChip_[(int)(rightDown.y) + 1][(int)(rightDown.x)] == ChipState::air) {
+			if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x) - 1] == ChipState::kAir && mapChip_[(int)(rightDown.y) + 1][(int)(rightDown.x)] == ChipState::kAir) {
 
 				//if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 1)] == ChipState::air) {
 				if (((kChipSize)-((int)(resultPos.x + 17.f) % kChipSize)) % kChipSize < ((int)(resultPos.y + 15.f) % kChipSize)) {
@@ -646,20 +647,20 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 				//	}
 			}
 			//		尚且つ右元の上マスが開いていて、左マスが移動不可の場合。
-			else if (mapChip_[(int)(rightDown.y) + 1][(int)(rightDown.x)] == ChipState::air && mapChip_[(int)(rightDown.y)][(int)(rightDown.x) - 1] != ChipState::air) {
+			else if (mapChip_[(int)(rightDown.y) + 1][(int)(rightDown.x)] == ChipState::kAir && mapChip_[(int)(rightDown.y)][(int)(rightDown.x) - 1] != ChipState::kAir) {
 				resultPos.y = (int)(rightDown.y + 1) * kChipSize + 16.f;
 
 				// player.box.velocity.y = 0;
 				// player.isGround = true;
 			}
 			//		尚且つ右元の左マスが開いていて、上マスが移動不可の場合。
-			else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x) - 1] == ChipState::air && mapChip_[(int)(rightDown.y) + 1][(int)(rightDown.x)] != ChipState::air) {
+			else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x) - 1] == ChipState::kAir && mapChip_[(int)(rightDown.y) + 1][(int)(rightDown.x)] != ChipState::kAir) {
 				resultPos.x = (int)(rightDown.x - 1) * kChipSize + 16.f;
 
 				// player.box.velocity.x *= 0.8;
 			}
 			//		尚且つ右元の左マスと上マスが移動不可の場合。
-			else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x) - 1] != ChipState::air && mapChip_[(int)(rightDown.y) + 1][(int)(rightDown.x)] != ChipState::air) {
+			else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x) - 1] != ChipState::kAir && mapChip_[(int)(rightDown.y) + 1][(int)(rightDown.x)] != ChipState::kAir) {
 				resultPos.x = (int)(rightDown.x - 1) * kChipSize + 16.f;
 				resultPos.y = (int)(rightDown.y + 1) * kChipSize + 16.f;
 
@@ -673,17 +674,17 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 
 	else if (afterPos.x - beforePos.x > 0 && afterPos.y - beforePos.y > 0) { //	WD
 		//				Novice::ScreenPrintf(10, 90, "WD");
-		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) && (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air)) { //	左頭と右元が移動不可の場合
+		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) && (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir)) { //	左頭と右元が移動不可の場合
 			resultPos.x = (int)(rightDown.x - 1) * kChipSize + 16.f;
 			resultPos.y = (int)(leftTop.y - 1) * kChipSize + 16.f;
 
 			// player.box.velocity.x *= 0.8;
 			// player.box.velocity.y = 0;
 		}
-		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) { //	左頭が移動不可の場合
+		else if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) { //	左頭が移動不可の場合
 
-			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + (kExtension / kChipSize))] != ChipState::air) { //	左頭の3ピクセルが移動不可の場合
-				if (mapChip_[(int)(leftTop.y) - 1][(int)(leftTop.x)] == ChipState::air) {	//	尚且つ左頭の下マスが移動可能の場合
+			if (mapChip_[(int)(leftTop.y)][(int)(leftTop.x + (kExtension / kChipSize))] != ChipState::kAir) { //	左頭の3ピクセルが移動不可の場合
+				if (mapChip_[(int)(leftTop.y) - 1][(int)(leftTop.x)] == ChipState::kAir) {	//	尚且つ左頭の下マスが移動可能の場合
 					resultPos.y = (int)(leftTop.y - 1) * kChipSize + 16.f;
 
 					// player.box.velocity.y = 0;
@@ -693,9 +694,9 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 				resultPos.x = (int)(leftTop.x + 1) * kChipSize + 16.f;
 			}
 		}
-		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air) { //	右元が移動不可の場合
+		else if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir) { //	右元が移動不可の場合
 
-			if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x) - 1] == ChipState::air) {  //	尚且つ右元の左マスが開いている場合。
+			if (mapChip_[(int)(rightDown.y)][(int)(rightDown.x) - 1] == ChipState::kAir) {  //	尚且つ右元の左マスが開いている場合。
 				resultPos.x = (int)(rightDown.x - 1) * kChipSize + 16.f;
 
 				// player.box.velocity.x *= 0.8;
@@ -703,11 +704,11 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 		}
 
 
-		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) { //	右頭が移動不可の場合
+		else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) { //	右頭が移動不可の場合
 
 
 			//		尚且つ左と下が開いている場合
-			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x) - 1] == ChipState::air && mapChip_[(int)(rightTop.y) - 1][(int)(rightTop.x)] == ChipState::air) {
+			if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x) - 1] == ChipState::kAir && mapChip_[(int)(rightTop.y) - 1][(int)(rightTop.x)] == ChipState::kAir) {
 
 				//if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x - 1)] == ChipState::air) {
 				if (((kChipSize)-((int)(resultPos.x + 17.f) % kChipSize)) % kChipSize <= ((kChipSize)-((int)(resultPos.y + 17.f) % kChipSize)) % kChipSize) {
@@ -725,19 +726,19 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 				//	}
 			}
 			//		尚且つ右頭の下マスが開いていて、左マスが移動不可の場合。
-			else if (mapChip_[(int)(rightTop.y) - 1][(int)(rightTop.x)] == ChipState::air && mapChip_[(int)(rightTop.y)][(int)(rightTop.x) - 1] != ChipState::air) {
+			else if (mapChip_[(int)(rightTop.y) - 1][(int)(rightTop.x)] == ChipState::kAir && mapChip_[(int)(rightTop.y)][(int)(rightTop.x) - 1] != ChipState::kAir) {
 				resultPos.y = (int)(rightTop.y - 1) * kChipSize + 16.f;
 
 				// player.box.velocity.y = 0;
 			}
 			//		尚且つ右頭の左マスが開いていて、下マスが移動不可の場合。
-			else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x) - 1] == ChipState::air && mapChip_[(int)(rightTop.y) - 1][(int)(rightTop.x)] != ChipState::air) {
+			else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x) - 1] == ChipState::kAir && mapChip_[(int)(rightTop.y) - 1][(int)(rightTop.x)] != ChipState::kAir) {
 				resultPos.x = (int)(rightTop.x - 1) * kChipSize + 16.f;
 
 				// player.box.velocity.x *= 0.8;
 			}
 			//		尚且つ右頭の左マスと下マスが移動不可の場合。
-			else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x) - 1] != ChipState::air && mapChip_[(int)(rightTop.y) - 1][(int)(rightTop.x)] != ChipState::air) {
+			else if (mapChip_[(int)(rightTop.y)][(int)(rightTop.x) - 1] != ChipState::kAir && mapChip_[(int)(rightTop.y) - 1][(int)(rightTop.x)] != ChipState::kAir) {
 				resultPos.x = (int)(rightTop.x - 1) * kChipSize + 16.f;
 				resultPos.y = (int)(rightTop.y - 1) * kChipSize + 16.f;
 
@@ -748,26 +749,26 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 	}
 
 	else if (afterPos.x - beforePos.x > 0) {
-		if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) || (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air)) {
+		if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) || (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir)) {
 			resultPos.x = (int)(rightTop.x - 1) * kChipSize + 16.f;
 		}
 	}
 
 	else if (afterPos.x - beforePos.x < 0) {
-		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) || (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air)) {
+		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) || (mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir)) {
 			resultPos.x = (int)(leftTop.x + 1) * kChipSize + 16.f;
 		}
 	}
 
 	else if (afterPos.y - beforePos.y > 0) {
-		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) && mapChip_[(int)(leftTop.y)][(int)(leftTop.x + (kExtension / kChipSize))] == ChipState::air) { //	左頭の3ピクセルが移動可の場合
+		if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) && mapChip_[(int)(leftTop.y)][(int)(leftTop.x + (kExtension / kChipSize))] == ChipState::kAir) { //	左頭の3ピクセルが移動可の場合
 			resultPos.x = (int)(leftTop.x + 1) * kChipSize + 16.f;
 		}
-		else if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air) && mapChip_[(int)(rightTop.y)][(int)(rightTop.x - (kExtension / kChipSize))] == ChipState::air) { //	左頭の3ピクセルが移動可の場合
+		else if ((mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir) && mapChip_[(int)(rightTop.y)][(int)(rightTop.x - (kExtension / kChipSize))] == ChipState::kAir) { //	左頭の3ピクセルが移動可の場合
 			resultPos.x = (int)(rightTop.x - 1) * kChipSize + 16.f;
 		}
 
-		else if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::air) || (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::air)) {
+		else if ((mapChip_[(int)(leftTop.y)][(int)(leftTop.x)] != ChipState::kAir) || (mapChip_[(int)(rightTop.y)][(int)(rightTop.x)] != ChipState::kAir)) {
 			resultPos.y = (int)(rightTop.y - 1) * kChipSize + 16.f;
 
 			// player.box.velocity.y = 0;
@@ -775,7 +776,7 @@ Vector3 MapChip::NewHitMap(const Vector3 &beforePos, const Vector3 &afterPos, fl
 	}
 
 	else if (afterPos.y - beforePos.y < 0) {
-		if ((mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::air) || (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::air)) {
+		if ((mapChip_[(int)(leftDown.y)][(int)(leftDown.x)] != ChipState::kAir) || (mapChip_[(int)(rightDown.y)][(int)(rightDown.x)] != ChipState::kAir)) {
 			resultPos.y = (int)(leftDown.y + 1) * kChipSize + 16.f;
 
 			// player.box.velocity.y = 0;
@@ -800,13 +801,14 @@ void MapChip::ChipData::Init() {
 	std::string modelName;
 
 	switch (chipState_) {
-	case MapChip::ChipState::air:
+	case MapChip::ChipState::kAir:
 		modelName = "";
 		break;
-	case MapChip::ChipState::box:
+	case MapChip::ChipState::kBox:
 		modelName = "box";
 		break;
 	default:
+		modelName = "";
 		break;
 	}
 
