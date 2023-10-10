@@ -22,7 +22,7 @@ public:
 
 	void Update(const float deltaTime);
 
-	void Draw(const Camera<Render::CameraType::Projecction> &camera);
+	void Draw(const Camera<Render::CameraType::Projecction> &camera) const;
 
 	void ImGuiWidget();
 
@@ -33,7 +33,7 @@ public:
 private:
 
 	Entity spring_;
-	MapChip* mapChip_;
+	MapChip *mapChip_ = nullptr;
 	// Model *spring_ = nullptr;
 
 };

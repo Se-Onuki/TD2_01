@@ -805,7 +805,7 @@ void MapChip::ChipData::Init() {
 		modelName = "";
 		break;
 	case MapChip::ChipState::kBox:
-		modelName = "box";
+		modelName = "Box";
 		break;
 	default:
 		modelName = "";

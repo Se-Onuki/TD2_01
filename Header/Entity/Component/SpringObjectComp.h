@@ -20,6 +20,10 @@ public:
 	virtual void Update(float deltaTime) {
 		deltaTime;
 	};
+
+	virtual void Exit(float deltaTime) {
+		deltaTime;
+	};
 };
 
 // 各種具体的な状態クラスの定義
@@ -30,9 +34,19 @@ public:
 };
 
 class FallingState : public IPlayerState {
+
+	Vector3 startAngle_;
+	Vector3 endAngle_;
+	float t_ = 0.f;
+	VariantItem<float> vNeedTime_{ "needTime", 0.75f };
+
+	Transform *objectTransform_ = nullptr;
+
 public:
 	using IPlayerState::IPlayerState;
+	void Init(float deltaTime) override;
 	void Update(float deltaTime) override;
+	void Exit(float deltaTime) override;
 };
 
 class JumpingState : public IPlayerState {
@@ -94,10 +108,8 @@ public:
 	void Init() override;
 	void Update(float deltaTime) override;
 
-	void HitMapChip(const MapChip &mapChip);
-
-	VariantItem<float> vJumpString_{ "JumpPower",15.f };
-	VariantItem<float> vMoveString_{ "MovePower",3.f };
+	VariantItem<float> vJumpString_{ "JumpPower", 15.f };
+	VariantItem<float> vMoveString_{ "MovePower", 3.f };
 
 private:
 	Input *input_ = nullptr;

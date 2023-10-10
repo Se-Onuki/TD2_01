@@ -30,7 +30,7 @@ void GameManager::Update(const float deltaTime) {
 	spring_.Update(deltaTime);
 }
 
-void GameManager::Draw(const Camera<Render::CameraType::Projecction> &camera) {
+void GameManager::Draw(const Camera<Render::CameraType::Projecction> &camera) const {
 	spring_.Draw(camera);
 	mapChip_->Draw(camera);
 }

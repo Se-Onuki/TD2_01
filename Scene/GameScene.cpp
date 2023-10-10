@@ -28,7 +28,7 @@ void GameScene::OnEnter() {
 	camera_.UpdateMatrix();
 	auto *const modelManager = ModelManager::GetInstance();
 	modelManager->AddModel("Spring", Model::LoadObjFile("", "sphere.obj"));
-	modelManager->AddModel("box", Model::LoadObjFile("", "box.obj"));
+	modelManager->AddModel("Box", Model::LoadObjFile("", "box.obj"));
 
 	gameManager_ = GameManager::GetInstance();
 	gameManager_->Init();
