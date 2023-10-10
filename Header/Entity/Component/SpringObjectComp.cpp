@@ -59,7 +59,7 @@ void FallingState::Update(float deltaTime) {
 	}
 
 	if (t_ <= 1.f) {
-		t_ = std::clamp((t_ + deltaTime) / vNeedTime_, 0.f, 1.f);
+		t_ = std::clamp((t_ + deltaTime / vNeedTime_), 0.f, 1.f);
 		objectTransform_->rotate = SoLib::Lerp(startAngle_, endAngle_, t_);
 
 		objectTransform_->UpdateMatrix();

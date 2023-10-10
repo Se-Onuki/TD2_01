@@ -38,7 +38,7 @@ class FallingState : public IPlayerState {
 	Vector3 startAngle_;
 	Vector3 endAngle_;
 	float t_ = 0.f;
-	VariantItem<float> vNeedTime_{ "needTime", 0.75f };
+	VariantItem<float> vNeedTime_{ "needTime", 0.125f };
 
 	Transform *objectTransform_ = nullptr;
 
