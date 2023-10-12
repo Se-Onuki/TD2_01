@@ -26,7 +26,6 @@ public:
 	};
 };
 
-// 各種具体的な状態クラスの定義
 class DefaultState : public IPlayerState {
 public:
 	using IPlayerState::IPlayerState;
@@ -50,6 +49,14 @@ public:
 };
 
 class JumpingState : public IPlayerState {
+public:
+	using IPlayerState::IPlayerState;
+	void Init(float deltaTime) override;
+	void Update(float deltaTime) override;
+};
+
+
+class SquattingState : public IPlayerState {
 public:
 	using IPlayerState::IPlayerState;
 	void Init(float deltaTime) override;
@@ -110,6 +117,8 @@ public:
 
 	VariantItem<float> vJumpString_{ "JumpPower", 15.f };
 	VariantItem<float> vMoveString_{ "MovePower", 3.f };
+
+	VariantItem<float> vInvincibleTime_{ "InvincibleTime", 3.f };
 
 private:
 	Input *input_ = nullptr;

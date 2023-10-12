@@ -27,7 +27,7 @@ void Rigidbody::Update(float deltaTime) {
 	}
 
 	if (hasCollider_) {
-		const Vector3 hitPos = MapChip::GetInstance()->NewHitMap(beforePos, afterPos, radius_);
+		const Vector3 hitPos = MapChip::GetInstance()->HitMap(beforePos, afterPos, radius_);
 
 		if (hitPos.y != afterPos.y) {
 			if (velocity_.y < 0.f) {

@@ -94,3 +94,9 @@ void JumpingState::Update(float deltaTime) {
 	}
 	deltaTime;
 }
+
+void SquattingState::Init(float ) {
+}
+
+void SquattingState::Update(float ) {
+}

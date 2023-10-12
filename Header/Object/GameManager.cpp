@@ -7,8 +7,12 @@
 
 void GameManager::Init() {
 
+	//collisionManager_ = CollisionManager::GetInstance();
+
 #pragma region Spring
 
+	//spring_ = std::make_unique<Entity>();
+	spring_.Init();
 	spring_.AddComponent<SpringObjectComp>();
 	spring_.timeScale_ = 2.f;
 	spring_.GetComponent<Rigidbody>()->hasCollider_ = true;
@@ -23,18 +27,44 @@ void GameManager::Init() {
 
 #pragma endregion
 
-
 }
 
 void GameManager::Update(const float deltaTime) {
-	spring_.Update(deltaTime);
+
+	/*collisionManager_->clear();
+
+	enemys_.remove_if([](std::unique_ptr<Entity> &enemy) {
+		if (!enemy->GetActive()) {
+			enemy.reset();
+			return true;
+		}
+		return false;
+		}
+	);
+	if (!spring_->GetActive()) {
+		spring_.reset();
+	}
+
+	collisionManager_->push_back(spring_.get());
+	for (auto &enemy : enemys_) {
+		collisionManager_->push_back(enemy.get());
+	}
+	collisionManager_->ChackAllCollision();*/
+
+	//if (spring_) {
+		spring_.Update(deltaTime);
+	//}
 }
 
 void GameManager::Draw(const Camera<Render::CameraType::Projecction> &camera) const {
-	spring_.Draw(camera);
+	//if (spring_) {
+		spring_.Draw(camera);
+	//}
 	mapChip_->Draw(camera);
 }
 
 void GameManager::ImGuiWidget() {
-	spring_.ImGuiWidget();
+	//if (spring_) {
+		spring_.ImGuiWidget();
+	//}
 }

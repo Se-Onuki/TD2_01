@@ -1,10 +1,14 @@
 #pragma once
 
 #include <memory>
+#include <list>
+
 #include "../../Engine/DirectBase/2D/Sprite.h"
 #include "../../Engine/DirectBase/Model/Model.h"
 #include "../Entity/Entity.h"
 #include "MapChip.h"
+
+#include "../Entity/Component/Collider.h"
 
 class GameManager {
 	GameManager() = default;
@@ -32,8 +36,11 @@ public:
 
 private:
 
+	//std::list<std::unique_ptr<Entity>> enemys_;
+
 	Entity spring_;
 	MapChip *mapChip_ = nullptr;
 	// Model *spring_ = nullptr;
 
+	CollisionManager *collisionManager_ = nullptr;
 };

@@ -32,12 +32,15 @@ void GameScene::OnEnter() {
 
 	gameManager_ = GameManager::GetInstance();
 	gameManager_->Init();
+
+	//collisionManager_ = CollisionManager::GetInstance();
 }
 
 void GameScene::OnExit() {}
 
 void GameScene::Update() {
 	//const float deltaTime = ImGui::GetIO().DeltaTime;
+	//collisionManager_->clear();
 
 	ImGui::Begin("Camera");
 	camera_.ImGuiWidget();

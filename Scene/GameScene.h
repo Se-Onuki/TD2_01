@@ -11,6 +11,7 @@
 #include "../Engine/DirectBase/Input/Input.h"
 #include "../Engine/DirectBase/Base/Audio.h"
 #include "../Header/Object/GameManager.h"
+#include "../Header/Entity/Component/Collider.h"
 
 class GameScene : public IScene {
 public:
@@ -36,4 +37,6 @@ private:
 	Camera<Render::CameraType::Projecction> camera_;
 
 	std::unique_ptr<DirectionLight> light_ = nullptr;
+
+	//CollisionManager *collisionManager_ = nullptr;
 };
