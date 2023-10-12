@@ -36,9 +36,9 @@ public:
 
 private:
 
-	//std::list<std::unique_ptr<Entity>> enemys_;
+	std::list<std::unique_ptr<Entity>> enemys_;
 
-	Entity spring_;
+	std::unique_ptr<Entity> spring_ = nullptr;
 	MapChip *mapChip_ = nullptr;
 	// Model *spring_ = nullptr;
 
