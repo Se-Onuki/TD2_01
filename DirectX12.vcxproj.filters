@@ -91,6 +91,12 @@
     <Filter Include="Utils\SoLib">
       <UniqueIdentifier>{718943a2-fecd-4a48-a88c-ffda723192fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\TItleSceneObject">
+      <UniqueIdentifier>{19fb6977-9118-4929-95b2-2aae308c2a4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\TitleSceneObject">
+      <UniqueIdentifier>{b943278b-59f0-4184-8fe6-2726c8d93f02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -251,6 +257,9 @@
     </ClCompile>
     <ClCompile Include="Header\Object\Map.cpp">
       <Filter>Header\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>ソース ファイル\TItleSceneObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -448,6 +457,9 @@
     </ClInclude>
     <ClInclude Include="Header\Object\Map.h">
       <Filter>Header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>ヘッダー ファイル\TitleSceneObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

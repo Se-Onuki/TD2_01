@@ -16,12 +16,25 @@ TitleScene::~TitleScene() {
 void TitleScene::OnEnter() {
 
 	light_.reset(DirectionLight::Create());
+
+	titleLogo_ = std::make_unique<TitleLogo>();
+	titleLogo_->OnEnter();
+
+	timer_ = std::make_unique<SoLib::Timer>(60);	
+	timer_->Start();
+
 }
 
 void TitleScene::OnExit() {
 }
 
 void TitleScene::Update() {
+	timer_->Update();
+
+	titleLogo_->Update();
+	if (timer_->IsFinish()) {
+		sceneManager_->ChangeScene(new GameScene, 60);
+	}
 
 	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER)) {
 		sceneManager_->ChangeScene(new GameScene, 60);
@@ -29,8 +42,8 @@ void TitleScene::Update() {
 }
 
 void TitleScene::Draw() {
-	DirectXCommon *const dxCommon = DirectXCommon::GetInstance();
-	ID3D12GraphicsCommandList *const commandList = dxCommon->GetCommandList();
+	DirectXCommon* const dxCommon = DirectXCommon::GetInstance();
+	ID3D12GraphicsCommandList* const commandList = dxCommon->GetCommandList();
 
 #pragma region 背面スプライト
 
@@ -61,8 +74,9 @@ void TitleScene::Draw() {
 #pragma region 前面スプライト
 
 	Sprite::StartDraw(commandList);
-
-
+	if (!timer_->IsFinish()) {
+		titleLogo_->Draw();
+	}
 
 	Sprite::EndDraw();
 

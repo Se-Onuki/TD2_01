@@ -7,6 +7,10 @@
 #include "../Engine/DirectBase/Input/Input.h"
 #include "../Engine/DirectBase/Base/Audio.h"
 
+#include "../Utils/SoLib/SoLib.h"
+#include "../titleLogo.h"
+
+
 class TitleScene : public IScene {
 public:
 	TitleScene();
@@ -24,6 +28,7 @@ private:
 	Input *input_ = nullptr;
 	Audio *audio_ = nullptr;
 
-
 	std::unique_ptr<DirectionLight> light_ = nullptr;
+	std::unique_ptr<TitleLogo> titleLogo_ = nullptr;
+	std::unique_ptr<SoLib::Timer> timer_ = nullptr;
 };
