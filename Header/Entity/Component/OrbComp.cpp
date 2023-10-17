@@ -1,7 +1,6 @@
 #include "OrbComp.h"
 
 #include "../../../Engine/DirectBase/Model/ModelManager.h"
-#include "Collider.h"
 
 
 void OrbComp::Init() {

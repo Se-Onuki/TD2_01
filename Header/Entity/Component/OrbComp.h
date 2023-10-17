@@ -17,7 +17,7 @@ public:
 	void AddEnergy(float value) { energy_ += value; }
 
 	float GetProgress() const { return energy_ / maxEnergy_; }
-
+	
 private:
 
 	ModelComp *modelComp_ = nullptr;

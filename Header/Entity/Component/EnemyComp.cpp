@@ -24,4 +24,5 @@ void EnemyComp::Draw(const Camera<Render::CameraType::Projecction> &camera) cons
 }
 
 void EnemyComp::Destroy() {
+	
 }

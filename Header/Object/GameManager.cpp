@@ -6,6 +6,9 @@
 #include "../Entity/Component/Rigidbody.h"
 #include "../Entity/Component/EnemyComp.h"
 #include "../Entity/Component/OrbComp.h"
+#include "../Entity/Component/SoulComp.h"
+
+std::unique_ptr<Entity> GameManager::orb_ = nullptr;
 
 void GameManager::Init() {
 
@@ -18,7 +21,7 @@ void GameManager::Init() {
 	spring_->AddComponent<SpringObjectComp>();
 	spring_->timeScale_ = 2.f;
 	spring_->GetComponent<Rigidbody>()->hasCollider_ = true;
-	spring_->transform_.translate = Vector3{ 0.f,5.f,0.f };
+	spring_->transform_.translate = Vector3{ 0.f,10.f,0.f };
 
 #pragma endregion
 
@@ -32,6 +35,8 @@ void GameManager::Init() {
 #pragma region Enemy
 
 	AddEnemy({ 0.f,10.f,0.f });
+	AddEnemy({ 10.f,10.f,0.f });
+	AddEnemy({ -10.f,10.f,0.f });
 
 #pragma endregion
 
@@ -42,10 +47,15 @@ void GameManager::Init() {
 	orb_->Init();
 
 #pragma endregion
-
 }
 
 void GameManager::Update(const float deltaTime) {
+	
+	for (auto& enemy : enemys_) {
+		if (!enemy->GetActive()) {
+			AddSoul(enemy->GetWorldPos());
+		}
+	}
 
 	enemys_.remove_if([](std::unique_ptr<Entity> &enemy) {
 		if (!enemy->GetActive()) {
@@ -56,6 +66,16 @@ void GameManager::Update(const float deltaTime) {
 		return false;
 		}
 	);
+	souls_.remove_if([](std::unique_ptr<Entity>& soul) {
+		if (!soul->GetActive()) {
+			soul->Destroy();
+			soul.reset();
+			return true;
+		}
+		return false;
+		}
+	);
+
 	if (!spring_->GetActive()) {
 		spring_.reset();
 	}
@@ -74,12 +94,13 @@ void GameManager::Update(const float deltaTime) {
 	for (auto &enemy : enemys_) {
 		enemy->Update(deltaTime);
 	}
+	for (auto& soul : souls_) {
+		soul->Update(deltaTime);
+	}
 
 	if (orb_) {
 		orb_->Update(deltaTime);
 	}
-
-
 }
 
 void GameManager::Draw(const Camera<Render::CameraType::Projecction> &camera) const {
@@ -89,6 +110,9 @@ void GameManager::Draw(const Camera<Render::CameraType::Projecction> &camera) co
 
 	for (auto &enemy : enemys_) {
 		enemy->Draw(camera);
+	}
+	for (auto& soul : souls_) {
+		soul->Draw(camera);
 	}
 
 	if (orb_) {
@@ -112,4 +136,15 @@ void GameManager::AddEnemy(const Vector3 &pos) {
 	newEnemy->AddComponent<EnemyComp>();
 	newEnemy->transform_.translate = pos;
 	newEnemy->transform_.UpdateMatrix();
+}
+
+void GameManager::AddSoul(const Vector3& pos) {
+	souls_.push_back(std::make_unique<Entity>());
+	auto& newSoul = souls_.back();
+
+	newSoul->Init();
+	newSoul->AddComponent<SoulComp>();
+	newSoul->transform_.translate = pos;
+	newSoul->transform_.UpdateMatrix();
+	
 }

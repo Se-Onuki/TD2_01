@@ -34,13 +34,18 @@ public:
 
 	void AddEnemy(const Vector3 &pos = Vector3::zero);
 
+	void AddSoul(const Vector3& pos = Vector3::zero);
+
+	static std::unique_ptr<Entity> orb_;
+
 private:
 
 	std::list<std::unique_ptr<Entity>> enemys_;
 
+	std::list<std::unique_ptr<Entity>> souls_;
+
 	std::unique_ptr<Entity> spring_ = nullptr;
 
-	std::unique_ptr<Entity> orb_ = nullptr;
 	MapChip *mapChip_ = nullptr;
 
 	CollisionManager *collisionManager_ = nullptr;
