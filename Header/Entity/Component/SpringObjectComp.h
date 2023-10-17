@@ -89,6 +89,8 @@ public:
 		state_ = std::make_unique<T>(this);
 	}
 
+	const IPlayerState *const GetState()const { return state_.get(); }
+
 	void Init() {
 		state_ = std::make_unique<DefaultState>(this);
 		nextState_ = nullptr;
@@ -124,6 +126,10 @@ public:
 	VariantItem<float> vMoveString_{ "MovePower", 3.f };
 
 	VariantItem<float> vInvincibleTime_{ "InvincibleTime", 3.f };
+
+	VariantItem<Vector3> vMaxSpeed_{ "MaxSpeed", {3.f,10.f,0.f} };
+
+	const auto *const GetState()const { return state_.get(); }
 
 private:
 	Input *input_ = nullptr;

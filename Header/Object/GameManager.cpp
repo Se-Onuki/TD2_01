@@ -16,7 +16,7 @@ void GameManager::Init() {
 	spring_ = std::make_unique<Entity>();
 	spring_->Init();
 	spring_->AddComponent<SpringObjectComp>();
-	spring_->timeScale_ = 2.f;
+	spring_->timeScale_ = 2.5f;
 	spring_->GetComponent<Rigidbody>()->hasCollider_ = true;
 	spring_->transform_.translate = Vector3{ 0.f,5.f,0.f };
 
@@ -31,7 +31,8 @@ void GameManager::Init() {
 
 #pragma region Enemy
 
-	AddEnemy({ 0.f,10.f,0.f });
+	AddEnemy({ -4.f,10.f,0.f });
+	AddEnemy({ 3.f,10.f,0.f });
 
 #pragma endregion
 

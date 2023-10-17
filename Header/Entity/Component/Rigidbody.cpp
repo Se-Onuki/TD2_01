@@ -14,6 +14,7 @@ void Rigidbody::Update(float deltaTime) {
 	const Vector3 &afterPos = object_->transform_.translate;
 
 	velocity_ += acceleration_;
+	//velocity_ += CalcFriction(velocity_, 0.99f) * deltaTime;
 	object_->transform_.translate += velocity_ * deltaTime * object_->timeScale_;
 
 	isGround_ = false;

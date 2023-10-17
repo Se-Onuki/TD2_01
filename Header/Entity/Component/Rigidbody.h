@@ -40,3 +40,12 @@ private:
 
 	static const float deltaTime_;
 };
+
+// 空気中での粘性摩擦の計算関数
+inline Vector3 CalcFriction(const Vector3 &velocity, float coefficient) {
+	// 速度ベクトルに対して逆向きの摩擦力ベクトルを計算
+	Vector3 frictionForce = velocity.Nomalize();
+	frictionForce = frictionForce * (-0.5f * coefficient * velocity.LengthSQ());
+
+	return frictionForce;
+}
