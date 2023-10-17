@@ -53,6 +53,8 @@ public:
 	/// @brief 描画処理
 	/// @param vp Cameraクラス
 	virtual void Draw(const Camera<Render::CameraType::Projecction> &) const {};
+	/// @brief 破棄時に実行される関数
+	virtual void Destroy() {};
 
 	/// @brief jsonからの読み込み
 	/// @param groupName グループ名
@@ -104,6 +106,8 @@ public:
 	virtual void Reset();
 	virtual void Update(float deltaTime);
 	virtual void Draw(const Camera<Render::CameraType::Projecction> &vp) const;
+
+	virtual void Destroy();
 
 	/*template<typename T>
 	bool HasComponent();*/

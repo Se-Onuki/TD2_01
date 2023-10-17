@@ -24,6 +24,8 @@ public:
 	virtual void Exit(float deltaTime) {
 		deltaTime;
 	};
+
+	virtual void OnCollision(Entity *const other) { other; }
 };
 
 class DefaultState : public IPlayerState {
@@ -33,19 +35,13 @@ public:
 };
 
 class FallingState : public IPlayerState {
-
-	Vector3 startAngle_;
-	Vector3 endAngle_;
-	float t_ = 0.f;
-	VariantItem<float> vNeedTime_{ "needTime", 0.125f };
-
-	Transform *objectTransform_ = nullptr;
-
 public:
 	using IPlayerState::IPlayerState;
 	void Init(float deltaTime) override;
 	void Update(float deltaTime) override;
 	void Exit(float deltaTime) override;
+
+	void OnCollision(Entity *const other) override;
 };
 
 class JumpingState : public IPlayerState {
@@ -53,13 +49,14 @@ public:
 	using IPlayerState::IPlayerState;
 	void Init(float deltaTime) override;
 	void Update(float deltaTime) override;
+
+	void OnCollision(Entity *const other) override;
 };
 
 
 class SquattingState : public IPlayerState {
 public:
 	using IPlayerState::IPlayerState;
-	void Init(float deltaTime) override;
 	void Update(float deltaTime) override;
 };
 
@@ -104,16 +101,24 @@ public:
 		}
 		state_->Update(deltaTime);
 	}
+
+	void OnCollision(Entity *const other) {
+		state_->OnCollision(other);
+	}
 };
 
 
 class SpringObjectComp : public IComponent {
 public:
+
+
 	using IComponent::IComponent;
 	~SpringObjectComp();
 
 	void Init() override;
 	void Update(float deltaTime) override;
+
+	void OnCollision(Entity *const other) override;
 
 	VariantItem<float> vJumpString_{ "JumpPower", 15.f };
 	VariantItem<float> vMoveString_{ "MovePower", 3.f };

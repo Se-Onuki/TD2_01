@@ -24,10 +24,12 @@ void GameScene::OnEnter() {
 
 	//model_ = ModelManager::GetInstance()->AddModel("Fence", Model::LoadObjFile("Model/Fence/", "fence.obj"));
 	//transform_.UpdateMatrix();
-	camera_.translation_ = Vector3{ 0.f, 0.f, -50.f };
+	camera_.translation_ = Vector3{ 0.f, 10.f, -30.f };
 	camera_.UpdateMatrix();
 	auto *const modelManager = ModelManager::GetInstance();
 	modelManager->AddModel("Spring", Model::LoadObjFile("", "sphere.obj"));
+	modelManager->AddModel("Enemy", Model::LoadObjFile("", "sphere.obj"));
+	modelManager->AddModel("Gauge", Model::LoadObjFile("", "box.obj"));
 	modelManager->AddModel("Box", Model::LoadObjFile("", "box.obj"));
 
 	gameManager_ = GameManager::GetInstance();

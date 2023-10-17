@@ -4,6 +4,8 @@
 #include "../Entity/Component/ModelComp.h"
 #include "../Entity/Component/SpringObjectComp.h"
 #include "../Entity/Component/Rigidbody.h"
+#include "../Entity/Component/EnemyComp.h"
+#include "../Entity/Component/OrbComp.h"
 
 void GameManager::Init() {
 
@@ -27,12 +29,27 @@ void GameManager::Init() {
 
 #pragma endregion
 
+#pragma region Enemy
+
+	AddEnemy({ 0.f,10.f,0.f });
+
+#pragma endregion
+
+#pragma region Orb
+
+	orb_ = std::make_unique<Entity>();
+	orb_->AddComponent<OrbComp>();
+	orb_->Init();
+
+#pragma endregion
+
 }
 
 void GameManager::Update(const float deltaTime) {
 
 	enemys_.remove_if([](std::unique_ptr<Entity> &enemy) {
 		if (!enemy->GetActive()) {
+			enemy->Destroy();
 			enemy.reset();
 			return true;
 		}
@@ -53,11 +70,29 @@ void GameManager::Update(const float deltaTime) {
 	if (spring_) {
 		spring_->Update(deltaTime);
 	}
+
+	for (auto &enemy : enemys_) {
+		enemy->Update(deltaTime);
+	}
+
+	if (orb_) {
+		orb_->Update(deltaTime);
+	}
+
+
 }
 
 void GameManager::Draw(const Camera<Render::CameraType::Projecction> &camera) const {
 	if (spring_) {
 		spring_->Draw(camera);
+	}
+
+	for (auto &enemy : enemys_) {
+		enemy->Draw(camera);
+	}
+
+	if (orb_) {
+		orb_->Draw(camera);
 	}
 	mapChip_->Draw(camera);
 }
@@ -66,4 +101,15 @@ void GameManager::ImGuiWidget() {
 	if (spring_) {
 		spring_->ImGuiWidget();
 	}
+}
+
+void GameManager::AddEnemy(const Vector3 &pos) {
+	enemys_.push_back(std::make_unique<Entity>());
+	auto &newEnemy = enemys_.back();
+
+	newEnemy->Init();
+
+	newEnemy->AddComponent<EnemyComp>();
+	newEnemy->transform_.translate = pos;
+	newEnemy->transform_.UpdateMatrix();
 }

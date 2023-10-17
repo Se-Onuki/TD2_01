@@ -32,15 +32,16 @@ public:
 
 	const Vector2 kMapCentor_ = Vector2{ 1280.f, 720.f } / 2.f;
 
-
+	void AddEnemy(const Vector3 &pos = Vector3::zero);
 
 private:
 
 	std::list<std::unique_ptr<Entity>> enemys_;
 
 	std::unique_ptr<Entity> spring_ = nullptr;
+
+	std::unique_ptr<Entity> orb_ = nullptr;
 	MapChip *mapChip_ = nullptr;
-	// Model *spring_ = nullptr;
 
 	CollisionManager *collisionManager_ = nullptr;
 };

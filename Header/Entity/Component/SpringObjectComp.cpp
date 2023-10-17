@@ -4,6 +4,8 @@
 #include "Rigidbody.h"
 
 #include "../../../Utils/SoLib/SoLib_Lerp.h"
+#include "Collider.h"
+#include "EnemyComp.h"
 
 SpringObjectComp::~SpringObjectComp() {
 }
@@ -20,9 +22,14 @@ void SpringObjectComp::Init() {
 
 	object_->AddComponent<Rigidbody>();
 
+	auto *const colliderComp = object_->AddComponent<ColliderComp>();
+	colliderComp->SetRadius(1.f);
+	colliderComp->SetCollisionAttribute(static_cast<uint32_t>(CollisionFilter::Player));
+	colliderComp->SetCollisionMask(~static_cast<uint32_t>(CollisionFilter::Player));
+
 }
 
-void SpringObjectComp::Update(float deltaTime) {
+void SpringObjectComp::Update([[maybe_unused]] float deltaTime) {
 
 	state_->Update(deltaTime);
 
@@ -33,53 +40,46 @@ void SpringObjectComp::Update(float deltaTime) {
 
 }
 
-void DefaultState::Update(float deltaTime) {
-	if (Input::GetInstance()->GetDirectInput()->IsTrigger(DIK_SPACE)) {
-		stateManager_->ChangeState<JumpingState>();
+void SpringObjectComp::OnCollision(Entity *const other) {
+	state_->OnCollision(other);
+}
+
+void DefaultState::Update([[maybe_unused]] float deltaTime) {
+	if (Input::GetInstance()->GetDirectInput()->IsPress(DIK_SPACE)) {
+		stateManager_->ChangeState<SquattingState>();
 	}
-	deltaTime;
 }
 
-void FallingState::Init(float) {
-	objectTransform_ = &stateManager_->parent_->object_->transform_;
-	startAngle_ = objectTransform_->rotate;
-	endAngle_ = objectTransform_->rotate + Vector3{ 0.f,0.f,Angle::Dig2Rad * 180.f };
-}
-
-void FallingState::Update(float deltaTime) {
+void FallingState::Init([[maybe_unused]] float deltaTime) {
 	auto *const rigidbody = stateManager_->parent_->object_->GetComponent<Rigidbody>();
-	if (Input::GetInstance()->GetDirectInput()->IsPress(DIK_A)) {
-		rigidbody->ApplyContinuousForce(Vector3::right * stateManager_->parent_->vMoveString_ * -1.f, deltaTime);
-	}
-	if (Input::GetInstance()->GetDirectInput()->IsPress(DIK_D)) {
-		rigidbody->ApplyContinuousForce(Vector3::right * stateManager_->parent_->vMoveString_, deltaTime);
-	}
+	rigidbody->SetVelocity(Vector3::zero);
+	rigidbody->SetAcceleration(Vector3::up * -10.f);
+}
+
+void FallingState::Update([[maybe_unused]] float deltaTime) {
 	if (stateManager_->parent_->object_->GetComponent<Rigidbody>()->GetIsGround()) {
 		stateManager_->ChangeState<DefaultState>();
 	}
 
-	if (t_ <= 1.f) {
-		t_ = std::clamp((t_ + deltaTime / vNeedTime_), 0.f, 1.f);
-		objectTransform_->rotate = SoLib::Lerp(startAngle_, endAngle_, t_);
+}
 
-		objectTransform_->UpdateMatrix();
+void FallingState::Exit([[maybe_unused]] float deltaTime) {
+}
 
+void FallingState::OnCollision(Entity *const other) {
+	auto *const enemyComp = other->GetComponent<EnemyComp>();
+	if (enemyComp) {
+		other->SetActive(false);
 	}
-	deltaTime;
 }
 
-void FallingState::Exit(float) {
-	objectTransform_->rotate = endAngle_;
-	objectTransform_->UpdateMatrix();
-}
-
-void JumpingState::Init(float deltaTime) {
+void JumpingState::Init([[maybe_unused]] float deltaTime) {
 	auto *const rigidbody = stateManager_->parent_->object_->GetComponent<Rigidbody>();
+	rigidbody->SetVelocity(Vector3::zero);
 	rigidbody->ApplyInstantForce(Vector3::up * stateManager_->parent_->vJumpString_);
-	deltaTime;
 }
 
-void JumpingState::Update(float deltaTime) {
+void JumpingState::Update([[maybe_unused]] float deltaTime) {
 
 	auto *const rigidbody = stateManager_->parent_->object_->GetComponent<Rigidbody>();
 	if (Input::GetInstance()->GetDirectInput()->IsPress(DIK_A)) {
@@ -89,14 +89,22 @@ void JumpingState::Update(float deltaTime) {
 		rigidbody->ApplyContinuousForce(Vector3::right * stateManager_->parent_->vMoveString_, deltaTime);
 	}
 
-	if (stateManager_->parent_->object_->GetComponent<Rigidbody>()->GetVelocity().y < 0.f) {
+	if (Input::GetInstance()->GetDirectInput()->IsTrigger(DIK_SPACE)) {
 		stateManager_->ChangeState<FallingState>();
 	}
-	deltaTime;
+
 }
 
-void SquattingState::Init(float ) {
+void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {
+
+	auto *const rigidbody = stateManager_->parent_->object_->GetComponent<Rigidbody>();
+	if (rigidbody->GetVelocity().y <= 0.f) {
+		stateManager_->ChangeState<JumpingState>();
+	}
 }
 
-void SquattingState::Update(float ) {
+void SquattingState::Update([[maybe_unused]] float deltaTime) {
+	if (Input::GetInstance()->GetDirectInput()->IsRelease(DIK_SPACE)) {
+		stateManager_->ChangeState<JumpingState>();
+	}
 }

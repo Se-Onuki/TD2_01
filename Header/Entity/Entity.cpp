@@ -23,9 +23,16 @@ void Entity::Update(float deltaTime) {
 	if (modelComp)
 		modelComp->Update(deltaTime);
 }
+
 void Entity::Draw(const Camera<Render::CameraType::Projecction> &vp) const {
 	for (auto &component : componentMap_) {
 		component.second->Draw(vp);
+	}
+}
+
+void Entity::Destroy() {
+	for (auto &component : componentMap_) {
+		component.second->Destroy();
 	}
 }
 
