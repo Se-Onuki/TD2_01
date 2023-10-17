@@ -29,7 +29,7 @@ void GameScene::OnEnter() {
 	auto *const modelManager = ModelManager::GetInstance();
 	modelManager->AddModel("Spring", Model::LoadObjFile("", "sphere.obj"));
 	modelManager->AddModel("Enemy", Model::LoadObjFile("", "sphere.obj"));
-	modelManager->AddModel("Gauge", Model::LoadObjFile("", "box.obj"));
+	modelManager->AddModel("Gauge", Model::LoadObjFile("", "sphere.obj"));
 	modelManager->AddModel("Box", Model::LoadObjFile("", "box.obj"));
 
 	gameManager_ = GameManager::GetInstance();
