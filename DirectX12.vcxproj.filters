@@ -264,6 +264,9 @@
     <ClCompile Include="Header\Entity\Component\OrbComp.cpp">
       <Filter>Header\Entity\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Header\Object\FollowCamera.cpp">
+      <Filter>Header\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">

@@ -88,7 +88,7 @@ void GameScene::Draw()
 	light_->SetLight(commandList);
 
 	// モデルの描画
-	gameManager_->Draw(camera_);
+	gameManager_->Draw();
 
 	Model::EndDraw();
 

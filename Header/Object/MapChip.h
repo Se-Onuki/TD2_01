@@ -33,7 +33,7 @@ public:
 	};
 
 	static const uint32_t kMapWidth_ = 20u;
-	static const uint32_t kMapHight_ = 10u;
+	static const uint32_t kMapHight_ = 30u;
 
 	float kScale_ = 2.f;
 

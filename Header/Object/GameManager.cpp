@@ -45,6 +45,15 @@ void GameManager::Init() {
 
 #pragma endregion
 
+#pragma region Camera
+
+	followCamera_ = std::make_unique<FollowCamera>();
+	followCamera_->SetSpring(spring_.get());
+	followCamera_->Reset();
+
+#pragma endregion
+
+
 }
 
 void GameManager::Update(const float deltaTime) {
@@ -83,10 +92,14 @@ void GameManager::Update(const float deltaTime) {
 		orb_->Update(deltaTime);
 	}
 
-
+	if (followCamera_) {
+		followCamera_->Update(deltaTime);
+	}
 }
 
-void GameManager::Draw(const Camera<Render::CameraType::Projecction> &camera) const {
+void GameManager::Draw() const {
+	const auto &camera = *followCamera_->GetCamera();
+
 	if (spring_) {
 		spring_->Draw(camera);
 	}
