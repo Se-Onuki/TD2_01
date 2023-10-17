@@ -70,11 +70,8 @@ void FallingState::Update([[maybe_unused]] float deltaTime) {
 void FallingState::Exit([[maybe_unused]] float deltaTime) {
 }
 
-void FallingState::OnCollision(Entity *const other) {
-	auto *const enemyComp = other->GetComponent<EnemyComp>();
-	if (enemyComp) {
-		other->SetActive(false);
-	}
+void FallingState::OnCollision([[maybe_unused]] Entity *const other) {
+
 }
 
 void JumpingState::Init([[maybe_unused]] float deltaTime) {

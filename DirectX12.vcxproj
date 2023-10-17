@@ -203,6 +203,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Header\Entity\Component\Rigidbody.h" />
     <ClInclude Include="Header\Entity\Component\SpringObjectComp.h" />
     <ClInclude Include="Header\Entity\Entity.h" />
+    <ClInclude Include="Header\Object\FollowCamera.h" />
     <ClInclude Include="Header\Object\GameManager.h" />
     <ClInclude Include="Header\Object\MapChip.h" />
     <ClInclude Include="Scene\GameScene.h" />

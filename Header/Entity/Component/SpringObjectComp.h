@@ -129,7 +129,7 @@ public:
 
 	VariantItem<Vector3> vMaxSpeed_{ "MaxSpeed", {3.f,10.f,0.f} };
 
-	const auto *const GetState()const { return state_.get(); }
+	const auto *const GetManager()const { return state_.get(); }
 
 private:
 	Input *input_ = nullptr;

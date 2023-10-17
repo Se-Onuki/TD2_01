@@ -473,6 +473,9 @@
     <ClInclude Include="Header\Entity\Component\OrbComp.h">
       <Filter>Header\Entity\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Header\Object\FollowCamera.h">
+      <Filter>Header\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">

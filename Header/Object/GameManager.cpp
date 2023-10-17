@@ -31,8 +31,9 @@ void GameManager::Init() {
 
 #pragma region Enemy
 
-	AddEnemy({ -4.f,10.f,0.f });
+	AddEnemy({ -4.f,5.f,0.f });
 	AddEnemy({ 3.f,10.f,0.f });
+	EnemyComp::SetEnemyList(&enemys_);
 
 #pragma endregion
 
@@ -67,6 +68,8 @@ void GameManager::Update(const float deltaTime) {
 		collisionManager_->push_back(enemy.get());
 	}
 	collisionManager_->ChackAllCollision();
+
+	EnemyComp::StaticUpdate(deltaTime);
 
 	if (spring_) {
 		spring_->Update(deltaTime);

@@ -41,8 +41,7 @@ void GameScene::OnEnter() {
 void GameScene::OnExit() {}
 
 void GameScene::Update() {
-	//const float deltaTime = ImGui::GetIO().DeltaTime;
-	//collisionManager_->clear();
+	const float deltaTime = ImGui::GetIO().DeltaTime;
 
 	ImGui::Begin("Camera");
 	camera_.ImGuiWidget();
@@ -55,7 +54,7 @@ void GameScene::Update() {
 	ImGui::End();
 
 	TextureManager::GetInstance()->ImGuiWindow();
-	gameManager_->Update(1.f / 60.f);
+	gameManager_->Update(deltaTime);
 
 	gameManager_->ImGuiWidget();
 

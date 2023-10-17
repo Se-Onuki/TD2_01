@@ -15,14 +15,26 @@ public:
 
 	void Destroy() override;
 
+	/// @brief スタン中の敵全破壊
+	void SelfBreak();
+
+	bool GetIsStan() const { return isStan_; }
+
+	static void SetEnemyList(std::list<std::unique_ptr<Entity>> *const enemys) { sEnemys_ = enemys; }
+
+	static void StaticUpdate(float deltaTime);
+
 private:
 
-	void SetStanTime(float stanTime) { stanTime_ = stanTime; }
+	void SetStanTime(float stanTime) { sStanTime_ = stanTime; }
 
 private:
 
-	float stanTime_ = 0.f;
+	bool isStan_ = false;
+	static float sStanTime_;
 
 	Model *defaultModel_ = nullptr;
+
+	static std::list<std::unique_ptr<Entity>> *sEnemys_;
 
 };
