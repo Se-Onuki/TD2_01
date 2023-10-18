@@ -52,9 +52,12 @@ void EnemyComp::OnCollision(Entity *const other) {
 				selfRigidbody->SetVelocity(Vector3::zero);
 				selfRigidbody->ApplyInstantForce(Vector3::up * -0.5f);
 			}
+			// 下から叩かれた場合
 			else {
-				// スタン中の敵全破壊
-				SelfBreak();
+				if (isStan_) {
+					// スタン中の敵全破壊
+					SelfBreak();
+				}
 			}
 
 		}
