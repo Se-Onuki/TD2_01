@@ -135,6 +135,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Header\Entity\Component\Rigidbody.cpp" />
     <ClCompile Include="Header\Entity\Component\SpringObjectComp.cpp" />
     <ClCompile Include="Header\Entity\Entity.cpp" />
+    <ClCompile Include="Header\Object\FollowCamera.cpp" />
     <ClCompile Include="Header\Object\GameManager.cpp" />
     <ClCompile Include="Header\Object\MapChip.cpp" />
     <ClCompile Include="main.cpp" />
@@ -204,6 +205,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Header\Entity\Component\Rigidbody.h" />
     <ClInclude Include="Header\Entity\Component\SpringObjectComp.h" />
     <ClInclude Include="Header\Entity\Entity.h" />
+    <ClInclude Include="Header\Object\FollowCamera.h" />
     <ClInclude Include="Header\Object\GameManager.h" />
     <ClInclude Include="Header\Object\MapChip.h" />
     <ClInclude Include="Scene\GameScene.h" />

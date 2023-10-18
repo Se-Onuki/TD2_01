@@ -38,6 +38,10 @@ void SpringObjectComp::Update([[maybe_unused]] float deltaTime) {
 	// 毎フレームかかる処理はdeltaTimeをかける
 	rigidbody->ApplyContinuousForce(Vector3::up * -9.8f, deltaTime);
 
+	Vector3 vec = rigidbody->GetVelocity();
+	vec.x = std::clamp(vec.x, vMaxSpeed_->x * -1.f, vMaxSpeed_->x);
+	rigidbody->SetVelocity(vec);
+
 }
 
 void SpringObjectComp::OnCollision(Entity *const other) {
@@ -66,11 +70,8 @@ void FallingState::Update([[maybe_unused]] float deltaTime) {
 void FallingState::Exit([[maybe_unused]] float deltaTime) {
 }
 
-void FallingState::OnCollision(Entity *const other) {
-	auto *const enemyComp = other->GetComponent<EnemyComp>();
-	if (enemyComp) {
-		other->SetActive(false);
-	}
+void FallingState::OnCollision([[maybe_unused]] Entity *const other) {
+
 }
 
 void JumpingState::Init([[maybe_unused]] float deltaTime) {
@@ -100,6 +101,12 @@ void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {
 	auto *const rigidbody = stateManager_->parent_->object_->GetComponent<Rigidbody>();
 	if (rigidbody->GetVelocity().y <= 0.f) {
 		stateManager_->ChangeState<JumpingState>();
+	}
+	else {
+		auto *const enemyComp = other->GetComponent<EnemyComp>();
+		if (enemyComp) {
+			other->SetActive(false);
+		}
 	}
 }
 

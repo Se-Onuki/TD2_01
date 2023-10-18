@@ -19,7 +19,7 @@ void GameManager::Init() {
 	spring_ = std::make_unique<Entity>();
 	spring_->Init();
 	spring_->AddComponent<SpringObjectComp>();
-	spring_->timeScale_ = 2.f;
+	spring_->timeScale_ = 2.5f;
 	spring_->GetComponent<Rigidbody>()->hasCollider_ = true;
 	spring_->transform_.translate = Vector3{ 0.f,10.f,0.f };
 
@@ -37,6 +37,7 @@ void GameManager::Init() {
 	AddEnemy({ 0.f,10.f,0.f });
 	AddEnemy({ 10.f,10.f,0.f });
 	AddEnemy({ -10.f,10.f,0.f });
+	EnemyComp::SetEnemyList(&enemys_);
 
 #pragma endregion
 
@@ -47,18 +48,23 @@ void GameManager::Init() {
 	orb_->Init();
 
 #pragma endregion
+
+#pragma region Camera
+
+	followCamera_ = std::make_unique<FollowCamera>();
+	followCamera_->SetSpring(spring_.get());
+	followCamera_->Reset();
+
+#pragma endregion
+
+
 }
 
 void GameManager::Update(const float deltaTime) {
-	
-	for (auto& enemy : enemys_) {
+
+	enemys_.remove_if([&](std::unique_ptr<Entity> &enemy) {
 		if (!enemy->GetActive()) {
 			AddSoul(enemy->GetWorldPos());
-		}
-	}
-
-	enemys_.remove_if([](std::unique_ptr<Entity> &enemy) {
-		if (!enemy->GetActive()) {
 			enemy->Destroy();
 			enemy.reset();
 			return true;
@@ -87,6 +93,8 @@ void GameManager::Update(const float deltaTime) {
 	}
 	collisionManager_->ChackAllCollision();
 
+	EnemyComp::StaticUpdate(deltaTime);
+
 	if (spring_) {
 		spring_->Update(deltaTime);
 	}
@@ -101,9 +109,15 @@ void GameManager::Update(const float deltaTime) {
 	if (orb_) {
 		orb_->Update(deltaTime);
 	}
+
+	if (followCamera_) {
+		followCamera_->Update(deltaTime);
+	}
 }
 
-void GameManager::Draw(const Camera<Render::CameraType::Projecction> &camera) const {
+void GameManager::Draw() const {
+	const auto &camera = *followCamera_->GetCamera();
+
 	if (spring_) {
 		spring_->Draw(camera);
 	}

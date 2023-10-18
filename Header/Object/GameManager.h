@@ -9,6 +9,7 @@
 #include "MapChip.h"
 
 #include "../Entity/Component/Collider.h"
+#include "FollowCamera.h"
 
 class GameManager {
 	GameManager() = default;
@@ -26,7 +27,7 @@ public:
 
 	void Update(const float deltaTime);
 
-	void Draw(const Camera<Render::CameraType::Projecction> &camera) const;
+	void Draw() const;
 
 	void ImGuiWidget();
 
@@ -38,6 +39,8 @@ public:
 
 	static std::unique_ptr<Entity> orb_;
 
+	const auto *const GetCamera() const { return followCamera_->GetCamera(); }
+
 private:
 
 	std::list<std::unique_ptr<Entity>> enemys_;
@@ -47,6 +50,8 @@ private:
 	std::unique_ptr<Entity> spring_ = nullptr;
 
 	MapChip *mapChip_ = nullptr;
+
+	std::unique_ptr<FollowCamera> followCamera_ = nullptr;
 
 	CollisionManager *collisionManager_ = nullptr;
 };
