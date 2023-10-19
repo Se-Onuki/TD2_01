@@ -8,6 +8,8 @@
 TitleScene::TitleScene() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+
 }
 
 TitleScene::~TitleScene() {

@@ -24,6 +24,9 @@ private:
 	Input *input_ = nullptr;
 	Audio *audio_ = nullptr;
 
-
 	std::unique_ptr<DirectionLight> light_ = nullptr;
+
+	std::unique_ptr<Sprite> titleLogo_ = nullptr;
+
+	std::unique_ptr<Sprite> pressSprite_ = nullptr;
 };
