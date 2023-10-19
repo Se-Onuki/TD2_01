@@ -4,10 +4,13 @@
 #include "GameScene.h"
 #include "../Engine/DirectBase/Base/DirectXCommon.h"
 #include "../Engine/DirectBase/Model/ModelManager.h"
+#include "../Header/Entity/Component/SkyCylinderComp.h"
+bool TitleScene::isChangeSceneCall_ = false;
 
 TitleScene::TitleScene() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
 }
 
 TitleScene::~TitleScene() {
@@ -16,14 +19,54 @@ TitleScene::~TitleScene() {
 void TitleScene::OnEnter() {
 
 	light_.reset(DirectionLight::Create());
+	camera_.translation_ = Vector3{ 0.f, 10.f, -30.f };
+	camera_.UpdateMatrix();
+	auto* const modelManager = ModelManager::GetInstance();
+	modelManager->AddModel("skyCylinder", Model::LoadObjFile("", "skyCylinder.obj"));
+
+	isChangeSceneCall_ = false;
+
+
+	titleLogo_ = std::make_unique<TitleLogo>();
+	titleLogo_->Init();
+	pressSprite_ = std::make_unique<PressSprite>();
+	pressSprite_->Init();
+
+#pragma region SkyCylinderComp
+
+	skyCylinder_ = std::make_unique<Entity>();
+	skyCylinder_->AddComponent<SkyCylinderComp>();
+	skyCylinder_->Init();
+
+#pragma endregion
+
 }
 
 void TitleScene::OnExit() {
 }
 
 void TitleScene::Update() {
+	const float deltaTime = ImGui::GetIO().DeltaTime;
 
-	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER)) {
+	if (!skyCylinder_->GetActive()) {
+		skyCylinder_.reset();
+	}
+	if (skyCylinder_) {
+		skyCylinder_->Update(deltaTime);
+	}
+
+
+	titleLogo_->Update(deltaTime);
+	pressSprite_->Update(deltaTime);
+
+	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) ||
+		input_->GetDirectInput()->IsTrigger(DIK_SPACE)) {
+		isChangeSceneCall_ = true;
+	}
+
+	if (isChangeSceneCall_) {
+		titleLogo_->SetIsChangeSceneCall(isChangeSceneCall_);
+		pressSprite_->SetIsChangeSceneCall(isChangeSceneCall_);
 		sceneManager_->ChangeScene(new GameScene, 60);
 	}
 }
@@ -51,6 +94,9 @@ void TitleScene::Draw() {
 	Model::StartDraw(commandList);
 
 	light_->SetLight(commandList);
+	if (skyCylinder_) {
+		skyCylinder_->Draw(camera_);
+	}
 
 	// モデルの描画
 
@@ -62,7 +108,8 @@ void TitleScene::Draw() {
 
 	Sprite::StartDraw(commandList);
 
-
+	titleLogo_->Draw();
+	pressSprite_->Draw();
 
 	Sprite::EndDraw();
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-
+#include "../Math/Vector4.h"
 /// 参考サイト
 /// https://easings.net/ja
 ///
@@ -40,4 +40,5 @@ namespace SoLib {
 	/// @param easingVolume 係数
 	/// @return 計算結果
 	uint32_t ColorLerp(uint32_t statColor, uint32_t endColor, float easingVolume);
+
 }

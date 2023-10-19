@@ -267,8 +267,17 @@
     <ClCompile Include="Header\Object\FollowCamera.cpp">
       <Filter>Header\Object</Filter>
     </ClCompile>
+    <ClCompile Include="Header\Object\PressSprite.cpp">
+      <Filter>Header\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Object\TitleLogo.cpp">
+      <Filter>Header\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Entity\Component\SkyCylinderComp.cpp">
+      <Filter>Header\Entity\Component</Filter>
+    </ClCompile>
     <ClCompile Include="Header\Entity\Component\SoulComp.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Header\Entity\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -484,6 +493,15 @@
     </ClInclude>
     <ClInclude Include="Header\Object\FollowCamera.h">
       <Filter>Header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Object\TitleLogo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Entity\Component\SkyCylinderComp.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Object\PressSprite.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
