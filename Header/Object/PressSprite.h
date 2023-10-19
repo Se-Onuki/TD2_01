@@ -3,50 +3,50 @@
 #include <memory>
 
 // 前方宣言
-class TitleLogo;
-class TitleLogoStateManager;
+class PressSprite;
+class PressSpriteStateManager;
 
 // 基底の状態クラス
-class LogoEaseState {
+class PressSpriteEaseState {
 public:
 	//コンストラクタ
-	LogoEaseState(TitleLogo* const parent) :
+	PressSpriteEaseState(PressSprite* const parent) :
 		parent_(parent),
 		isEndMove_(false),
 		t_easing_(0.0f)
 	{}
-	
+
 	// 仮想デストラクタ
-	virtual ~LogoEaseState() {};
+	virtual ~PressSpriteEaseState() {};
 
 	// 状態管理クラスの登録
-	virtual void SetStateManager(TitleLogoStateManager* stateManager) {
+	virtual void SetStateManager(PressSpriteStateManager* stateManager) {
 		stateManager_ = stateManager;
 	}
 
 	// 初期化処理
 	virtual void Init() = 0;
-	
+
 	// 更新処理
 	virtual void Update(float deltaTime) = 0;
 
 
 protected:
 	bool isEndMove_ = false;
-	TitleLogo* const parent_ = nullptr;
+	PressSprite* const parent_ = nullptr;
 
 	// イージング用の媒介変数
 	float t_easing_ = 0.0f;
 
 	// 状態管理クラス
-	TitleLogoStateManager* stateManager_ = nullptr;
+	PressSpriteStateManager* stateManager_ = nullptr;
 };
 
 // 最初の状態
-class OpLogoEase : public LogoEaseState {
+class OpPressSpriteEase : public PressSpriteEaseState {
 public:
 	// 基底クラスのコンストラクタ
-	using LogoEaseState::LogoEaseState;
+	using PressSpriteEaseState::PressSpriteEaseState;
 
 	// 初期化処理
 	void Init() override;
@@ -55,20 +55,20 @@ public:
 	void Update(float deltaTime) override;
 private:
 	// 大きさ
-	Vector2 titleLogoScale_ = { 0.0f, 0.0f };
-	
+	Vector2 pressSpriteScale_ = { 0.0f, 0.0f };
+
 	// イージング前の大きさ　
 	Vector2 start_ = { 0.0f, 0.0f };
 
 	// イージング後の大きさ
-	Vector2 end_ = { 700.0f,200.f };
+	Vector2 end_ = { 300.0f,50.0f };
 };
 
 // 通常のアップ状態
-class DefaultUpLogoEase : public LogoEaseState {
+class DefaultUpPressSpriteEase : public PressSpriteEaseState {
 public:
 	// 基底クラスのコンストラクタ
-	using LogoEaseState::LogoEaseState;
+	using PressSpriteEaseState::PressSpriteEaseState;
 
 	// 初期化処理
 	void Init() override;
@@ -77,20 +77,20 @@ public:
 	void Update(float deltaTime) override;
 private:
 	// 位置
-	Vector2 titleLogoPosition_ = { 0.0f, 0.0f };
-	
+	Vector2 pressSpritePosition_ = { 0.0f, 0.0f };
+
 	// イージング前の位置
 	Vector2 start_ = { 0.0f, 0.0f };
-	
+
 	// イージング後の位置
 	Vector2 end_ = { 540.f,540.f };
 };
 
 // 通常のダウン状態
-class DefaultDownLogoEase : public LogoEaseState {
+class DefaultDownPressSpriteEase : public PressSpriteEaseState {
 public:
 	// 基底クラスのコンストラクタ
-	using LogoEaseState::LogoEaseState;
+	using PressSpriteEaseState::PressSpriteEaseState;
 
 	// 初期化処理
 	void Init() override;
@@ -99,20 +99,20 @@ public:
 	void Update(float deltaTime) override;
 private:
 	// 位置
-	Vector2 titleLogoPosition_ = { 0.0f, 0.0f };
-	
+	Vector2 pressSpritePosition_ = { 0.0f, 0.0f };
+
 	// イージング前の位置
 	Vector2 start_ = { 0.0f, 0.0f };
-	
+
 	// イージング後の位置
 	Vector2 end_ = { 540.f,540.f };
 };
 
 // 終わる時の状態
-class EpLogoState : public LogoEaseState {
+class EpPressSpriteState : public PressSpriteEaseState {
 public:
 	// 基底クラスのコンストラクタ
-	using LogoEaseState::LogoEaseState;
+	using PressSpriteEaseState::PressSpriteEaseState;
 
 	// 初期化処理
 	void Init() override;
@@ -121,20 +121,20 @@ public:
 	void Update(float deltaTime) override;
 private:
 	// 位置
-	Vector2 titleLogoPosition_ = { 0.0f, 0.0f };
-	
+	Vector2 pressSpritePosition_ = { 0.0f, 0.0f };
+
 	// イージング前の位置
 	Vector2 start_ = { 0.0f, 0.0f };
-	
+
 	// イージング後の位置
 	Vector2 end_ = { 540.f,540.f };
-	
+
 	// 色(RGBA)
-	Vector4 titleLogoColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };
-	
+	Vector4 pressSpriteColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };
+
 	// イージング前の色
 	Vector4 startColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };
-	
+
 	// イージング後の色
 	Vector4 endColor_ = { 1.0f, 1.0f, 1.0f, 0.0f };
 
@@ -143,10 +143,10 @@ private:
 };
 
 // タイトルロゴの状態管理クラス
-class TitleLogoStateManager {
+class PressSpriteStateManager {
 public:
 	// 次のシーン予約
-	void SetNextState(LogoEaseState* next) {
+	void SetNextState(PressSpriteEaseState* next) {
 		nextState_ = next;
 	}
 
@@ -154,14 +154,14 @@ public:
 	void Update(float deltaTime);
 private:
 	// 今の状態
-	LogoEaseState* state_;
-	
+	PressSpriteEaseState* state_;
+
 	// 次の状態の予約
-	LogoEaseState* nextState_ = nullptr;
+	PressSpriteEaseState* nextState_ = nullptr;
 };
 
 // タイトルロゴ
-class TitleLogo {
+class PressSprite {
 public:
 	// 初期化処理
 	void Init();
@@ -175,25 +175,25 @@ public:
 	// 位置の取得
 	Vector2 GetPosition() {
 		Vector2 result;
-		result.x = titleLogo_->GetTransform().translate.x;
-		result.y = titleLogo_->GetTransform().translate.y;
+		result.x = pressSprite->GetTransform().translate.x;
+		result.y = pressSprite->GetTransform().translate.y;
 		return result;
 	}
 	// 位置の設定
 	void SetPosition(Vector2 pos) {
-		titleLogo_->SetPosition(pos);
+		pressSprite->SetPosition(pos);
 	}
 	// 大きさの設定
 	void SetScale(Vector2 scale) {
-		titleLogo_->SetScale(scale);
+		pressSprite->SetScale(scale);
 	}
 	// 角度の設定
 	void SetRotate(float angle) {
-		titleLogo_->SetRotate(angle);
+		pressSprite->SetRotate(angle);
 	}
 	// 色の設定
 	void SetColor(Vector4 color) {
-		titleLogo_->SetColor(color);
+		pressSprite->SetColor(color);
 	}
 	// シーンチェンジ指令
 	void SetIsChangeSceneCall(bool isChange) {
@@ -201,16 +201,16 @@ public:
 	}
 private:
 	// タイトルロゴのスプライト
-	std::unique_ptr<Sprite> titleLogo_ = nullptr;
-	
+	std::unique_ptr<Sprite> pressSprite = nullptr;
+
 	// 位置
-	Vector2 titleLogoPos_ = { 640.0f, 200.0f };
-	
+	Vector2 pressSpritePos_ = { 640.0f, 600.0f };
+
 	// 大きさ
-	Vector2 titleLogoScale_ = { 0.0f, 0.0f };
+	Vector2 pressSpriteScale_ = { 0.0f, 0.0f };
 	int stateNum_ = -1;
 	// 状態
-	std::unique_ptr<TitleLogoStateManager> state_ = nullptr;
+	std::unique_ptr<PressSpriteStateManager> state_ = nullptr;
 
 	// シーンチェンジ指令
 	bool isChangeSceneCall_ = false;

@@ -1,30 +1,30 @@
-#include "TitleLogo.h"
+#include "PressSprite.h"
 #include "../../Utils/SoLib/SoLib.h"
 #include "../../Utils/SoLib/SoLib_Lerp.h"
 
-void TitleLogo::Init() {
+void PressSprite::Init() {
 	// 状態管理クラスを生成
 	//state_.release();
-	state_ = std::make_unique<TitleLogoStateManager>();
-
+	state_ = std::make_unique<PressSpriteStateManager>();
+	
 	// 最初の状態を登録
-	OpLogoEase* st = new OpLogoEase(this);
+	OpPressSpriteEase* st = new OpPressSpriteEase(this);
 	state_->SetNextState(st);
 
 	// タイトルロゴのスプライトを生成、いろいろ設定
-	titleLogo_.reset(Sprite::Create(TextureManager::Load("uvChecker.png")));
-	titleLogo_->SetPosition({ 640.0f, 200.0f });
-	titleLogo_->SetScale({ 0.0f, 0.0f });
-	titleLogo_->SetPivot({ 0.5f, 0.5f });
+	pressSprite.reset(Sprite::Create(TextureManager::Load("uvChecker.png")));
+	pressSprite->SetPosition({640.0f, 400.0f });
+	pressSprite->SetScale({ 0.0f, 0.0f });
+	pressSprite->SetPivot({ 0.5f, 0.5f });
 
 
 }
 
-void TitleLogo::Update(float deltaTime) {
+void PressSprite::Update(float deltaTime) {
 	// もしシーンチェンジ指令がきたら
 	if (isChangeSceneCall_ && !preChangeSceneCall_) {
 		// 終了時の状態に切り替える
-		EpLogoState* st = new EpLogoState(this);
+		EpPressSpriteState* st = new EpPressSpriteState(this);
 		state_->SetNextState(st);
 	}
 
@@ -35,32 +35,32 @@ void TitleLogo::Update(float deltaTime) {
 	preChangeSceneCall_ = isChangeSceneCall_;
 }
 
-void TitleLogo::Draw() {
+void PressSprite::Draw() {
 	// タイトルロゴのスプライト描画
-	titleLogo_->Draw();
+	pressSprite->Draw();
 }
 
 #pragma region OpLogo
-void OpLogoEase::Init() {
+void OpPressSpriteEase::Init(){
 	// 大きさ
-	titleLogoScale_ = { 0.0f, 0.0f };
+	pressSpriteScale_ = { 0.0f, 0.0f };
 
 	// イージング前の大きさ　
 	start_ = { 0.0f, 0.0f };
 
 	// イージング後の大きさ
-	end_ = { 700.0f,200.f };
+	end_ = { 300.0f,50.0f };
 }
 
-void OpLogoEase::Update(float deltaTime) {
+void OpPressSpriteEase::Update(float deltaTime) {
 	// 大きさのイージング
-	titleLogoScale_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
-	titleLogoScale_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
+	pressSpriteScale_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
+	pressSpriteScale_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
 
 	// イージングの媒介変数の処理
 	if (t_easing_ >= 1.0f) {
 		t_easing_ = 1.0f;
-		DefaultUpLogoEase* st = new DefaultUpLogoEase(parent_);
+		DefaultUpPressSpriteEase* st = new DefaultUpPressSpriteEase(parent_);
 		stateManager_->SetNextState(st);
 	}
 	else {
@@ -68,28 +68,28 @@ void OpLogoEase::Update(float deltaTime) {
 	}
 
 	// 大きさを設定
-	parent_->SetScale(titleLogoScale_);
+	parent_->SetScale(pressSpriteScale_);
 }
 
 #pragma endregion
 
 #pragma region DefaultLogo
-void DefaultUpLogoEase::Init() {
+void DefaultUpPressSpriteEase::Init() {
 	Vector2 nowPos = parent_->GetPosition();
 	start_ = nowPos;
-	end_ = nowPos - Vector2{0.0f, -20.0f};
+	end_ = nowPos - Vector2{0.0f, -50.0f};
 
 }
 
-void DefaultUpLogoEase::Update(float deltaTime) {
+void DefaultUpPressSpriteEase::Update(float deltaTime) {
 	// 位置のイージング
-	titleLogoPosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
-	titleLogoPosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
-
+	pressSpritePosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
+	pressSpritePosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
+	
 	// イージングの媒介変数の処理
 	if (t_easing_ >= 1.0f) {
 		t_easing_ = 1.0f;
-		DefaultDownLogoEase* st = new DefaultDownLogoEase(parent_);
+		DefaultDownPressSpriteEase* st = new DefaultDownPressSpriteEase(parent_);
 		stateManager_->SetNextState(st);
 	}
 	else {
@@ -97,24 +97,24 @@ void DefaultUpLogoEase::Update(float deltaTime) {
 	}
 
 	// 位置を設定
-	parent_->SetPosition(titleLogoPosition_);
+	parent_->SetPosition(pressSpritePosition_);
 }
 
-void DefaultDownLogoEase::Init() {
+void DefaultDownPressSpriteEase::Init() {
 	Vector2 nowPos = parent_->GetPosition();
 	start_ = nowPos;
-	end_ = nowPos - Vector2{0.0f, 20.0f};
+	end_ = nowPos - Vector2{0.0f, 50.0f};
 }
 
-void DefaultDownLogoEase::Update(float deltaTime) {
+void DefaultDownPressSpriteEase::Update(float deltaTime) {
 	// 位置のイージング
-	titleLogoPosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
-	titleLogoPosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
-
+	pressSpritePosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
+	pressSpritePosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
+	
 	// イージングの媒介変数の処理
 	if (t_easing_ >= 1.0f) {
 		t_easing_ = 1.0f;
-		DefaultUpLogoEase* st = new DefaultUpLogoEase(parent_);
+		DefaultUpPressSpriteEase* st = new DefaultUpPressSpriteEase(parent_);
 		stateManager_->SetNextState(st);
 	}
 	else {
@@ -122,28 +122,28 @@ void DefaultDownLogoEase::Update(float deltaTime) {
 	}
 
 	// 位置を設定
-	parent_->SetPosition(titleLogoPosition_);
+	parent_->SetPosition(pressSpritePosition_);
 }
 
 #pragma endregion
 
 #pragma region EpLogo
 
-void EpLogoState::Init() {
+void EpPressSpriteState::Init() {
 	Vector2 nowPos = parent_->GetPosition();
 	start_ = nowPos;
 	end_ = nowPos - Vector2{0.0f, 300.0f};
 	t_colorEasing = 0.0f;
 }
 
-void EpLogoState::Update(float deltaTime) {
+void EpPressSpriteState::Update(float deltaTime) {
 	// 位置のイージング
-	titleLogoPosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeInOutBack(t_easing_));
-	titleLogoPosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeInOutBack(t_easing_));
-
+	pressSpritePosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeInOutBack(t_easing_));
+	pressSpritePosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeInOutBack(t_easing_));
+	
 	// 色のイージング
-	titleLogoColor_ = SoLib::Lerp(startColor_, endColor_, t_colorEasing);
-
+	pressSpriteColor_ = SoLib::Lerp(startColor_, endColor_, t_colorEasing);
+	
 	// イージングの媒介変数の処理
 	if (t_easing_ >= 1.0f) {
 		t_easing_ = 1.0f;
@@ -161,12 +161,12 @@ void EpLogoState::Update(float deltaTime) {
 	}
 
 	// 位置、色を設定
-	parent_->SetPosition(titleLogoPosition_);
-	parent_->SetColor(titleLogoColor_);
+	parent_->SetPosition(pressSpritePosition_);
+	parent_->SetColor(pressSpriteColor_);
 }
 #pragma endregion
 
-void TitleLogoStateManager::Update(float deltaTime) {
+void PressSpriteStateManager::Update(float deltaTime) {
 	// もし次の状態が予約されていたら
 	if (nextState_) {
 		// 予約されている状態を設定
@@ -180,7 +180,7 @@ void TitleLogoStateManager::Update(float deltaTime) {
 		// 状態の初期化処理
 		state_->Init();
 	}
-
+	
 	// 状態の更新処理
 	state_->Update(deltaTime);
 }
