@@ -14,9 +14,11 @@ public:
 	~TitleScene();
 
 	void OnEnter() override;
+
 	void OnExit() override;
 
 	void Update() override;
+	
 	void Draw() override;
 public:
 

@@ -77,14 +77,14 @@ void OpLogoEase::Update() {
 void DefaultUpLogoEase::Init() {
 	Vector2 nowPos = parent_->GetPosition();
 	start_ = nowPos;
-	end_ = nowPos - Vector2{0.0f, -10.0f};
+	end_ = nowPos - Vector2{0.0f, -20.0f};
 
 }
 
 void DefaultUpLogoEase::Update() {
 	// 位置のイージング
-	titleLogoPosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeInExpo(t_easing_));
-	titleLogoPosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeInExpo(t_easing_));
+	titleLogoPosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
+	titleLogoPosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
 	
 	// イージングの媒介変数の処理
 	if (t_easing_ >= 1.0f) {
@@ -103,13 +103,13 @@ void DefaultUpLogoEase::Update() {
 void DefaultDownLogoEase::Init() {
 	Vector2 nowPos = parent_->GetPosition();
 	start_ = nowPos;
-	end_ = nowPos - Vector2{0.0f, 5.0f};
+	end_ = nowPos - Vector2{0.0f, 20.0f};
 }
 
 void DefaultDownLogoEase::Update() {
 	// 位置のイージング
-	titleLogoPosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeInOutBack(t_easing_));
-	titleLogoPosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeInOutBack(t_easing_));
+	titleLogoPosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
+	titleLogoPosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
 	
 	// イージングの媒介変数の処理
 	if (t_easing_ >= 1.0f) {
@@ -159,7 +159,7 @@ void EpLogoState::Update() {
 		t_colorEasing = 1.0f;
 	}
 	else {
-		t_colorEasing += 0.2f;
+		t_colorEasing += 0.023f;
 	}
 
 	// 位置、色を設定

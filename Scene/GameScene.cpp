@@ -60,7 +60,11 @@ void GameScene::Update() {
 	gameManager_->ImGuiWidget();
 
 	light_->ImGuiWidget();
+	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) ||
+		input_->GetDirectInput()->IsTrigger(DIK_3)) {
 
+		sceneManager_->ChangeScene(new TitleScene, 60);
+	}
 	//	transform_.UpdateMatrix();
 }
 

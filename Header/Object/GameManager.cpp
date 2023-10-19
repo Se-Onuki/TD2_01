@@ -113,6 +113,7 @@ void GameManager::Update(const float deltaTime) {
 	if (followCamera_) {
 		followCamera_->Update(deltaTime);
 	}
+
 }
 
 void GameManager::Draw() const {
