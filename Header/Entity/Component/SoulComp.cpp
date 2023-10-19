@@ -38,7 +38,7 @@ void SoulComp::Update(float deltaTime) {
 	Vector3 distance = orbWorldPos - selfWorldPos;
 
 #ifdef _DEBUG
-	ImGui::Text("%s", std::format("soulPos : {:3.2}, {:3.2}, {:3.2} / Length : {:3.2} / energy : {:4.2}", selfWorldPos.x, selfWorldPos.y, selfWorldPos.z, distance.Length(), energy_).c_str());
+	ImGui::Text("%s", std::format("energy : {:4.2} / Length : {:3.2} ", selfWorldPos.x, selfWorldPos.y, selfWorldPos.z, distance.Length(), energy_).c_str());
 #endif // _DEBUG
 
 	// もし距離が近くなったら
