@@ -51,6 +51,7 @@ void GameManager::Init() {
 
 #pragma endregion
 
+	EnemyComp::StaticInit();
 
 }
 
