@@ -12,6 +12,10 @@ void MapChip::Init() {
 	for (uint32_t x = 0u; x < kMapWidth_; ++x) {
 		mapChip_[0][x].chipState_ = ChipState::kBox;
 		mapChip_[kMapHight_ - 1][x].chipState_ = ChipState::kBox;
+
+		if (x > kMapWidth_ / 2 - 5 && x < kMapWidth_ / 2 + 4) {
+			mapChip_[0][x].chipState_ = ChipState::kUnbreakable;
+		}
 	}
 
 	for (uint32_t y = 0u; y < kMapHight_; ++y) {
@@ -460,6 +464,7 @@ void MapChip::ChipData::Init() {
 }
 
 void MapChip::ChipData::Create(uint32_t x, uint32_t y) {
+
 	Init();
 
 	const float xCentor = kMapWidth_ / 2.f - 0.5f;

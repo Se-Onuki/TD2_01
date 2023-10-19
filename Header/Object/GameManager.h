@@ -35,9 +35,8 @@ public:
 
 	void AddEnemy(const Vector3 &pos = Vector3::zero);
 
-	void AddSoul(const Vector3& pos = Vector3::zero);
+	void AddSoul(const Vector3 &pos = Vector3::zero);
 
-	static std::unique_ptr<Entity> orb_;
 
 	const auto *const GetCamera() const { return followCamera_->GetCamera(); }
 
@@ -52,6 +51,8 @@ private:
 	MapChip *mapChip_ = nullptr;
 
 	std::unique_ptr<FollowCamera> followCamera_ = nullptr;
+
+	std::unique_ptr<Entity> orb_;
 
 	CollisionManager *collisionManager_ = nullptr;
 };

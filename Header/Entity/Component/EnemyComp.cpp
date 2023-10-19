@@ -10,6 +10,9 @@ float EnemyComp::sStanTime_ = 0.f;
 void EnemyComp::Init() {
 	object_->AddComponent<Rigidbody>();
 
+	currentState_ = std::make_unique<EnemyState::IdleState>(this);
+	nextState_ = nullptr;
+
 	auto *const enemyModel = ModelManager::GetInstance()->GetModel("Enemy");
 	defaultModel_ = enemyModel;
 
@@ -20,6 +23,15 @@ void EnemyComp::Init() {
 }
 
 void EnemyComp::Update([[maybe_unused]] float deltaTime) {
+
+	if (nextState_ != nullptr) {
+		currentState_->Exit(deltaTime);
+		currentState_ = std::move(nextState_);
+		currentState_->Init(deltaTime);
+		nextState_ = nullptr;
+	}
+	currentState_->Update(deltaTime);
+
 	if (sStanTime_ <= 0.f) {
 		isStan_ = false;
 	}
@@ -45,7 +57,7 @@ void EnemyComp::OnCollision(Entity *const other) {
 
 				isStan_ = true;
 				if (sStanTime_ <= 0.f) {
-					sStanTime_ = 10.f;
+					sStanTime_ = vDefaultStanTime_;
 				}
 
 				auto *const selfRigidbody = object_->GetComponent<Rigidbody>();
@@ -54,9 +66,10 @@ void EnemyComp::OnCollision(Entity *const other) {
 			}
 			// 下から叩かれた場合
 			else {
+				// 自分自身がスタンしてる場合
 				if (isStan_) {
 					// スタン中の敵全破壊
-					SelfBreak();
+					BreakAll();
 				}
 			}
 
@@ -64,16 +77,16 @@ void EnemyComp::OnCollision(Entity *const other) {
 		// もし高速落下中ならば
 		else if (dynamic_cast<const FallingState *const>(playerState)) {
 			// スタン中の敵全破壊
-			SelfBreak();
+			BreakAll();
 		}
 	}
 }
 
 void EnemyComp::Destroy() {
-	
+
 }
 
-void EnemyComp::SelfBreak() {
+void EnemyComp::BreakAll() {
 	object_->SetActive(false);
 
 	for (auto &enemy : *sEnemys_) {
@@ -87,4 +100,43 @@ void EnemyComp::StaticUpdate(float deltaTime) {
 	if (sStanTime_ > 0.f) {
 		sStanTime_ -= deltaTime;
 	}
+}
+
+void EnemyState::IdleState::Init([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::IdleState::Update([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::IdleState::Exit([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::AttackState::Init([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::AttackState::Update([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::AttackState::Exit([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::StunState::Init([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::StunState::Update([[maybe_unused]] float deltaTime) {
+
+	if (remainingTime_ <= 0.f) {
+
+	}
+}
+
+void EnemyState::StunState::Exit([[maybe_unused]] float deltaTime) {
+
 }

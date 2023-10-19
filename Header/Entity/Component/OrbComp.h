@@ -1,6 +1,7 @@
 #pragma once
 #include "../Entity.h"
 #include "ModelComp.h"
+#include "../../../Engine/DirectBase/File/VariantItem.h"
 
 class OrbComp :public IComponent {
 public:
@@ -10,14 +11,14 @@ public:
 	void Init() override;
 	void Reset() override;
 
-	void SetMaxEnergy(float value) { maxEnergy_ = value; }
-	float GetMaxEnergy() const { return maxEnergy_; }
+	void SetMaxEnergy(float value) { vMaxEnergy_ = value; }
+	float GetMaxEnergy() const { return vMaxEnergy_; }
 
 	void SetEnergy(float value) { energy_ = value; }
 	void AddEnergy(float value) { energy_ += value; }
 
-	float GetProgress() const { return energy_ / maxEnergy_; }
-	
+	float GetProgress() const { return energy_ / static_cast<float>(vMaxEnergy_); }
+
 private:
 	// モデル
 	ModelComp *modelComp_ = nullptr;
@@ -25,5 +26,5 @@ private:
 	// エネルギー
 	float energy_ = 0.f;
 	// エネルギーの限界量
-	float maxEnergy_ = 10.f;
+	VariantItem<float> vMaxEnergy_{ "MaxEnergy", 10.f };
 };

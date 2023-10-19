@@ -28,6 +28,7 @@ public:
 	const Vector3 &GetVelocity() const { return velocity_; }
 
 	bool GetIsGround() const { return isGround_; }
+	void SetIsGround(const bool isGround) { isGround_ = isGround; }
 
 	bool hasCollider_ = false;
 	float radius_ = 1.f;

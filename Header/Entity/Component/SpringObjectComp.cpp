@@ -78,6 +78,8 @@ void JumpingState::Init([[maybe_unused]] float deltaTime) {
 	auto *const rigidbody = stateManager_->parent_->object_->GetComponent<Rigidbody>();
 	rigidbody->SetVelocity(Vector3::zero);
 	rigidbody->ApplyInstantForce(Vector3::up * stateManager_->parent_->vJumpString_);
+	rigidbody->SetIsGround(false);
+
 }
 
 void JumpingState::Update([[maybe_unused]] float deltaTime) {
@@ -90,10 +92,14 @@ void JumpingState::Update([[maybe_unused]] float deltaTime) {
 		rigidbody->ApplyContinuousForce(Vector3::right * stateManager_->parent_->vMoveString_, deltaTime);
 	}
 
+	if (stateManager_->parent_->object_->GetComponent<Rigidbody>()->GetIsGround()) {
+		stateManager_->ChangeState<DefaultState>();
+	}
+
 	if (Input::GetInstance()->GetDirectInput()->IsTrigger(DIK_SPACE)) {
 		stateManager_->ChangeState<FallingState>();
 	}
-
+	
 }
 
 void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {

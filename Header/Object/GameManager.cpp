@@ -8,7 +8,6 @@
 #include "../Entity/Component/OrbComp.h"
 #include "../Entity/Component/SoulComp.h"
 
-std::unique_ptr<Entity> GameManager::orb_ = nullptr;
 
 void GameManager::Init() {
 
@@ -47,6 +46,8 @@ void GameManager::Init() {
 	orb_->AddComponent<OrbComp>();
 	orb_->Init();
 
+	SoulComp::SetOrbComp(orb_.get());
+
 #pragma endregion
 
 #pragma region Camera
@@ -72,7 +73,7 @@ void GameManager::Update(const float deltaTime) {
 		return false;
 		}
 	);
-	souls_.remove_if([](std::unique_ptr<Entity>& soul) {
+	souls_.remove_if([](std::unique_ptr<Entity> &soul) {
 		if (!soul->GetActive()) {
 			soul->Destroy();
 			soul.reset();
@@ -102,7 +103,7 @@ void GameManager::Update(const float deltaTime) {
 	for (auto &enemy : enemys_) {
 		enemy->Update(deltaTime);
 	}
-	for (auto& soul : souls_) {
+	for (auto &soul : souls_) {
 		soul->Update(deltaTime);
 	}
 
@@ -125,7 +126,7 @@ void GameManager::Draw() const {
 	for (auto &enemy : enemys_) {
 		enemy->Draw(camera);
 	}
-	for (auto& soul : souls_) {
+	for (auto &soul : souls_) {
 		soul->Draw(camera);
 	}
 
@@ -147,18 +148,18 @@ void GameManager::AddEnemy(const Vector3 &pos) {
 
 	newEnemy->Init();
 
-	newEnemy->AddComponent<EnemyComp>();
 	newEnemy->transform_.translate = pos;
 	newEnemy->transform_.UpdateMatrix();
+	newEnemy->AddComponent<EnemyComp>();
 }
 
-void GameManager::AddSoul(const Vector3& pos) {
+void GameManager::AddSoul(const Vector3 &pos) {
 	souls_.push_back(std::make_unique<Entity>());
-	auto& newSoul = souls_.back();
+	auto &newSoul = souls_.back();
 
 	newSoul->Init();
-	newSoul->AddComponent<SoulComp>();
 	newSoul->transform_.translate = pos;
 	newSoul->transform_.UpdateMatrix();
-	
+	newSoul->AddComponent<SoulComp>();
+
 }
