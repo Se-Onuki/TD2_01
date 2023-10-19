@@ -22,7 +22,7 @@ void SoulComp::Init() {
 	Vector3 selfWorldPos = object_->GetWorldPos();
 	orbWorldPos.z = selfWorldPos.z;
 
-	// 
+	// エネルギーの計算
 	energy_ = 7.f - (orbWorldPos - selfWorldPos).Length() / 2.f;
 	if (energy_ < 1.f) { energy_ = 1.f; }
 }
