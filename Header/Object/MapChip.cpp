@@ -5,37 +5,26 @@
 
 void MapChip::Init() {
 
-	const float xCentor = kMapWidth_ / 2.f - 0.5f;
+	//const float xCentor = kMapWidth_ / 2.f - 0.5f;
 	//const float yCentor = kMapHight_ / 2.f - 0.5f;
 
-	for (uint32_t y = 0u; y < kMapHight_; ++y) {
-		mapChip_[y][0].chipState_ = ChipState::kBarrier;
-		mapChip_[y][kMapWidth_ - 1u].chipState_ = ChipState::kBarrier;
-	}
 
 	for (uint32_t x = 0u; x < kMapWidth_; ++x) {
 		mapChip_[0][x].chipState_ = ChipState::kBox;
 		mapChip_[kMapHight_ - 1][x].chipState_ = ChipState::kBox;
 	}
 
-#pragma region マップ確保
-
-	// 分解してるのはコンパイルエラー起こったからです
 	for (uint32_t y = 0u; y < kMapHight_; ++y) {
-		for (uint32_t x = 0u; x < kMapWidth_; ++x) {
-
-			mapChip_[y][x].Init();
-
-		}
+		mapChip_[y][0].chipState_ = ChipState::kUnbreakable;
+		mapChip_[y][kMapWidth_ - 1u].chipState_ = ChipState::kUnbreakable;
 	}
 
+#pragma region マップ確保
+
 	for (uint32_t y = 0u; y < kMapHight_; ++y) {
 		for (uint32_t x = 0u; x < kMapWidth_; ++x) {
 
-			if (mapChip_[y][x].transform_) {
-				mapChip_[y][x].transform_->translate = Vector3{ (x - xCentor) * 2.f, static_cast<float>(y) * 2.f + 1.f, 0.f };
-				mapChip_[y][x].transform_->UpdateMatrix();
-			}
+			mapChip_[y][x].Create(x, y);
 
 		}
 	}
@@ -451,6 +440,9 @@ void MapChip::ChipData::Init() {
 	case MapChip::ChipState::kBox:
 		modelName = "Box";
 		break;
+	case MapChip::ChipState::kUnbreakable:
+		modelName = "Unbreakable";
+		break;
 	default:
 		modelName = "";
 		break;
@@ -460,8 +452,20 @@ void MapChip::ChipData::Init() {
 		model_ = nullptr;
 	}
 	else {
-		transform_ = std::make_unique<Transform>();
+		if (!transform_) {
+			transform_ = std::make_unique<Transform>();
+		}
 		model_ = ModelManager::GetInstance()->GetModel(modelName);
+	}
+}
+
+void MapChip::ChipData::Create(uint32_t x, uint32_t y) {
+	Init();
+
+	const float xCentor = kMapWidth_ / 2.f - 0.5f;
+	if (transform_) {
+		transform_->translate = Vector3{ (x - xCentor) * 2.f, static_cast<float>(y) * 2.f + 1.f, 0.f };
+		transform_->UpdateMatrix();
 	}
 }
 

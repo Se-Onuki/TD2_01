@@ -16,7 +16,8 @@ public:
 	enum class ChipState : uint32_t {
 		kAir,	// 空白
 		kBox,	// 箱
-		kBarrier,	// バリア
+		kBarrier,		// バリア
+		kUnbreakable	// 破壊不可
 	};
 
 	struct ChipData {
@@ -25,6 +26,8 @@ public:
 		Model *model_;
 
 		void Init();
+
+		void Create(uint32_t x, uint32_t y);
 
 		void Draw(const Camera<Render::CameraType::Projecction> &camera) const;
 

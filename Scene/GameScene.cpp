@@ -30,6 +30,10 @@ void GameScene::OnEnter() {
 	modelManager->AddModel("Spring", Model::LoadObjFile("", "sphere.obj"));
 	modelManager->AddModel("Enemy", Model::LoadObjFile("", "sphere.obj"));
 	modelManager->AddModel("Gauge", Model::LoadObjFile("", "sphere.obj"));
+
+	auto *const unbleakble = modelManager->AddModel("Unbreakable", Model::LoadObjFile("", "box.obj"));
+	unbleakble->materialMap_["Material"]->materialBuff_->color = { 0.5f,0.5f,0.5f,1.f };
+
 	modelManager->AddModel("Box", Model::LoadObjFile("", "box.obj"));
 	modelManager->AddModel("Soul", Model::LoadObjFile("", "sphere.obj"));
 
