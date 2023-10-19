@@ -11,18 +11,24 @@ void SoulComp::Init() {
 	SetOrbComp(GameManager::orb_.get());
 }
 
-void SoulComp::Update(float) {
+void SoulComp::Update(float deltaTime) {
+	// オーブのいる位置
 	Vector3 orbWorldPos = pOrb_->GetWorldPos();
+	// 魂自身がいる位置
 	Vector3 myWorldPos = object_->GetWorldPos();
 
+	// オーブと魂の距離
 	Vector3 distance = orbWorldPos - myWorldPos;
-	
+
+	// もし距離が近くなったら
 	if (distance.Length() <= 3.0f) {
 		object_->SetActive(false);
 	}
+
+	// 単位化して速度を合わせる
 	distance.Nomalize();
-	const float speed = 0.02f;
-	distance = distance * speed;
+	const float speed = 1.0f;
+	distance = distance * speed * deltaTime;
 	object_->transform_.translate += distance;
 }
 
