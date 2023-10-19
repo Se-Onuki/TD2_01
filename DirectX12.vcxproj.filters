@@ -267,17 +267,17 @@
     <ClCompile Include="Header\Object\FollowCamera.cpp">
       <Filter>Header\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Entity\Component\SoulComp.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Header\Object\PressSprite.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Entity\Component\SkyCylinderComp.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Header\Object</Filter>
     </ClCompile>
     <ClCompile Include="Header\Object\TitleLogo.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Header\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Entity\Component\SkyCylinderComp.cpp">
+      <Filter>Header\Entity\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Entity\Component\SoulComp.cpp">
+      <Filter>Header\Entity\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
