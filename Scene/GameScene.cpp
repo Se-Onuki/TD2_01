@@ -64,8 +64,7 @@ void GameScene::Update() {
 	//	transform_.UpdateMatrix();
 }
 
-void GameScene::Draw()
-{
+void GameScene::Draw() {
 	DirectXCommon *const dxCommon = DirectXCommon::GetInstance();
 	ID3D12GraphicsCommandList *const commandList = dxCommon->GetCommandList();
 

@@ -62,7 +62,7 @@ void GameManager::Init() {
 
 void GameManager::Update(const float deltaTime) {
 
-	enemys_.remove_if([&](std::unique_ptr<Entity> &enemy) {
+	enemys_.remove_if([this](std::unique_ptr<Entity> &enemy) {
 		if (!enemy->GetActive()) {
 			AddSoul(enemy->GetWorldPos());
 			enemy->Destroy();
