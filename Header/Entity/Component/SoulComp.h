@@ -11,11 +11,12 @@ public:
 	void Update(float deltaTime) override;
 	void Reset() override;
 
-	void SetOrbComp(Entity* orbComp);
+	void SetOrbComp(Entity *orbComp);
 private:
-	ModelComp* modelComp_ = nullptr;
+	ModelComp *modelComp_ = nullptr;
 
-	Entity* pOrb_ = nullptr;
+	Entity *pOrb_ = nullptr;
 
+	float energy_ = 0.f;
 };
 

@@ -21,7 +21,7 @@ public:
 
 	struct ChipData {
 		ChipState chipState_ = ChipState::kAir;
-		Transform transform_;
+		std::unique_ptr<Transform> transform_;
 		Model *model_;
 
 		void Init();

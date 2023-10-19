@@ -18,17 +18,30 @@ void MapChip::Init() {
 		mapChip_[kMapHight_ - 1][x].chipState_ = ChipState::kBox;
 	}
 
+#pragma region マップ確保
 
+	// 分解してるのはコンパイルエラー起こったからです
 	for (uint32_t y = 0u; y < kMapHight_; ++y) {
 		for (uint32_t x = 0u; x < kMapWidth_; ++x) {
-
-			mapChip_[y][x].transform_.translate = Vector3{ (x - xCentor) * 2.f, static_cast<float>(y) * 2.f + 1.f, 0.f };
-			mapChip_[y][x].transform_.UpdateMatrix();
 
 			mapChip_[y][x].Init();
 
 		}
 	}
+
+	for (uint32_t y = 0u; y < kMapHight_; ++y) {
+		for (uint32_t x = 0u; x < kMapWidth_; ++x) {
+
+			if (mapChip_[y][x].transform_) {
+				mapChip_[y][x].transform_->translate = Vector3{ (x - xCentor) * 2.f, static_cast<float>(y) * 2.f + 1.f, 0.f };
+				mapChip_[y][x].transform_->UpdateMatrix();
+			}
+
+		}
+	}
+
+#pragma endregion
+
 }
 
 void MapChip::Draw(const Camera<Render::CameraType::Projecction> &camera) const {
@@ -447,14 +460,16 @@ void MapChip::ChipData::Init() {
 		model_ = nullptr;
 	}
 	else {
+		transform_ = std::make_unique<Transform>();
 		model_ = ModelManager::GetInstance()->GetModel(modelName);
 	}
 }
 
 void MapChip::ChipData::Draw(const Camera<Render::CameraType::Projecction> &camera) const {
 	if (model_ == nullptr) { return; }
-
-	model_->Draw(transform_, camera);
+	if (transform_) {
+		model_->Draw(*transform_.get(), camera);
+	}
 }
 
 MapChip::ChipData &MapChip::ChipData::operator=(ChipState state) {
