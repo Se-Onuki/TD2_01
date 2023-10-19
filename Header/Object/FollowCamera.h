@@ -8,8 +8,6 @@
 
 class FollowCamera {
 
-	const Entity *target_ = nullptr;
-	const SpringObjectComp *springComp = nullptr;
 	Vector3 offset = { 0.f, 5.f, -50.f };
 public:
 	FollowCamera() = default;
@@ -26,7 +24,6 @@ public:
 	/// @param groupName グループ名
 	virtual void AddVariable(const char *const groupName) const;
 
-	void SetSpring(const Entity *spring);
 
 	const auto *const GetCamera() const { return &camera_; }
 

@@ -14,12 +14,7 @@ void GameManager::Init() {
 
 #pragma region Spring
 
-	spring_ = std::make_unique<Entity>();
-	spring_->Init();
-	spring_->AddComponent<SpringObjectComp>();
-	spring_->timeScale_ = 3.f;
-	spring_->GetComponent<Rigidbody>()->hasCollider_ = true;
-	spring_->transform_.translate = Vector3{ 0.f,10.f,0.f };
+	AddPlayer();
 
 #pragma endregion
 
@@ -52,7 +47,6 @@ void GameManager::Init() {
 #pragma region Camera
 
 	followCamera_ = std::make_unique<FollowCamera>();
-	followCamera_->SetSpring(spring_.get());
 	followCamera_->Reset();
 
 #pragma endregion
@@ -82,18 +76,29 @@ void GameManager::Update(const float deltaTime) {
 		}
 	);
 
-	if (!spring_->GetActive()) {
+	if (spring_ && !spring_->GetActive()) {
 		spring_.reset();
 	}
 
 	collisionManager_->clear();
-	collisionManager_->push_back(spring_.get());
+	if (spring_) {
+		collisionManager_->push_back(spring_.get());
+	}
 	for (auto &enemy : enemys_) {
 		collisionManager_->push_back(enemy.get());
 	}
 	collisionManager_->ChackAllCollision();
 
 	EnemyComp::StaticUpdate(deltaTime);
+
+	if (Input::GetInstance()->GetDirectInput()->IsTrigger(DIK_P)) {
+		if (spring_) {
+			spring_->SetActive(false);
+		}
+		else {
+			AddPlayer();
+		}
+	}
 
 	if (spring_) {
 		spring_->Update(deltaTime);
@@ -162,4 +167,13 @@ void GameManager::AddSoul(const Vector3 &pos) {
 	newSoul->transform_.UpdateMatrix();
 	newSoul->AddComponent<SoulComp>();
 
+}
+
+void GameManager::AddPlayer() {
+	spring_ = std::make_unique<Entity>();
+	spring_->Init();
+	spring_->AddComponent<SpringObjectComp>();
+	spring_->timeScale_ = 3.f;
+	spring_->GetComponent<Rigidbody>()->hasCollider_ = true;
+	spring_->transform_.translate = Vector3{ 0.f,10.f,0.f };
 }

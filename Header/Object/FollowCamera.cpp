@@ -1,10 +1,16 @@
 #include "FollowCamera.h"
+
+#include "../Object/GameManager.h"
 #include "../../Utils/SoLib/SoLib_Lerp.h"
 #include "../../Engine/DirectBase/File/GlobalVariables.h"
+
+
 void FollowCamera::Reset() {
 	ApplyVariables(groupName_.c_str());
-	if (target_) {
-		camera_.translation_ = offset + target_->transform_.translate;
+
+	const auto *const target = GameManager::GetInstance()->GetPlayer();
+	if (target) {
+		camera_.translation_ = offset + target->transform_.translate;
 	}
 	AddVariable(groupName_.c_str());
 }
@@ -13,9 +19,13 @@ void FollowCamera::Update([[maybe_unused]] float deltaTime) {
 	ApplyVariables(groupName_.c_str());
 	static const auto &ClampFunc = [this](float value) {return  std::clamp(value, vMinPos.GetItem(), MapChip::kMapHight_ * 2.f); };
 
-	float fixheight = ClampFunc(camera_.translation_.y);
-	float targetHight = ClampFunc((offset + target_->transform_.translate).y);
-	camera_.translation_.y = SoLib::Lerp(fixheight, targetHight, vFollowSpeed);
+	const auto *const target = GameManager::GetInstance()->GetPlayer();
+
+	camera_.translation_.y = ClampFunc(camera_.translation_.y);
+	if (target) {
+		float targetHight = ClampFunc((offset + target->transform_.translate).y);
+		camera_.translation_.y = SoLib::Lerp(camera_.translation_.y, targetHight, vFollowSpeed);
+	}
 	//camera_.translation_.y = std::clamp(camera_.translation_.y, vMinPos.GetItem(), MapChip::kMapHight_ * 2.f);
 	camera_.UpdateMatrix();
 }
@@ -36,7 +46,3 @@ void FollowCamera::AddVariable(const char *const groupName) const {
 	group << vMinPos;
 }
 
-void FollowCamera::SetSpring(const Entity *spring) {
-	target_ = spring;
-	springComp = spring->GetComponent<SpringObjectComp>();
-}

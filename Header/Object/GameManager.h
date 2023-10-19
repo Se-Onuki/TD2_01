@@ -37,6 +37,9 @@ public:
 
 	void AddSoul(const Vector3 &pos = Vector3::zero);
 
+	void AddPlayer();
+
+	const auto *const GetPlayer() const { return spring_.get(); }
 
 	const auto *const GetCamera() const { return followCamera_->GetCamera(); }
 
