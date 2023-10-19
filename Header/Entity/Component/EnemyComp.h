@@ -79,6 +79,7 @@ public:
 	static void SetEnemyList(std::list<std::unique_ptr<Entity>> *const enemys) { sEnemys_ = enemys; }
 
 	static void StaticUpdate(float deltaTime);
+	static void StaticInit();
 
 
 	void SetState(EnemyState::IState *const newState) {

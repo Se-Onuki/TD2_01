@@ -102,6 +102,10 @@ void EnemyComp::StaticUpdate(float deltaTime) {
 	}
 }
 
+void EnemyComp::StaticInit() {
+	sStanTime_ = 0.f;
+}
+
 void EnemyState::IdleState::Init([[maybe_unused]] float deltaTime) {
 
 }

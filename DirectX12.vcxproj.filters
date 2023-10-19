@@ -174,7 +174,7 @@
     <ClCompile Include="Utils\Math\Vector3.cpp">
       <Filter>Utils\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\Timer\TImer.cpp">
+    <ClCompile Include="Utils\Timer\Timer.cpp">
       <Filter>Utils\Timer</Filter>
     </ClCompile>
     <ClCompile Include="Utils\SoLib\SoLib_Easing.cpp">

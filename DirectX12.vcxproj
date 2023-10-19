@@ -161,7 +161,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Utils\SoLib\SoLib_ImGui.cpp" />
     <ClCompile Include="Utils\SoLib\SoLib_Lerp.cpp" />
     <ClCompile Include="Utils\SoLib\SoLib_Timer.cpp" />
-    <ClCompile Include="Utils\Timer\TImer.cpp" />
+    <ClCompile Include="Utils\Timer\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectBase\2D\Sprite.h" />

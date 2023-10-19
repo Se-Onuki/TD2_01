@@ -69,7 +69,7 @@ public:
 	/// @brief シーン遷移
 	/// @param name 遷移先の名前キー
 	/// @param transitionTime 必要とする時間
-	void ChangeScene(IScene *const nextScene, const int transitionTime);
+	[[deprecated("テンプレートを使用した、CangeScene<T>(time)を使用して下さい。")]] void ChangeScene(IScene *const nextScene, const int transitionTime);
 
 
 	/// @brief シーン遷移

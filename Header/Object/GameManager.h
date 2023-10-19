@@ -25,6 +25,8 @@ public:
 
 	void Init();
 
+	void Exit();
+
 	void Update(const float deltaTime);
 
 	void Draw() const;

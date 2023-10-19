@@ -46,7 +46,9 @@ void GameScene::OnEnter() {
 
 }
 
-void GameScene::OnExit() {}
+void GameScene::OnExit() {
+	gameManager_->Exit();
+}
 
 void GameScene::Update() {
 	const float deltaTime = ImGui::GetIO().DeltaTime;
@@ -70,7 +72,7 @@ void GameScene::Update() {
 	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) ||
 		input_->GetDirectInput()->IsTrigger(DIK_3)) {
 
-		sceneManager_->ChangeScene(new TitleScene, 60);
+		sceneManager_->ChangeScene<TitleScene>(60);
 	}
 	//	transform_.UpdateMatrix();
 }

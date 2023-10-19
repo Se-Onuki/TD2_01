@@ -54,6 +54,14 @@ void GameManager::Init() {
 
 }
 
+void GameManager::Exit() {
+	enemys_.clear();
+	souls_.clear();
+	spring_.reset();
+	collisionManager_->clear();
+
+}
+
 void GameManager::Update(const float deltaTime) {
 
 	enemys_.remove_if([this](std::unique_ptr<Entity> &enemy) {
