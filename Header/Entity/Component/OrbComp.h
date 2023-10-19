@@ -19,9 +19,11 @@ public:
 	float GetProgress() const { return energy_ / maxEnergy_; }
 	
 private:
-
+	// モデル
 	ModelComp *modelComp_ = nullptr;
 
+	// エネルギー
 	float energy_ = 0.f;
+	// エネルギーの限界量
 	float maxEnergy_ = 10.f;
 };
