@@ -27,6 +27,8 @@ public:
 	// std::list<std::unique_ptr<Object>> objectList_;
 };
 
+template <typename T>
+concept IsSceneClass = std::derived_from<T, IScene>;
 
 class SceneManager {
 private:
@@ -37,6 +39,7 @@ private:
 	// 次に遷移するシーン
 	std::unique_ptr<IScene> nextScene_ = nullptr;
 
+	std::thread sceneLoadThread_;
 
 	SceneManager() = default;
 	SceneManager(const SceneManager &) = delete;
@@ -60,13 +63,26 @@ public:
 
 	/// @brief シーン遷移
 	/// @param name 遷移先のシーン
-	void ChangeScene(IScene *const nextScene);
+	void SetScene(IScene *const nextScene);
 
 
 	/// @brief シーン遷移
 	/// @param name 遷移先の名前キー
 	/// @param transitionTime 必要とする時間
-	void ChangeScene(IScene *const nextScene, const int &transitionTime);
+	void ChangeScene(IScene *const nextScene, const int transitionTime);
+
+
+	/// @brief シーン遷移
+	/// @param name 遷移先の名前キー
+	/// @param transitionTime 必要とする時間
+	template <IsSceneClass T>
+	void ChangeScene(const int transitionTime);
+
+	/// @brief シーン遷移
+	/// @param name 遷移先の名前キー
+	/// @param transitionTime 必要とする時間
+	template <IsSceneClass T>
+	void SetNextScene();
 
 
 	/// @brief シーンの更新
@@ -76,3 +92,22 @@ public:
 	/// @brief シーンの描画
 	void Draw() const;
 };
+
+template<IsSceneClass T>
+inline void SceneManager::ChangeScene(const int transitionTime) {
+	// もし、次のシーンがあったらキャンセル
+	if (nextScene_ != nullptr || sceneLoadThread_.joinable()) { return; }
+	// 遷移タイマーを開始
+	transitionTimer_.Start(transitionTime);
+
+	sceneLoadThread_ = std::thread([this]() { SetNextScene<T>(); });
+}
+
+template<IsSceneClass T>
+inline void SceneManager::SetNextScene() {
+	// 次のシーン
+	T *const nextScene = new T{};
+
+	// 次のシーンのポインタを保存
+	nextScene_.reset(nextScene);
+}

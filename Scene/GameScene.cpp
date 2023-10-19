@@ -12,20 +12,13 @@
 GameScene::GameScene() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	// collisionManager_ = CollisionManager::GetInstance();
-}
 
-GameScene::~GameScene() {
-
-}
-
-void GameScene::OnEnter() {
+	// ライトの生成
 	light_.reset(DirectionLight::Create());
 
-	//model_ = ModelManager::GetInstance()->AddModel("Fence", Model::LoadObjFile("Model/Fence/", "fence.obj"));
-	//transform_.UpdateMatrix();
 	camera_.translation_ = Vector3{ 0.f, 10.f, -30.f };
 	camera_.UpdateMatrix();
+
 	auto *const modelManager = ModelManager::GetInstance();
 	modelManager->AddModel("Spring", Model::LoadObjFile("", "sphere.obj"));
 	modelManager->AddModel("Enemy", Model::LoadObjFile("", "sphere.obj"));
@@ -40,10 +33,17 @@ void GameScene::OnEnter() {
 	modelManager->AddModel("Box", Model::LoadObjFile("", "box.obj"));
 	modelManager->AddModel("Soul", Model::LoadObjFile("", "sphere.obj"));
 
+}
+
+GameScene::~GameScene() {
+
+}
+
+void GameScene::OnEnter() {
+
 	gameManager_ = GameManager::GetInstance();
 	gameManager_->Init();
 
-	//collisionManager_ = CollisionManager::GetInstance();
 }
 
 void GameScene::OnExit() {}

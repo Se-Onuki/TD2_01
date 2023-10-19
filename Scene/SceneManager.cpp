@@ -13,7 +13,7 @@ void SceneManager::Cancel() {
 	transitionTimer_.Clear();
 }
 
-void SceneManager::ChangeScene(IScene *const nextScene) {
+void SceneManager::SetScene(IScene *const nextScene) {
 	if (nextScene == nullptr) return;
 	if (currentScene_) {
 		// 遷移前のシーンの退室処理
@@ -24,7 +24,7 @@ void SceneManager::ChangeScene(IScene *const nextScene) {
 	currentScene_->OnEnter();
 }
 
-void SceneManager::ChangeScene(IScene *const nextScene, const int &transitionTime) {
+void SceneManager::ChangeScene(IScene *const nextScene, const int transitionTime) {
 	// もし、次のシーンがあったらキャンセル
 	if (nextScene_ != nullptr) {
 		delete nextScene;
@@ -38,7 +38,10 @@ void SceneManager::ChangeScene(IScene *const nextScene, const int &transitionTim
 
 void SceneManager::Update() {
 	if (transitionTimer_.Update() && transitionTimer_.IsFinish()) {
-		ChangeScene(nextScene_.release());
+		if (sceneLoadThread_.joinable()) {
+			sceneLoadThread_.join();
+		}
+		SetScene(nextScene_.release());
 	}
 
 	if (currentScene_) {

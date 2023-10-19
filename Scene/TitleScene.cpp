@@ -67,7 +67,7 @@ void TitleScene::Update() {
 	if (isChangeSceneCall_) {
 		titleLogo_->SetIsChangeSceneCall(isChangeSceneCall_);
 		pressSprite_->SetIsChangeSceneCall(isChangeSceneCall_);
-		sceneManager_->ChangeScene(new GameScene, 60);
+		sceneManager_->ChangeScene<GameScene>(60);
 	}
 }
 
