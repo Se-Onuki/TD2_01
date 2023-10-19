@@ -64,6 +64,11 @@ void MapChip::Draw(const Camera<Render::CameraType::Projecction> &camera) const 
 	}
 }
 
+const MapChip::ChipData &MapChip::GetChipData(const Vector2 &vec) {
+
+	return mapChip_[static_cast<int32_t>(vec.y)][static_cast<int32_t>(vec.x)];
+}
+
 Vector3 MapChip::HitMap(const Vector3 &beforePos, const Vector3 &afterPos, float) const {
 
 	const Vector3 offset = Vector3{ kMapWidth_ / 2.f, 0.f,0.f } *kScale_;

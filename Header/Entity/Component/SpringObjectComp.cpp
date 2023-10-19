@@ -91,8 +91,16 @@ void FallingState::Update([[maybe_unused]] float deltaTime) {
 		Vector3 selfPos = stateManager_->parent_->object_->GetWorldPos();
 		selfPos.y -= 1.f;
 		Vector2 downPos = MapChip::GlobalToLocal(selfPos);
+		// マップチップ
+		auto *const mapChip = MapChip::GetInstance();
+		// もし足元がブロックならばヒビを入れる
+		mapChip->SetCrack(static_cast<uint32_t>(downPos.x), static_cast<uint32_t>(downPos.y));
 
-		MapChip::GetInstance()->SetCrack(static_cast<uint32_t>(downPos.x), static_cast<uint32_t>(downPos.y));
+		// もし空気ならば左右にヒビを入れる
+		if (mapChip->GetChipData(downPos) == MapChip::ChipState::kAir) {
+			mapChip->SetCrack(static_cast<uint32_t>(downPos.x + 0.5f), static_cast<uint32_t>(downPos.y));
+			mapChip->SetCrack(static_cast<uint32_t>(downPos.x - 0.5f), static_cast<uint32_t>(downPos.y));
+		}
 	}
 
 }
@@ -114,8 +122,15 @@ void JumpingState::Init([[maybe_unused]] float deltaTime) {
 	Vector3 selfPos = stateManager_->parent_->object_->GetWorldPos();
 	selfPos.y -= 1.f;
 	Vector2 downPos = MapChip::GlobalToLocal(selfPos);
+	// マップチップ
+	auto *const mapChip = MapChip::GetInstance();
 
-	MapChip::GetInstance()->SetBreak(static_cast<uint32_t>(downPos.x), static_cast<uint32_t>(downPos.y));
+	mapChip->SetBreak(static_cast<uint32_t>(downPos.x), static_cast<uint32_t>(downPos.y));
+	// もし空気ならば左右にヒビを入れる
+	if (mapChip->GetChipData(downPos) == MapChip::ChipState::kAir) {
+		mapChip->SetBreak(static_cast<uint32_t>(downPos.x + 0.5f), static_cast<uint32_t>(downPos.y));
+		mapChip->SetBreak(static_cast<uint32_t>(downPos.x - 0.5f), static_cast<uint32_t>(downPos.y));
+	}
 
 }
 

@@ -70,6 +70,8 @@ public:
 		return Vector2{ std::floor((global.x / 2.f) + xCenter), std::floor((global.y - 1.f) / 2.f) };
 	}
 
+	const ChipData &GetChipData(const Vector2 &vec);
+
 
 	const MapArray &GetMapArray()const { return mapChip_; }
 

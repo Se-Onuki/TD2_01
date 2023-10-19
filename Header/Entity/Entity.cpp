@@ -4,7 +4,7 @@
 
 void Entity::Init() {
 	isActive_ = true;
-	transform_.InitResource();
+	transform_.UpdateMatrix();
 }
 
 void Entity::Reset() {

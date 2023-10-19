@@ -1,0 +1,6 @@
+{
+    "FollowCamera": {
+        "FollowSpeed": 0.05000000074505806,
+        "MinPos": 10.0
+    }
+}
