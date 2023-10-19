@@ -6,6 +6,7 @@
 
 #include "../Engine/DirectBase/Input/Input.h"
 #include "../Engine/DirectBase/Base/Audio.h"
+#include "../Header/Object/TitleLogo.h"
 
 class TitleScene : public IScene {
 public:
@@ -24,9 +25,11 @@ private:
 	Input *input_ = nullptr;
 	Audio *audio_ = nullptr;
 
+	bool isChangeSceneCall_ = false;
+
 	std::unique_ptr<DirectionLight> light_ = nullptr;
 
-	std::unique_ptr<Sprite> titleLogo_ = nullptr;
+	std::unique_ptr<TitleLogo> titleLogo_ = nullptr;
 
 	std::unique_ptr<Sprite> pressSprite_ = nullptr;
 };

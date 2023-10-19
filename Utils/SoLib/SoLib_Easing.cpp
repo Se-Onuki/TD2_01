@@ -96,7 +96,7 @@ namespace SoLib {
 
 		return x == 0.0f
 			? 0.0f
-			: x ==1.0f
+			: x == 1.0f
 			? 1.0f
 			: std::pow(2.0f, -10.0f * x) * std::sin((x * 10.0f - 0.75f) * c4) + 1.0f;
 	}

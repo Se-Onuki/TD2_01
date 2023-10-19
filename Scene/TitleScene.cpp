@@ -9,7 +9,6 @@ TitleScene::TitleScene() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-
 }
 
 TitleScene::~TitleScene() {
@@ -18,14 +17,25 @@ TitleScene::~TitleScene() {
 void TitleScene::OnEnter() {
 
 	light_.reset(DirectionLight::Create());
+
+	titleLogo_ = std::make_unique<TitleLogo>();
+	titleLogo_->Init();
+
 }
 
 void TitleScene::OnExit() {
 }
 
 void TitleScene::Update() {
+	titleLogo_->Update();
 
-	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER)) {
+	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) ||
+		input_->GetDirectInput()->IsTrigger(DIK_SPACE)) {
+		isChangeSceneCall_ = true;
+	}
+
+	if (isChangeSceneCall_) {
+		titleLogo_->SetIsChangeSceneCall(isChangeSceneCall_);
 		sceneManager_->ChangeScene(new GameScene, 60);
 	}
 }
@@ -64,7 +74,7 @@ void TitleScene::Draw() {
 
 	Sprite::StartDraw(commandList);
 
-
+	titleLogo_->Draw();
 
 	Sprite::EndDraw();
 
