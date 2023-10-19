@@ -2,6 +2,7 @@
 #include "../Entity.h"
 
 #include "../../../Utils/Math/Vector3.h"
+#include "../../../Utils/SoLib/SoLib_Traits.h"
 
 class Rigidbody : public IComponent {
 public:
@@ -30,12 +31,17 @@ public:
 	bool GetIsGround() const { return isGround_; }
 	void SetIsGround(const bool isGround) { isGround_ = isGround; }
 
+	const Vector3 &GetMaxSpeed() const { return maxSpeed_; }
+	void SetMaxSpeed(const Vector3 &hoge) { maxSpeed_ = hoge; }
+
 	bool hasCollider_ = false;
 	float radius_ = 1.f;
 
 private:
 	Vector3 velocity_{};
 	Vector3 acceleration_{};
+
+	Vector3 maxSpeed_{ -1.f,-1.f,-1.f };	// 負数である場合は無効化
 
 	bool isGround_ = false;
 

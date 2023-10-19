@@ -15,6 +15,10 @@ const GlobalVariables::Group &GlobalVariables::GetGroup(const std::string &group
 
 	return itGroup->second;
 }
+GlobalVariables::Group &GlobalVariables::GetGroup(const std::string &groupName) {
+
+	return datas_[groupName];
+}
 
 const GlobalVariables::Item &GlobalVariables::Get(const std::string &groupName, const std::string &key) const {
 

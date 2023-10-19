@@ -34,6 +34,9 @@ void GameScene::OnEnter() {
 	auto *const unbleakble = modelManager->AddModel("Unbreakable", Model::LoadObjFile("", "box.obj"));
 	unbleakble->materialMap_["Material"]->materialBuff_->color = { 0.5f,0.5f,0.5f,1.f };
 
+	auto *const crack = modelManager->AddModel("Crack", Model::LoadObjFile("", "box.obj"));
+	crack->materialMap_["Material"]->materialBuff_->color = { 0.f,0.f,0.f,1.f };
+
 	modelManager->AddModel("Box", Model::LoadObjFile("", "box.obj"));
 	modelManager->AddModel("Soul", Model::LoadObjFile("", "sphere.obj"));
 

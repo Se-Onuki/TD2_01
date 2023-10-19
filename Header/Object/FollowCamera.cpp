@@ -1,7 +1,9 @@
 #include "FollowCamera.h"
 #include "../../Utils/SoLib/SoLib_Lerp.h"
 void FollowCamera::Reset() {
-	camera_.translation_ = offset + target_->transform_.translate;
+	if (target_) {
+		camera_.translation_ = offset + target_->transform_.translate;
+	}
 }
 
 void FollowCamera::Update([[maybe_unused]] float deltaTime) {

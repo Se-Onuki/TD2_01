@@ -14,18 +14,30 @@ void Rigidbody::Update(float deltaTime) {
 	const Vector3 &afterPos = object_->transform_.translate;
 
 	velocity_ += acceleration_;
-	//velocity_ += CalcFriction(velocity_, 0.99f) * deltaTime;
-	object_->transform_.translate += velocity_ * deltaTime * object_->timeScale_;
+	Vector3 fixVelocity = velocity_ * deltaTime * object_->timeScale_;
+
+	// 最大速度のポインタ(配列として扱う)
+	const float *const maxSpeedPtr = reinterpret_cast<float *>(&maxSpeed_);
+	// 修正前の座標のポインタ
+	float *const fixVelocityPtr = reinterpret_cast<float *>(&fixVelocity);
+	// 各要素をclampする(最大速度が負数なら無効化)
+	for (uint32_t i = 0u; i < 3u; ++i) {
+		if (maxSpeedPtr[i] > 0.f) {
+			fixVelocityPtr[i] = std::clamp(fixVelocityPtr[i], -maxSpeedPtr[i], maxSpeedPtr[i]);
+		}
+	}
+
+	object_->transform_.translate += fixVelocity;
 
 	isGround_ = false;
 
 
-	// y座標
-	float &valueY = object_->transform_.translate.y;
-	if (valueY <= radius_) {
-		isGround_ = true; // 地面以下だった場合地面にいる
-		valueY = radius_;
-	}
+	//// y座標
+	//float &valueY = object_->transform_.translate.y;
+	//if (valueY <= radius_) {
+	//	isGround_ = true; // 地面以下だった場合地面にいる
+	//	valueY = radius_;
+	//}
 
 	if (hasCollider_) {
 		const Vector3 hitPos = MapChip::GetInstance()->HitMap(beforePos, afterPos, radius_);

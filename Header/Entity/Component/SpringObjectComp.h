@@ -14,16 +14,10 @@ protected:
 public:
 	IPlayerState(PlayerStateManager *player) :stateManager_(player) {}
 	virtual ~IPlayerState() {}
-	virtual void Init(float deltaTime) {
-		deltaTime;
-	};
-	virtual void Update(float deltaTime) {
-		deltaTime;
-	};
+	virtual void Init(float deltaTime) { deltaTime; };
+	virtual void Update(float deltaTime) { deltaTime; };
 
-	virtual void Exit(float deltaTime) {
-		deltaTime;
-	};
+	virtual void Exit(float deltaTime) { deltaTime; };
 
 	virtual void OnCollision(Entity *const other) { other; }
 };
@@ -112,8 +106,6 @@ public:
 
 class SpringObjectComp : public IComponent {
 public:
-
-
 	using IComponent::IComponent;
 	~SpringObjectComp();
 
@@ -127,11 +119,22 @@ public:
 
 	VariantItem<float> vInvincibleTime_{ "InvincibleTime", 3.f };
 
-	VariantItem<Vector3> vMaxSpeed_{ "MaxSpeed", {3.f,10.f,0.f} };
+	VariantItem<Vector3> vMaxSpeed_{ "MaxSpeed", {3.f,5.0f,0.f} };
 
 	const auto *const GetManager()const { return state_.get(); }
 
+	/// @brief jsonからの読み込み
+	/// @param groupName グループ名
+	virtual void ApplyVariables(const char *const groupName);
+
+	/// @brief jsonへの紐づけ
+	/// @param groupName グループ名
+	virtual void AddVariable(const char *const groupName) const;
+
 private:
+
+	const std::string groupName_ = "Player";
+
 	Input *input_ = nullptr;
 
 	std::unique_ptr<PlayerStateManager> state_ = nullptr;

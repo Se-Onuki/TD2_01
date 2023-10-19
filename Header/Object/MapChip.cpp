@@ -37,6 +37,22 @@ void MapChip::Init() {
 
 }
 
+void MapChip::SetCrack(uint32_t x, uint32_t y) {
+	auto &chip = mapChip_[y][x];
+	if (chip.chipState_ == ChipState::kBox) {
+		chip.chipState_ = ChipState::kCrack;
+	}
+	chip.Create(x, y);
+}
+
+void MapChip::SetBreak(uint32_t x, uint32_t y) {
+	auto &chip = mapChip_[y][x];
+	if (chip.chipState_ == ChipState::kCrack) {
+		chip.chipState_ = ChipState::kAir;
+	}
+	chip.Create(x, y);
+}
+
 void MapChip::Draw(const Camera<Render::CameraType::Projecction> &camera) const {
 
 	for (uint32_t y = 0u; y < kMapHight_; ++y) {
@@ -56,11 +72,11 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, const Vector3 &afterPos, float
 
 	Vector3 resultPos = ((afterPos + offset) * kChipSize) / kScale_;
 
-	Vector2 leftTop;// = ((resultPos.ToVec2() + Vector2{ -radius,radius }) * 0.5f + offset);
-	Vector2 rightTop;// = ((resultPos.ToVec2() + Vector2{ radius,radius }) * 0.5f + offset);
+	Vector2 leftTop;
+	Vector2 rightTop;
 
-	Vector2 leftDown;// = ((resultPos.ToVec2() + Vector2{ -radius,-radius }) * 0.5f + offset);
-	Vector2 rightDown;// = ((resultPos.ToVec2() + Vector2{ radius,-radius }) * 0.5f + offset);
+	Vector2 leftDown;
+	Vector2 rightDown;
 
 	leftTop.x = (resultPos.x - kChipSize / 2.f) / kChipSize;
 	leftTop.y = (resultPos.y + kChipSize / 2.f - 1) / kChipSize;
@@ -70,6 +86,13 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, const Vector3 &afterPos, float
 	leftDown.y = (resultPos.y - kChipSize / 2.f) / kChipSize;
 	rightDown.x = (resultPos.x + kChipSize / 2.f - 1) / kChipSize;
 	rightDown.y = (resultPos.y - kChipSize / 2.f) / kChipSize;
+
+	if (
+		(leftDown.x < 0.f || rightDown.x >= kMapWidth_)		// 左右が画面外
+		|| (leftTop.y >= kMapHight_ || leftDown.y < 0.f)	// 上下が画面外
+		) {
+		return afterPos;
+	}
 
 	//leftTop /= 2.f;
 	//rightTop /= 2.f;
@@ -446,6 +469,9 @@ void MapChip::ChipData::Init() {
 		break;
 	case MapChip::ChipState::kUnbreakable:
 		modelName = "Unbreakable";
+		break;
+	case MapChip::ChipState::kCrack:
+		modelName = "Crack";
 		break;
 	default:
 		modelName = "";

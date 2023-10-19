@@ -6,6 +6,11 @@
 #include "../Math/Vector3.h"
 #include "../Math/Vector4.h"
 
+// ゲッターとセッターを同時に定義するマクロ
+#define GetSet(HogeType, Hoge, hoge_) \
+    const HogeType& Get##Hoge() const { return hoge_; } \
+    void Set##Hoge(const HogeType& hoge) { hoge_ = hoge; }
+
 namespace SoLib {
 
 	/// @brief 非ポインタ型

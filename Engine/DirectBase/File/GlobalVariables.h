@@ -36,6 +36,11 @@ public:
 	/// @return 紐づいた Group
 	const Group &GetGroup(const std::string &groupName) const;
 
+	/// @brief Group自体のゲッタ
+	/// @param groupName グループ名
+	/// @return 紐づいた Group
+	Group &GetGroup(const std::string &groupName);
+
 	Group &operator[](const std::string &groupName) { return datas_[groupName]; }
 
 	/// @brief Item自体のゲッタ
@@ -108,6 +113,10 @@ void operator>> (const GlobalVariables::Item &item, VariantItem<T> &value) {
 	value = T{};
 }
 
+template<typename T>
+void operator<< (GlobalVariables::Group &group, const VariantItem<T> &value) {
+	group[value.GetKey()] = value.GetItem();
+}
 template<typename T>
 void operator>> (const GlobalVariables::Group &group, VariantItem<T> &value) {
 

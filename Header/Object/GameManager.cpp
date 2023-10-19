@@ -8,7 +8,6 @@
 #include "../Entity/Component/OrbComp.h"
 #include "../Entity/Component/SoulComp.h"
 
-
 void GameManager::Init() {
 
 	collisionManager_ = CollisionManager::GetInstance();
@@ -18,7 +17,7 @@ void GameManager::Init() {
 	spring_ = std::make_unique<Entity>();
 	spring_->Init();
 	spring_->AddComponent<SpringObjectComp>();
-	spring_->timeScale_ = 2.5f;
+	spring_->timeScale_ = 3.f;
 	spring_->GetComponent<Rigidbody>()->hasCollider_ = true;
 	spring_->transform_.translate = Vector3{ 0.f,10.f,0.f };
 

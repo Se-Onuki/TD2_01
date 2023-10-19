@@ -17,6 +17,7 @@ public:
 		kAir,	// 空白
 		kBox,	// 箱
 		kBarrier,		// バリア
+		kCrack,			// ヒビ
 		kUnbreakable	// 破壊不可
 	};
 
@@ -52,7 +53,23 @@ public:
 
 	void Init();
 
+	/// @brief ヒビを入れる
+	/// @param x ローカルx座標
+	/// @param y ローカルy座標
+	void SetCrack(uint32_t x, uint32_t y);
+
+	/// @brief ヒビを破壊
+	/// @param x ローカルx座標
+	/// @param y ローカルy座標
+	void SetBreak(uint32_t x, uint32_t y);
+
 	void Draw(const Camera<Render::CameraType::Projecction> &camera) const;
+
+	static Vector2 GlobalToLocal(const Vector3 &global) {
+		const float xCenter = MapChip::kMapWidth_ / 2.f;
+		return Vector2{ std::floor((global.x / 2.f) + xCenter), std::floor((global.y - 1.f) / 2.f) };
+	}
+
 
 	const MapArray &GetMapArray()const { return mapChip_; }
 
