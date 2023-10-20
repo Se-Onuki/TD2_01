@@ -5,6 +5,7 @@
 #include "../Engine/DirectBase/Model/ModelManager.h"
 
 #include "TitleScene.h"
+#include "GameOverScene.h"
 
 #include "../Header/Entity/Component/ModelComp.h"
 #include "../Utils/SoLib/SoLib_ImGui.h"
@@ -60,11 +61,17 @@ void GameScene::Update() {
 	gameManager_->ImGuiWidget();
 
 	light_->ImGuiWidget();
-	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) ||
-		input_->GetDirectInput()->IsTrigger(DIK_3)) {
+	if (/*input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER)*/ 
+		input_->GetDirectInput()->IsTrigger(DIK_2)) {
 
 		sceneManager_->ChangeScene(new TitleScene, 60);
 	}
+	if (/*input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) */
+		input_->GetDirectInput()->IsTrigger(DIK_3)) {
+
+		//sceneManager_->ChangeScene(new GameOverScene, 60);
+	}
+
 	//	transform_.UpdateMatrix();
 }
 
