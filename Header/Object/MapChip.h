@@ -4,6 +4,8 @@
 #include "../../Utils/Math/Transform.h"
 #include "../../Engine/DirectBase/Model/Model.h"
 
+#include "../../Engine/DirectBase/Base/LeakChecker.h"
+
 class MapChip {
 
 	MapChip() = default;
@@ -28,6 +30,8 @@ public:
 
 		void Init();
 
+		void Exit();
+
 		void Create(uint32_t x, uint32_t y);
 
 		void Draw(const Camera<Render::CameraType::Projecction> &camera) const;
@@ -47,11 +51,14 @@ public:
 public:
 
 	static auto *const GetInstance() {
+		static DirectResourceLeakChecker leakChacker{};
 		static MapChip instance{};
 		return &instance;
 	}
 
 	void Init();
+
+	void Exit();
 
 	/// @brief ヒビを入れる
 	/// @param x ローカルx座標

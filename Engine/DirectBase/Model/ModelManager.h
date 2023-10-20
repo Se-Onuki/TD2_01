@@ -17,6 +17,16 @@ public:
 	/// @param key 文字列キー
 	/// @param model モデルデータ
 	Model *const AddModel(const std::string &key, Model *const model) {
+		if (models_.find(key) == models_.end()) {
+			models_[key].reset(model);
+		}
+		return models_[key].get();
+	}
+
+	/// @brief モデルの置き換え
+	/// @param key 文字列キー
+	/// @param model モデルデータ
+	Model *const ReplaceModel(const std::string &key, Model *const model) {
 		models_[key].reset(model);
 		return models_[key].get();
 	}

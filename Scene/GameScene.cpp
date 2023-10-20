@@ -72,7 +72,7 @@ void GameScene::Update() {
 	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) ||
 		input_->GetDirectInput()->IsTrigger(DIK_3)) {
 
-		sceneManager_->ChangeScene<TitleScene>(60);
+		sceneManager_->ChangeScene<GameScene>(60);
 	}
 	//	transform_.UpdateMatrix();
 }
