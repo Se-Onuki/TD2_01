@@ -54,7 +54,7 @@ void OpLogoEase::Init() {
 	end_ = { 700.0f,200.f };
 }
 
-void OpLogoEase::Update(float deltaTime) {
+void OpLogoEase::Update(float) {
 	// 大きさのイージング
 	titleLogoScale_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
 	titleLogoScale_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
@@ -66,7 +66,7 @@ void OpLogoEase::Update(float deltaTime) {
 		stateManager_->SetNextState(st);
 	}
 	else {
-		t_easing_ += 0.8f * deltaTime;
+		t_easing_ += 0.1f /** deltaTime*/;
 	}
 
 	// 大きさを設定
@@ -83,7 +83,7 @@ void DefaultUpLogoEase::Init() {
 
 }
 
-void DefaultUpLogoEase::Update(float deltaTime) {
+void DefaultUpLogoEase::Update(float) {
 	// 位置のイージング
 	titleLogoPosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
 	titleLogoPosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
@@ -95,7 +95,7 @@ void DefaultUpLogoEase::Update(float deltaTime) {
 		stateManager_->SetNextState(st);
 	}
 	else {
-		t_easing_ += 1.5f * deltaTime;
+		t_easing_ += 0.02f/* * deltaTime*/;
 	}
 
 	// 位置を設定
@@ -108,7 +108,7 @@ void DefaultDownLogoEase::Init() {
 	end_ = nowPos - Vector2{0.0f, 20.0f};
 }
 
-void DefaultDownLogoEase::Update(float deltaTime) {
+void DefaultDownLogoEase::Update(float) {
 	// 位置のイージング
 	titleLogoPosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
 	titleLogoPosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
@@ -120,7 +120,7 @@ void DefaultDownLogoEase::Update(float deltaTime) {
 		stateManager_->SetNextState(st);
 	}
 	else {
-		t_easing_ += 1.5f * deltaTime;
+		t_easing_ += 0.02f /** deltaTime*/;
 	}
 
 	// 位置を設定
@@ -138,7 +138,7 @@ void EpLogoState::Init() {
 	t_colorEasing = 0.0f;
 }
 
-void EpLogoState::Update(float deltaTime) {
+void EpLogoState::Update(float) {
 	// 位置のイージング
 	titleLogoPosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeInOutBack(t_easing_));
 	titleLogoPosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeInOutBack(t_easing_));
@@ -151,7 +151,7 @@ void EpLogoState::Update(float deltaTime) {
 		t_easing_ = 1.0f;
 	}
 	else {
-		t_easing_ += 1.0f * deltaTime;
+		t_easing_ += 0.02f/* * deltaTime*/;
 	}
 
 	// 色イージングの媒介変数の処理
@@ -159,7 +159,7 @@ void EpLogoState::Update(float deltaTime) {
 		t_colorEasing = 1.0f;
 	}
 	else {
-		t_colorEasing += 1.5f * deltaTime;
+		t_colorEasing += 0.02f/* * deltaTime*/;
 	}
 
 	// 位置、色を設定
