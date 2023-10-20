@@ -102,8 +102,9 @@ inline void SceneManager::ChangeScene(const int transitionTime) {
 	if (nextScene_ != nullptr || sceneLoadThread_.joinable()) { return; }
 	// 遷移タイマーを開始
 	transitionTimer_.Start(transitionTime);
-	SetNextScene<T>();
-	//sceneLoadThread_ = std::thread([this]() { SetNextScene<T>(); });
+
+	//SetNextScene<T>();
+	sceneLoadThread_ = std::thread([this]() { SetNextScene<T>(); });
 }
 
 template<IsSceneClass T>

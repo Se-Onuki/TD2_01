@@ -20,6 +20,9 @@ public:
 		if (models_.find(key) == models_.end()) {
 			models_[key].reset(model);
 		}
+		else {
+			delete model;
+		}
 		return models_[key].get();
 	}
 
