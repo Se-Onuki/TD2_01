@@ -28,7 +28,7 @@ void GameOverScene::OnEnter() {
 	pressSprite_->Init();
 
 #pragma region SkyCylinderComp
-	skyCylinder_ = std::make_unique<SkyCylinderComp>();
+	skyCylinder_ = std::make_unique<SkyCylinder>();
 	//skyCylinder_ = std::make_unique<SkyCylinderComp>();
 	//skyCylinder_->AddComponent<SkyCylinderComp>();
 	skyCylinder_->Init("skyCylinder");

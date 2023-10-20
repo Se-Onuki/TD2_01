@@ -8,7 +8,7 @@
 #include "../Engine/DirectBase/Input/Input.h"
 #include "../Engine/DirectBase/Base/Audio.h"
 
-#include "../Header/Entity/Component/SkyCylinderComp.h"
+#include "../Header/Object/SkyCylinder.h"
 
 #include "../Header/Object/TitleLogo.h"
 #include "../Header/Object/PressSprite.h"
@@ -42,6 +42,6 @@ private:
 
 	Camera<Render::CameraType::Projecction> camera_;
 
-	std::unique_ptr<SkyCylinderComp> skyCylinder_ = nullptr;
+	std::unique_ptr<SkyCylinder> skyCylinder_ = nullptr;
 
 };

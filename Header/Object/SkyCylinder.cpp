@@ -1,17 +1,17 @@
-#include "SkyCylinderComp.h"
+#include "SkyCylinder.h"
 //#include "../../../Engine/DirectBase/Model/ModelManager.h"
 //#include "../../Object/GameManager.h"
-#include "../../../Utils/SoLib/SoLib.h"
+#include "../../Utils/SoLib/SoLib.h"
 
-SkyCylinderComp::SkyCylinderComp()
+SkyCylinder::SkyCylinder()
 {
 }
 
-SkyCylinderComp::~SkyCylinderComp()
+SkyCylinder::~SkyCylinder()
 {
 }
 
-void SkyCylinderComp::Init(const std::string& fileName) {
+void SkyCylinder::Init(const std::string& fileName) {
 	worldTransform_.InitResource();
 
 //	modelComp_ = object_->AddComponent<ModelComp>();
@@ -25,7 +25,9 @@ void SkyCylinderComp::Init(const std::string& fileName) {
 
 }
 
-void SkyCylinderComp::Update(float deltaTime) {
+void SkyCylinder::Update(float deltaTime) {
+
+
 	if (changeSceneCall_) {
 		// 位置のイージング
 		pos_.x = start_.x + ((end_.x - start_.x) * SoLib::easeInBack(t_easing_));
@@ -49,10 +51,10 @@ void SkyCylinderComp::Update(float deltaTime) {
 	preChangeSceneCall_ = changeSceneCall_;
 }
 
-void SkyCylinderComp::Draw(const Camera<Render::CameraType::Projecction>& camera) {
+void SkyCylinder::Draw(const Camera<Render::CameraType::Projecction>& camera) {
 	model_->Draw(worldTransform_, camera);
 }
 
-void SkyCylinderComp::Reset()
+void SkyCylinder::Reset()
 {
 }

@@ -1,16 +1,14 @@
 #pragma once
-//#include "../Entity.h"
-//#include "ModelComp.h"
-//#include "../../../Scene/TitleScene.h"
-#include "../../../Engine/DirectBase/Model/ModelManager.h"
-#include "../../Engine/DirectBase/Render/Camera.h"
-#include "../../../Utils/Math/Transform.h"
 
-class SkyCylinderComp {
+#include "../../Engine/DirectBase/Model/ModelManager.h"
+#include "../../Engine/DirectBase/Render/Camera.h"
+#include "../../Utils/Math/Transform.h"
+
+class SkyCylinder {
 public:
 	//using IComponent::IComponent;
-	SkyCylinderComp();
-	~SkyCylinderComp();
+	SkyCylinder();
+	~SkyCylinder();
 
 	void Init(const std::string& fileName);
 	void Update(float deltaTime);

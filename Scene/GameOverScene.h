@@ -11,7 +11,7 @@
 #include "../Header/Object/TitleLogo.h"
 #include "../Header/Object/PressSprite.h"
 
-#include "../Header/Entity/Component/SkyCylinderComp.h"
+#include "../Header/Object/SkyCylinder.h"
 
 class GameOverScene : public IScene {
 public:
@@ -38,6 +38,6 @@ private:
 
 	Camera<Render::CameraType::Projecction> camera_;
 
-	std::unique_ptr<SkyCylinderComp> skyCylinder_ = nullptr;
+	std::unique_ptr<SkyCylinder> skyCylinder_ = nullptr;
 
 };
