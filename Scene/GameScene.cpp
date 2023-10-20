@@ -6,6 +6,7 @@
 
 #include "TitleScene.h"
 #include "GameOverScene.h"
+#include "GameClearScene.h"
 
 #include "../Header/Entity/Component/ModelComp.h"
 #include "../Utils/SoLib/SoLib_ImGui.h"
@@ -71,6 +72,12 @@ void GameScene::Update() {
 
 		sceneManager_->ChangeScene(new GameOverScene, 60);
 	}
+	if (/*input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) */
+		input_->GetDirectInput()->IsTrigger(DIK_4)) {
+
+		sceneManager_->ChangeScene(new GameClearScene, 60);
+	}
+
 
 	//	transform_.UpdateMatrix();
 }
