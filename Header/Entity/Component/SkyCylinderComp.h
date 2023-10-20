@@ -12,7 +12,7 @@ public:
 	SkyCylinderComp();
 	~SkyCylinderComp();
 
-	void Init();
+	void Init(const std::string& fileName);
 	void Update(float deltaTime);
 	void Draw(const Camera<Render::CameraType::Projecction>& camera);
 	void Reset();

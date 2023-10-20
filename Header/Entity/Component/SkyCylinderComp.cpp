@@ -11,12 +11,13 @@ SkyCylinderComp::~SkyCylinderComp()
 {
 }
 
-void SkyCylinderComp::Init() {
+void SkyCylinderComp::Init(const std::string& fileName) {
 	worldTransform_.InitResource();
 
 //	modelComp_ = object_->AddComponent<ModelComp>();
 	
-	auto* const skyModel = ModelManager::GetInstance()->GetModel("skyCylinder");
+	auto* const skyModel = ModelManager::GetInstance()->GetModel(fileName);
+
 	worldTransform_.scale = { 120.0f, 120.0f , 120.0f };
 	model_ = skyModel;
 	//modelComp_->AddBone("SkyCylinderComp", skyModel);

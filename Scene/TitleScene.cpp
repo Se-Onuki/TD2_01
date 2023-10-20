@@ -37,7 +37,7 @@ void TitleScene::OnEnter() {
 
 	skyCylinder_ = std::make_unique<SkyCylinderComp>();
 	//skyCylinder_->AddComponent<SkyCylinderComp>();
-	skyCylinder_->Init();
+	skyCylinder_->Init("skyCylinder");
 
 #pragma endregion
 
