@@ -1,22 +1,31 @@
 #pragma once
-#include "../Entity.h"
-#include "ModelComp.h"
-#include "../../../Scene/TitleScene.h"
-class SkyCylinderComp : public IComponent{
+//#include "../Entity.h"
+//#include "ModelComp.h"
+//#include "../../../Scene/TitleScene.h"
+#include "../../../Engine/DirectBase/Model/ModelManager.h"
+#include "../../Engine/DirectBase/Render/Camera.h"
+#include "../../../Utils/Math/Transform.h"
+
+class SkyCylinderComp {
 public:
-	using IComponent::IComponent;
-	~SkyCylinderComp() = default;
+	//using IComponent::IComponent;
+	SkyCylinderComp();
+	~SkyCylinderComp();
 
-	void Init() override;
-	void Update(float deltaTime) override;
-	void Reset() override;
-
+	void Init();
+	void Update(float deltaTime);
+	void Draw(const Camera<Render::CameraType::Projecction>& camera);
+	void Reset();
+	void SetChangeSceneCall(bool changeSceneCall) {
+		changeSceneCall_ = changeSceneCall;
+	}
 private:
-	ModelComp* modelComp_ = nullptr;
-	
 	// シーンチェンジ指令
+	bool changeSceneCall_ = false;
 	bool preChangeSceneCall_ = false;
-	
+
+	Transform worldTransform_;
+	Model* model_ = nullptr;
 	Vector3 pos_;
 	Vector3 start_ = {0.0f, 0.0f, 0.0f};
 	Vector3 end_ = {0.0f, 50.0f, 0.0f };

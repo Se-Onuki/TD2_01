@@ -4,7 +4,7 @@
 #include <imgui.h>
 #include "../Engine/DirectBase/Base/DirectXCommon.h"
 #include "../Engine/DirectBase/Model/ModelManager.h"
-#include "../Header/Entity/Component/SkyCylinderComp.h"
+//#include "../Header/Entity/Component/SkyCylinderComp.h"
 
 bool GameOverScene::isChangeSceneCall_ = false;
 
@@ -28,8 +28,9 @@ void GameOverScene::OnEnter() {
 	pressSprite_->Init();
 
 #pragma region SkyCylinderComp
-
 	skyCylinder_ = std::make_unique<SkyCylinderComp>();
+	//skyCylinder_ = std::make_unique<SkyCylinderComp>();
+	//skyCylinder_->AddComponent<SkyCylinderComp>();
 	skyCylinder_->Init();
 
 #pragma endregion
@@ -42,23 +43,25 @@ void GameOverScene::OnExit() {
 
 void GameOverScene::Update() {
 	const float deltaTime = ImGui::GetIO().DeltaTime;
+	if (isChangeSceneCall_) {
+		sceneManager_->ChangeScene(new TitleScene, 60);
+	}
+
+	skyCylinder_->SetChangeSceneCall(isChangeSceneCall_);
 	if (skyCylinder_) {
 		skyCylinder_->Update(deltaTime);
 	}
 
+	titleLogo_->SetIsChangeSceneCall(isChangeSceneCall_);
 	titleLogo_->Update(deltaTime);
+
+	pressSprite_->SetIsChangeSceneCall(isChangeSceneCall_);
 	pressSprite_->Update(deltaTime);
 
 	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) ||
 		input_->GetDirectInput()->IsTrigger(DIK_SPACE)) {
 		isChangeSceneCall_ = true;
 	}
-	if (isChangeSceneCall_) {
-		titleLogo_->SetIsChangeSceneCall(isChangeSceneCall_);
-		pressSprite_->SetIsChangeSceneCall(isChangeSceneCall_);
-		sceneManager_->ChangeScene(new TitleScene, 60);
-	}
-
 }
 
 void GameOverScene::Draw() {

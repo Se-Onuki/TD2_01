@@ -2,7 +2,9 @@
 #include "../../Utils/SoLib/SoLib.h"
 #include "../../Utils/SoLib/SoLib_Lerp.h"
 
-void TitleLogo::Init() {
+void TitleLogo::Init(const std::string& fileName) {
+	imageName_ = fileName;
+
 	// 状態管理クラスを生成
 	//state_.release();
 	state_ = std::make_unique<TitleLogoStateManager>();
@@ -12,7 +14,7 @@ void TitleLogo::Init() {
 	state_->SetNextState(st);
 
 	// タイトルロゴのスプライトを生成、いろいろ設定
-	titleLogo_.reset(Sprite::Create(TextureManager::Load("uvChecker.png")));
+	titleLogo_.reset(Sprite::Create(TextureManager::Load(imageName_)));
 	titleLogo_->SetPosition({ 640.0f, 200.0f });
 	titleLogo_->SetScale({ 0.0f, 0.0f });
 	titleLogo_->SetPivot({ 0.5f, 0.5f });

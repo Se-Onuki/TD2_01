@@ -34,7 +34,6 @@ private:
 	GameManager *gameManager_ = nullptr;
 	//Transform transform_;
 
-
 	Camera<Render::CameraType::Projecction> camera_;
 
 	std::unique_ptr<DirectionLight> light_ = nullptr;
