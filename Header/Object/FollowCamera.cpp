@@ -17,7 +17,6 @@ void FollowCamera::Reset() {
 
 void FollowCamera::Update([[maybe_unused]] float deltaTime) {
 	ApplyVariables(groupName_.c_str());
-	static const auto &ClampFunc = [this](float value) {return  std::clamp(value, vMinPos.GetItem(), MapChip::kMapHight_ * 2.f); };
 
 	const auto *const target = GameManager::GetInstance()->GetPlayer();
 

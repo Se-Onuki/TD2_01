@@ -10,8 +10,6 @@
 #include "../Header/Object/TitleLogo.h"
 #include "../Header/Object/PressSprite.h"
 
-#include "../Engine/DirectBase/Base/LeakChecker.h"
-
 class TitleScene : public IScene {
 public:
 	TitleScene();
@@ -25,23 +23,22 @@ public:
 
 	void Draw() override;
 public:
-	/*static DirectResourceLeakChecker leakCheaker_;
-	static bool isChangeSceneCall_;*/
+	static bool isChangeSceneCall_;
 
 private:
 
 	Input *input_ = nullptr;
-	//Audio *audio_ = nullptr;
+	Audio *audio_ = nullptr;
 
 
-	//std::unique_ptr<DirectionLight> light_ = nullptr;
+	std::unique_ptr<DirectionLight> light_ = nullptr;
 
-	////std::unique_ptr<TitleLogo> titleLogo_ = nullptr;
+	std::unique_ptr<TitleLogo> titleLogo_ = nullptr;
 
-	////std::unique_ptr<PressSprite> pressSprite_ = nullptr;
+	std::unique_ptr<PressSprite> pressSprite_ = nullptr;
 
-	//Camera<Render::CameraType::Projecction> camera_;
+	Camera<Render::CameraType::Projecction> camera_;
 
-	////std::unique_ptr<Entity> skyCylinder_ = nullptr;
+	std::unique_ptr<Entity> skyCylinder_ = nullptr;
 
 };

@@ -74,7 +74,7 @@ public:
 
 	static Vector2 GlobalToLocal(const Vector3 &global) {
 		const float xCenter = MapChip::kMapWidth_ / 2.f;
-		return Vector2{ std::floor((global.x / 2.f) + xCenter), std::floor((global.y - 1.f) / 2.f) };
+		return Vector2{ (global.x / 2.f) + xCenter, (global.y - 1.f) / 2.f };
 	}
 
 	const ChipData &GetChipData(const Vector2 &vec);
