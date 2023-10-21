@@ -488,20 +488,20 @@
     <ClInclude Include="Header\Entity\Component\OrbComp.h">
       <Filter>Header\Entity\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Entity\Component\SoulComp.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Object\FollowCamera.h">
       <Filter>Header\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Object\TitleLogo.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Entity\Component\SkyCylinderComp.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Header\Entity\Component</Filter>
     </ClInclude>
     <ClInclude Include="Header\Object\PressSprite.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Header\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Entity\Component\SoulComp.h">
+      <Filter>Header\Entity\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Object\TitleLogo.h">
+      <Filter>Header\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

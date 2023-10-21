@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include "../Utils/SoLib/SoLib_Timer.h"
+#include "../Engine/DirectBase/Base/LeakChecker.h"
 //#include "Scene.hpp"
 
 class SceneManager;
@@ -32,6 +33,8 @@ concept IsSceneClass = std::derived_from<T, IScene>;
 
 class SceneManager {
 private:
+
+	static DirectResourceLeakChecker leakChecker_;
 
 	SoLib::Timer transitionTimer_{};
 	// 現在読み込んでいるシーン
@@ -69,7 +72,7 @@ public:
 	/// @brief シーン遷移
 	/// @param name 遷移先の名前キー
 	/// @param transitionTime 必要とする時間
-	[[deprecated("テンプレートを使用した、CangeScene<T>(time)を使用して下さい。")]] void ChangeScene(IScene *const nextScene, const int transitionTime);
+	void ChangeScene(IScene *const nextScene, const int transitionTime);
 
 
 	/// @brief シーン遷移
@@ -100,14 +103,12 @@ inline void SceneManager::ChangeScene(const int transitionTime) {
 	// 遷移タイマーを開始
 	transitionTimer_.Start(transitionTime);
 
+	//SetNextScene<T>();
 	sceneLoadThread_ = std::thread([this]() { SetNextScene<T>(); });
 }
 
 template<IsSceneClass T>
 inline void SceneManager::SetNextScene() {
-	// 次のシーン
-	T *const nextScene = new T{};
-
 	// 次のシーンのポインタを保存
-	nextScene_.reset(nextScene);
+	nextScene_ = std::make_unique<T>();
 }

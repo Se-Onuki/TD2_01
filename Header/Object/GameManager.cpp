@@ -60,7 +60,9 @@ void GameManager::Exit() {
 	souls_.clear();
 	spring_.reset();
 	collisionManager_->clear();
+	followCamera_.reset();
 
+	mapChip_->Exit();
 }
 
 void GameManager::Update(const float deltaTime) {

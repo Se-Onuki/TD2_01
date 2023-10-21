@@ -5,6 +5,7 @@
 #include "../Engine/DirectBase/Base/DirectXCommon.h"
 #include "../Engine/DirectBase/Model/ModelManager.h"
 #include "../Header/Entity/Component/SkyCylinderComp.h"
+
 bool TitleScene::isChangeSceneCall_ = false;
 
 TitleScene::TitleScene() {
@@ -21,7 +22,7 @@ void TitleScene::OnEnter() {
 	light_.reset(DirectionLight::Create());
 	camera_.translation_ = Vector3{ 0.f, 10.f, -30.f };
 	camera_.UpdateMatrix();
-	auto* const modelManager = ModelManager::GetInstance();
+	auto *const modelManager = ModelManager::GetInstance();
 	modelManager->AddModel("skyCylinder", Model::LoadObjFile("", "skyCylinder.obj"));
 
 	isChangeSceneCall_ = false;

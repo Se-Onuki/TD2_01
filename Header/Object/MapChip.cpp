@@ -37,6 +37,14 @@ void MapChip::Init() {
 
 }
 
+void MapChip::Exit() {
+	for (auto &chipLine : mapChip_) {
+		for (auto &chip : chipLine) {
+			chip.Exit();
+		}
+	}
+}
+
 void MapChip::SetCrack(uint32_t x, uint32_t y) {
 	auto &chip = mapChip_[y][x];
 	if (chip.chipState_ == ChipState::kBox) {
@@ -492,6 +500,12 @@ void MapChip::ChipData::Init() {
 		}
 		model_ = ModelManager::GetInstance()->GetModel(modelName);
 	}
+}
+
+void MapChip::ChipData::Exit() {
+	this->model_ = nullptr;
+	this->chipState_ = ChipState::kAir;
+	this->transform_.reset();
 }
 
 void MapChip::ChipData::Create(uint32_t x, uint32_t y) {

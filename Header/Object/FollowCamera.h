@@ -5,10 +5,11 @@
 #include "../Entity/Component/SpringObjectComp.h"
 
 #include "../../Engine/DirectBase/File/VariantItem.h"
+#include "../Object/MapChip.h"
+
 
 class FollowCamera {
 
-	Vector3 offset = { 0.f, 5.f, -50.f };
 public:
 	FollowCamera() = default;
 	~FollowCamera() = default;
@@ -31,6 +32,8 @@ public:
 	VariantItem<float> vMinPos{ "MinPos", 10.f };
 
 private:
+	float ClampFunc(float value) { return  std::clamp(value, vMinPos.GetItem(), MapChip::kMapHight_ * 2.f); };
+	Vector3 offset = { 0.f, 5.f, -50.f };
 	const std::string groupName_ = "FollowCamera";
 	Camera<Render::CameraType::Projecction> camera_;
 

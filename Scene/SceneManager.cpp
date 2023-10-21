@@ -1,8 +1,7 @@
 #include "SceneManager.h"
 
 SceneManager *IScene::sceneManager_ = nullptr;
-
-
+DirectResourceLeakChecker SceneManager::leakChecker_{};
 void SceneManager::Init() {
 	IScene::sceneManager_ = this;
 	transitionTimer_.Clear();

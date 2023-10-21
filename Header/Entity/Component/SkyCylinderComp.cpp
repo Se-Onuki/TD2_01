@@ -12,7 +12,7 @@ void SkyCylinderComp::Init() {
 	
 }
 
-void SkyCylinderComp::Update(float deltaTime) {
+void SkyCylinderComp::Update([[maybe_unused]]float deltaTime) {
 	if (TitleScene::isChangeSceneCall_) {
 		// 位置のイージング
 		pos_.x = start_.x + ((end_.x - start_.x) * SoLib::easeInBack(t_easing_));

@@ -20,7 +20,7 @@ public:
 	void OnExit() override;
 
 	void Update() override;
-	
+
 	void Draw() override;
 public:
 	static bool isChangeSceneCall_;
