@@ -92,7 +92,7 @@ namespace SoLib {
 	}
 
 	float easeOutElastic(float x) {
-		const float c4 = (2 * std::numbers::pi_v<float>) / 3.0f;
+		const float c4 = (Angle::PI2) / 3.0f;
 
 		return x == 0.0f
 			? 0.0f

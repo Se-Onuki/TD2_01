@@ -20,7 +20,7 @@ void SpringObjectComp::Init() {
 
 	auto *const springModel = ModelManager::GetInstance()->GetModel("Spring");
 	auto *const modelComp = object_->AddComponent<ModelComp>();
-	modelComp->AddBone("Body", springModel, Transform{ .translate{0.f,-0.75f,0.f} });
+	modelComp->AddBone("Body", springModel, Transform{ .translate{0.f,-1.f,0.f} });
 
 	auto *const rigidbody = object_->AddComponent<Rigidbody>();
 	rigidbody->SetMaxSpeed({ 3.f,1.f,0.f });
@@ -62,6 +62,7 @@ void SpringObjectComp::ApplyVariables(const char *const groupName) {
 	cGroup >> vMaxSpeed_;
 	cGroup >> vSquatScale_;
 	cGroup >> vSquatTime_;
+	cGroup >> vJumpAnimTime_;
 }
 
 void SpringObjectComp::AddVariable(const char *const groupName) const {
@@ -74,6 +75,7 @@ void SpringObjectComp::AddVariable(const char *const groupName) const {
 	group << vMaxSpeed_;
 	group << vSquatScale_;
 	group << vSquatTime_;
+	group << vJumpAnimTime_;
 }
 
 void DefaultState::Update([[maybe_unused]] float deltaTime) {
@@ -136,6 +138,8 @@ void JumpingState::Init([[maybe_unused]] float deltaTime) {
 		mapChip->SetBreak(static_cast<uint32_t>(downPos.x - 0.5f), static_cast<uint32_t>(downPos.y));
 	}
 
+	stateTimer_.Start(stateManager_->parent_->vJumpAnimTime_);
+	startModelScale_ = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale;
 }
 
 void JumpingState::Update([[maybe_unused]] float deltaTime) {
@@ -156,6 +160,21 @@ void JumpingState::Update([[maybe_unused]] float deltaTime) {
 		stateManager_->ChangeState<FallingState>();
 	}
 
+#pragma region モデルアニメーション
+
+	// タイマーの更新
+	stateTimer_.Update(deltaTime);
+
+	const Vector3 jumpAnimScale = Vector3::one;
+
+	Vector3 &modelScale = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale;
+
+	modelScale = SoLib::Lerp(startModelScale_, jumpAnimScale, easeFunc(stateTimer_.GetProgress()));
+
+#pragma endregion
+
+
+
 }
 
 void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {
@@ -174,7 +193,7 @@ void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {
 
 void SquattingState::Init([[maybe_unused]] float deltaTime) {
 	stateTimer_.Start(stateManager_->parent_->vSquatTime_);
-	startModelScale_ = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale.y;
+	startModelScale_ = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale;
 }
 
 void SquattingState::Update([[maybe_unused]] float deltaTime) {
@@ -184,10 +203,10 @@ void SquattingState::Update([[maybe_unused]] float deltaTime) {
 	if (Input::GetInstance()->GetDirectInput()->IsRelease(DIK_SPACE)) {
 		stateManager_->ChangeState<JumpingState>();
 	}
-	float aquatScale = stateManager_->parent_->vSquatScale_;
+	const Vector3 &squatScale = stateManager_->parent_->vSquatScale_;
 
-	float& modelScaleY = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale.y;
+	Vector3 &modelScale = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale;
 
-	modelScaleY = SoLib::Lerp(startModelScale_, aquatScale, stateTimer_.GetProgress());
+	modelScale = SoLib::Lerp(startModelScale_, squatScale, SoLib::easeOutElastic(stateTimer_.GetProgress()));
 
 }

@@ -1,12 +1,19 @@
 {
     "Player": {
         "InvincibleTime": 3.0,
+        "JumpAnimTime": 0.75,
         "JumpPower": 15.0,
         "MaxSpeed": [
             3.0,
             5.0,
             0.0
         ],
-        "MovePower": 3.0
+        "MovePower": 3.0,
+        "SquatScale": [
+            1.25,
+            0.5,
+            1.0
+        ],
+        "SquatTime": 0.5
     }
 }

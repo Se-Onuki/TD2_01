@@ -5,9 +5,17 @@
 #include "../../../Engine/DirectBase/File/VariantItem.h"
 #include "../../Object/MapChip.h"
 #include "../../../Utils/SoLib/SoLib_Timer.h"
+#include "../../../Utils/SoLib/SoLib_Easing.h"
+
+#include <functional>
 
 class PlayerStateManager;
 class SpringObjectComp;
+
+class IPlayerState;
+
+template <typename T>
+concept IsPlayerState = std::is_base_of<IPlayerState, T>::value;
 
 class IPlayerState {
 protected:
@@ -46,6 +54,11 @@ public:
 	void Update(float deltaTime) override;
 
 	void OnCollision(Entity *const other) override;
+
+	SoLib::RealTimer stateTimer_{};
+	Vector3 startModelScale_;
+
+	std::function<float(float)> easeFunc = SoLib::easeOutElastic;
 };
 
 
@@ -56,12 +69,8 @@ public:
 	void Update(float deltaTime) override;
 
 	SoLib::RealTimer stateTimer_{};
-	float startModelScale_;
+	Vector3 startModelScale_;
 };
-
-template <typename T>
-concept IsPlayerState = std::is_base_of<IPlayerState, T>::value;
-
 // Playerクラスの定義
 class PlayerStateManager {
 private:
@@ -126,8 +135,10 @@ public:
 
 	VariantItem<Vector3> vMaxSpeed_{ "MaxSpeed", {3.f,5.0f,0.f} };
 
-	VariantItem<float> vSquatScale_{ "SquatScale", 0.5f };
-	VariantItem<float> vSquatTime_{ "SquatTime", 0.25f };
+	VariantItem<Vector3> vSquatScale_{ "SquatScale", {1.25f,0.5f,1.25f} };
+	VariantItem<float> vSquatTime_{ "SquatTime", 0.5f };
+
+	VariantItem<float> vJumpAnimTime_{ "JumpAnimTime", 0.25f };
 
 	const auto *const GetManager()const { return state_.get(); }
 
