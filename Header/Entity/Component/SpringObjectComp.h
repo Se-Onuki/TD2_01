@@ -34,7 +34,11 @@ public:
 class DefaultState : public IPlayerState {
 public:
 	using IPlayerState::IPlayerState;
+	void Init(float deltaTime) override;
 	void Update(float deltaTime) override;
+
+	SoLib::RealTimer stateTimer_{};
+	Vector3 startModelScale_;
 };
 
 class FallingState : public IPlayerState {
@@ -71,6 +75,7 @@ public:
 	SoLib::RealTimer stateTimer_{};
 	Vector3 startModelScale_;
 };
+
 // Playerクラスの定義
 class PlayerStateManager {
 private:
@@ -100,7 +105,7 @@ public:
 	const IPlayerState *const GetState()const { return state_.get(); }
 
 	void Init() {
-		state_ = std::make_unique<DefaultState>(this);
+		state_ = std::make_unique<JumpingState>(this);
 		nextState_ = nullptr;
 	}
 
@@ -137,6 +142,8 @@ public:
 
 	VariantItem<Vector3> vSquatScale_{ "SquatScale", {1.25f,0.5f,1.25f} };
 	VariantItem<float> vSquatTime_{ "SquatTime", 0.5f };
+
+	VariantItem<float> vLandingTime_{ "LandingTime", 0.5f };
 
 	VariantItem<float> vJumpAnimTime_{ "JumpAnimTime", 0.25f };
 

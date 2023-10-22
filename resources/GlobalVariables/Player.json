@@ -3,6 +3,7 @@
         "InvincibleTime": 3.0,
         "JumpAnimTime": 0.75,
         "JumpPower": 15.0,
+        "LandingTime": 0.75,
         "MaxSpeed": [
             3.0,
             5.0,

@@ -63,6 +63,7 @@ void SpringObjectComp::ApplyVariables(const char *const groupName) {
 	cGroup >> vSquatScale_;
 	cGroup >> vSquatTime_;
 	cGroup >> vJumpAnimTime_;
+	cGroup >> vLandingTime_;
 }
 
 void SpringObjectComp::AddVariable(const char *const groupName) const {
@@ -76,12 +77,32 @@ void SpringObjectComp::AddVariable(const char *const groupName) const {
 	group << vSquatScale_;
 	group << vSquatTime_;
 	group << vJumpAnimTime_;
+	group << vLandingTime_;
+}
+
+void DefaultState::Init([[maybe_unused]] float deltaTime) {
+	stateTimer_.Start(stateManager_->parent_->vLandingTime_);
+	startModelScale_ = stateManager_->parent_->vSquatScale_;
 }
 
 void DefaultState::Update([[maybe_unused]] float deltaTime) {
 	if (Input::GetInstance()->GetDirectInput()->IsPress(DIK_SPACE)) {
 		stateManager_->ChangeState<SquattingState>();
 	}
+
+#pragma region モデルアニメーション
+
+	// タイマーの更新
+	stateTimer_.Update(deltaTime);
+
+	const Vector3 squatScale = Vector3::one;
+
+	Vector3 &modelScale = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale;
+
+	modelScale = SoLib::Lerp(startModelScale_, squatScale, SoLib::easeOutElastic(stateTimer_.GetProgress()));
+
+#pragma endregion
+
 }
 
 void FallingState::Init([[maybe_unused]] float deltaTime) {
@@ -139,7 +160,7 @@ void JumpingState::Init([[maybe_unused]] float deltaTime) {
 	}
 
 	stateTimer_.Start(stateManager_->parent_->vJumpAnimTime_);
-	startModelScale_ = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale;
+	startModelScale_ = stateManager_->parent_->vSquatScale_;
 }
 
 void JumpingState::Update([[maybe_unused]] float deltaTime) {
