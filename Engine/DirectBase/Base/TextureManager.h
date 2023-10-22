@@ -22,10 +22,13 @@ public:
 	static const uint32_t alreadyUsedCount = 1u;
 
 	struct Texture {
+		bool isLoadComplete = false;
 		ComPtr<ID3D12Resource> textureResource;
 		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandleSRV;
 		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandleSRV;
 		std::string name;
+
+		void Reset();
 	};
 
 	static inline TextureManager *const GetInstance() {

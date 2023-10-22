@@ -43,10 +43,7 @@ void TextureManager::Reset() {
 	srvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, maxTextureCount, true);
 
 	for (size_t i = 0u; i < maxTextureCount; i++) {
-		textureArray_[i].textureResource.Reset();
-		textureArray_[i].cpuHandleSRV.ptr = 0;
-		textureArray_[i].gpuHandleSRV.ptr = 0;
-		textureArray_[i].name.clear();
+		textureArray_[i].Reset();
 	}
 }
 
@@ -154,4 +151,12 @@ uint32_t TextureManager::LoadInternal(const std::string &file_name)
 	//file_name;
 	nextIndex_++;
 	return handle;
+}
+
+void TextureManager::Texture::Reset() {
+	isLoadComplete = false;
+	textureResource.Reset();
+	cpuHandleSRV.ptr = 0;
+	gpuHandleSRV.ptr = 0;
+	name.clear();
 }
