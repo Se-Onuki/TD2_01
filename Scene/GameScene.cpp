@@ -21,16 +21,18 @@ GameScene::GameScene() {
 
 	auto *const modelManager = ModelManager::GetInstance();
 	modelManager->AddModel("Spring", Model::LoadObjFile("Model/Player/", "player.obj"));
-	modelManager->AddModel("Enemy", Model::LoadObjFile("", "sphere.obj"));
+	modelManager->AddModel("Enemy", Model::LoadObjFile("Model/Enemy/", "enemy.obj"));
 	modelManager->AddModel("Gauge", Model::LoadObjFile("", "sphere.obj"));
 
-	auto *const unbleakble = modelManager->AddModel("Unbreakable", Model::LoadObjFile("", "box.obj"));
-	unbleakble->materialMap_["Material"]->materialBuff_->color = { 0.5f,0.5f,0.5f,1.f };
+	auto *const unbleakble = modelManager->AddModel("Unbreakable", Model::LoadObjFile("Model/Block/", "block.obj"));
+	unbleakble->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/unbreakableBlock.png");
 
-	auto *const crack = modelManager->AddModel("Crack", Model::LoadObjFile("", "box.obj"));
-	crack->materialMap_["Material"]->materialBuff_->color = { 0.f,0.f,0.f,1.f };
+	auto *const crack = modelManager->AddModel("Crack", Model::LoadObjFile("Model/Block/", "block.obj"));
+	crack->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/creakedBlock.png");
 
-	modelManager->AddModel("Box", Model::LoadObjFile("", "box.obj"));
+	auto *const box = modelManager->AddModel("Box", Model::LoadObjFile("Model/Block/", "block.obj"));
+	box->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/stoneBlock.png");
+
 	modelManager->AddModel("Soul", Model::LoadObjFile("", "sphere.obj"));
 
 }
