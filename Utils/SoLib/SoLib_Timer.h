@@ -56,35 +56,57 @@ namespace SoLib {
 		float GetProgress() const;
 	};
 
+	/// @brief タイマークラス
 	class RealTimer {
-		std::chrono::steady_clock::time_point startTime_;
-		std::chrono::duration<float> duration_;
-		std::chrono::duration<float> goalDuration_;
+		float goalFlame_;
+		float nowFlame_;
 		bool isFinish_;
 		bool isActive_;
 
+		/// @brief 時間の加算
+		void AddFlame(float deltaTime);
+
+		/// @brief 終点フレームの設定
+		/// @param GoalFlame 終点フレーム
+		inline void SetGoal(float Goal) { goalFlame_ = Goal; }
+
 	public:
-		RealTimer() = default;
+		RealTimer(float goal = 0u) : goalFlame_(goal), nowFlame_(0), isFinish_(true), isActive_(false) {}
 
-		bool Update();
+		/// @brief 更新処理 ( 基本的に各フレームの先頭で行うこと )
+		/// @return bool 実行中である場合true
+		virtual bool Update(float deltaTime);
 
+		/// @brief フレームのリセット
 		void Start();
 
-		void Start(float seconds);
+		/// @brief フレームの初期化
+		/// @param goal 必要フレーム
+		void Start(float goal);
 
+		/// @brief 完全停止
 		void Clear();
 
-		bool IsFinish() const { return isFinish_; }
+		/// @brief フレームが終点に到達しているか
+		/// @return bool ゴールの場合true
+		inline  bool IsFinish() const { return isFinish_; }
 
+		/// @brief 実行中であるかどうか
+		/// @return bool 実行中である場合 true
 		bool IsActive() const { return isActive_; }
 
-		float GetElapsedSeconds() const { return duration_.count(); }
+		/// @brief 現在フレームを取得
+		/// @return uint32_t 現在フレーム
+		inline  float GetNowFlame() const { return nowFlame_; }
 
-		float GetGoalSeconds() const { return goalDuration_.count(); }
+		/// @brief ゴールフレームを取得
+		/// @return uint32_t ゴールフレーム
+		inline  float GetGoalFlame() const { return goalFlame_; }
 
+		/// @brief 現在進行度を取得
+		/// @return float 0.0f ~ 1.0fの現在進行度
 		float GetProgress() const;
 	};
-
 
 	class FunctionTimer : public Timer {
 		std::function<void(void)> function_ = nullptr;

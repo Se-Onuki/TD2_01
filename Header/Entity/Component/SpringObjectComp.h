@@ -4,6 +4,7 @@
 #include "../../../Engine/DirectBase/Input/Input.h"
 #include "../../../Engine/DirectBase/File/VariantItem.h"
 #include "../../Object/MapChip.h"
+#include "../../../Utils/SoLib/SoLib_Timer.h"
 
 class PlayerStateManager;
 class SpringObjectComp;
@@ -51,7 +52,11 @@ public:
 class SquattingState : public IPlayerState {
 public:
 	using IPlayerState::IPlayerState;
+	void Init(float deltaTime) override;
 	void Update(float deltaTime) override;
+
+	SoLib::RealTimer stateTimer_{};
+	float startModelScale_;
 };
 
 template <typename T>
@@ -120,6 +125,9 @@ public:
 	VariantItem<float> vInvincibleTime_{ "InvincibleTime", 3.f };
 
 	VariantItem<Vector3> vMaxSpeed_{ "MaxSpeed", {3.f,5.0f,0.f} };
+
+	VariantItem<float> vSquatScale_{ "SquatScale", 0.5f };
+	VariantItem<float> vSquatTime_{ "SquatTime", 0.25f };
 
 	const auto *const GetManager()const { return state_.get(); }
 

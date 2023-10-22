@@ -53,13 +53,15 @@ void SpringObjectComp::OnCollision(Entity *const other) {
 }
 
 void SpringObjectComp::ApplyVariables(const char *const groupName) {
-	GlobalVariables *const gVariable = GlobalVariables::GetInstance();
+	const GlobalVariables *const gVariable = GlobalVariables::GetInstance();
 	const auto &cGroup = gVariable->GetGroup(groupName);
 
 	cGroup >> vJumpString_;
 	cGroup >> vMoveString_;
 	cGroup >> vInvincibleTime_;
 	cGroup >> vMaxSpeed_;
+	cGroup >> vSquatScale_;
+	cGroup >> vSquatTime_;
 }
 
 void SpringObjectComp::AddVariable(const char *const groupName) const {
@@ -70,6 +72,8 @@ void SpringObjectComp::AddVariable(const char *const groupName) const {
 	group << vMoveString_;
 	group << vInvincibleTime_;
 	group << vMaxSpeed_;
+	group << vSquatScale_;
+	group << vSquatTime_;
 }
 
 void DefaultState::Update([[maybe_unused]] float deltaTime) {
@@ -168,8 +172,22 @@ void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {
 	}
 }
 
+void SquattingState::Init([[maybe_unused]] float deltaTime) {
+	stateTimer_.Start(stateManager_->parent_->vSquatTime_);
+	startModelScale_ = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale.y;
+}
+
 void SquattingState::Update([[maybe_unused]] float deltaTime) {
+	// タイマーの更新
+	stateTimer_.Update(deltaTime);
+
 	if (Input::GetInstance()->GetDirectInput()->IsRelease(DIK_SPACE)) {
 		stateManager_->ChangeState<JumpingState>();
 	}
+	float aquatScale = stateManager_->parent_->vSquatScale_;
+
+	float& modelScaleY = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale.y;
+
+	modelScaleY = SoLib::Lerp(startModelScale_, aquatScale, stateTimer_.GetProgress());
+
 }
