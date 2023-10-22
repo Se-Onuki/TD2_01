@@ -20,7 +20,7 @@ void SpringObjectComp::Init() {
 
 	auto *const springModel = ModelManager::GetInstance()->GetModel("Spring");
 	auto *const modelComp = object_->AddComponent<ModelComp>();
-	modelComp->AddBone("Body", springModel);
+	modelComp->AddBone("Body", springModel, Transform{ .translate{0.f,-0.75f,0.f} });
 
 	auto *const rigidbody = object_->AddComponent<Rigidbody>();
 	rigidbody->SetMaxSpeed({ 3.f,1.f,0.f });

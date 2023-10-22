@@ -20,7 +20,7 @@ GameScene::GameScene() {
 	camera_.UpdateMatrix();
 
 	auto *const modelManager = ModelManager::GetInstance();
-	modelManager->AddModel("Spring", Model::LoadObjFile("", "sphere.obj"));
+	modelManager->AddModel("Spring", Model::LoadObjFile("Model/Player/", "player.obj"));
 	modelManager->AddModel("Enemy", Model::LoadObjFile("", "sphere.obj"));
 	modelManager->AddModel("Gauge", Model::LoadObjFile("", "sphere.obj"));
 
