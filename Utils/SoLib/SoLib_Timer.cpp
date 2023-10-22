@@ -56,7 +56,7 @@ namespace SoLib {
 	}
 
 	void RealTimer::Start() {
-		nowFlame_ = 0u;
+		nowFlame_ = 0.f;
 		isFinish_ = false;
 		isActive_ = true;
 	}
