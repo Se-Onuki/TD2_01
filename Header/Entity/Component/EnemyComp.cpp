@@ -3,6 +3,7 @@
 #include "../../../Engine/DirectBase/Model/ModelManager.h"
 #include "Collider.h"
 #include "SpringObjectComp.h"
+#include "ModelComp.h"
 
 std::list<std::unique_ptr<Entity>> *EnemyComp::sEnemys_ = {};
 float EnemyComp::sStanTime_ = 0.f;
@@ -14,7 +15,8 @@ void EnemyComp::Init() {
 	nextState_ = nullptr;
 
 	auto *const enemyModel = ModelManager::GetInstance()->GetModel("Enemy");
-	defaultModel_ = enemyModel;
+
+	object_->AddComponent<ModelComp>()->AddBone("Body", enemyModel, Transform{ .translate{ 0.f,-1.f,0.f } });
 
 	auto *const colliderComp = object_->AddComponent<ColliderComp>();
 	colliderComp->SetRadius(1.f);
@@ -38,8 +40,8 @@ void EnemyComp::Update([[maybe_unused]] float deltaTime) {
 
 }
 
-void EnemyComp::Draw(const Camera<Render::CameraType::Projecction> &camera) const {
-	defaultModel_->Draw(object_->transform_, camera);
+void EnemyComp::Draw([[maybe_unused]] const Camera<Render::CameraType::Projecction> &camera) const {
+
 }
 
 void EnemyComp::OnCollision(Entity *const other) {

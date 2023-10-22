@@ -33,7 +33,7 @@ GameScene::GameScene() {
 	auto *const box = modelManager->AddModel("Box", Model::LoadObjFile("Model/Block/", "block.obj"));
 	box->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/stoneBlock.png");
 
-	modelManager->AddModel("Soul", Model::LoadObjFile("", "sphere.obj"));
+	modelManager->AddModel("Soul", Model::LoadObjFile("Model/Souls/purple_soul/", "purple_soul.obj"));
 
 }
 

@@ -105,7 +105,7 @@ public:
 	const IPlayerState *const GetState()const { return state_.get(); }
 
 	void Init() {
-		state_ = std::make_unique<JumpingState>(this);
+		state_ = std::make_unique<FallingState>(this);
 		nextState_ = nullptr;
 	}
 

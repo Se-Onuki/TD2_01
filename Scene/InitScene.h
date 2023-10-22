@@ -1,6 +1,9 @@
 #pragma once
 #include "SceneManager.h"
 
+#include <memory>
+#include "../Engine/DirectBase/2D/Sprite.h"
+
 class InitScene : public IScene {
 public:
 	InitScene() = default;
@@ -12,9 +15,10 @@ public:
 
 	void Update() override {};
 
-	void Draw() override {};
+	void Draw() override;
 public:
-	static bool isChangeSceneCall_;
 
 private:
+	std::unique_ptr<Sprite> sprite_ = nullptr;
+
 };

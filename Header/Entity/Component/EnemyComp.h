@@ -103,8 +103,6 @@ private:
 	bool isStan_ = false;
 	static float sStanTime_;
 
-	Model *defaultModel_ = nullptr;
-
 	static std::list<std::unique_ptr<Entity>> *sEnemys_;
 
 	std::unique_ptr<EnemyState::IState> currentState_;
