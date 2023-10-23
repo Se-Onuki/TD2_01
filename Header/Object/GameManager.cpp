@@ -28,7 +28,12 @@ void GameManager::Init() {
 #pragma region Enemy
 
 	AddEnemy({ 10.f,10.f,0.f });
-	AddEnemy({ -10.f,10.f,0.f });
+	AddEnemy({ -10.f,10.f,0.f });	
+	AddEnemy({ -4.f,20.f,0.f });
+	AddEnemy({ -12.f,14.f,0.f });
+	AddEnemy({ 12.f,18.f,0.f });
+	AddEnemy({ 12.f,18.f,0.f });
+
 	EnemyComp::SetEnemyList(&enemys_);
 
 #pragma endregion

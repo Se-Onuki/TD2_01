@@ -7,7 +7,7 @@ void OrbComp::Init() {
 
 	modelComp_ = object_->AddComponent<ModelComp>();
 	
-	auto* const orbModel = ModelManager::GetInstance()->GetModel("Gauge");
+	auto* const orbModel = ModelManager::GetInstance()->GetModel("Orb");
 	modelComp_->AddBone("Orb", orbModel);
 	
 	//auto* const colliderComp = object_->AddComponent<ColliderComp>();
