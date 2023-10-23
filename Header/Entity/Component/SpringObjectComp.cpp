@@ -136,7 +136,11 @@ void FallingState::Exit([[maybe_unused]] float deltaTime) {
 }
 
 void FallingState::OnCollision([[maybe_unused]] Entity *const other) {
-
+	auto *const enemyComp = other->GetComponent<EnemyComp>();
+	if (enemyComp) {
+		// スタン中の敵全破壊
+		enemyComp->BreakAll();
+	}
 }
 
 void JumpingState::Init([[maybe_unused]] float deltaTime) {
@@ -201,15 +205,38 @@ void JumpingState::Update([[maybe_unused]] float deltaTime) {
 void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {
 
 	auto *const rigidbody = stateManager_->parent_->object_->GetComponent<Rigidbody>();
-	if (rigidbody->GetVelocity().y <= 0.f) {
-		stateManager_->ChangeState<JumpingState>();
-	}
-	else {
-		auto *const enemyComp = other->GetComponent<EnemyComp>();
-		if (enemyComp) {
-			other->SetActive(false);
+	//if (rigidbody->GetVelocity().y <= 0.f) {
+	//}
+	//else {
+	//	auto *const enemyComp = other->GetComponent<EnemyComp>();
+	//	if (enemyComp) {
+	//		//other->SetActive(false);
+	//	}
+	//}
+
+
+	// 敵のコンポーネントを取得
+	auto *const enemyComp = other->GetComponent<EnemyComp>();
+	if (enemyComp) {
+		// 上から踏まれた場合
+		if (rigidbody->GetVelocity().y <= 0.f) {
+
+			stateManager_->ChangeState<JumpingState>();
+
+			enemyComp->StartStan();
+
+		}
+		// 下から叩かれた場合
+		else {
+
+			// 自分自身がスタンしてる場合
+			if (enemyComp->GetIsStan()) {
+				// スタン中の敵全破壊
+				enemyComp->BreakAll();
+			}
 		}
 	}
+
 }
 
 void SquattingState::Init([[maybe_unused]] float deltaTime) {

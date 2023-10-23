@@ -44,44 +44,17 @@ void EnemyComp::Draw([[maybe_unused]] const Camera<Render::CameraType::Projeccti
 
 }
 
-void EnemyComp::OnCollision(Entity *const other) {
-	// プレイヤのコンポーネントを取得
-	auto *const springObjectComp = other->GetComponent<SpringObjectComp>();
-	// もし存在したら実行
-	if (springObjectComp) {
-		auto *const playerState = springObjectComp->GetManager()->GetState();
-		// もしジャンプ中ならば
-		if (dynamic_cast<const JumpingState *const>(playerState)) {
-
-			auto *const playerRigidbody = other->GetComponent<Rigidbody>();
-			// 上から踏まれた場合
-			if (playerRigidbody->GetVelocity().y <= 0.f) {
-
-				isStan_ = true;
-				if (sStanTime_ <= 0.f) {
-					sStanTime_ = vDefaultStanTime_;
-				}
-
-				auto *const selfRigidbody = object_->GetComponent<Rigidbody>();
-				selfRigidbody->SetVelocity(Vector3::zero);
-				selfRigidbody->ApplyInstantForce(Vector3::up * -0.5f);
-			}
-			// 下から叩かれた場合
-			else {
-				// 自分自身がスタンしてる場合
-				if (isStan_) {
-					// スタン中の敵全破壊
-					BreakAll();
-				}
-			}
-
-		}
-		// もし高速落下中ならば
-		else if (dynamic_cast<const FallingState *const>(playerState)) {
-			// スタン中の敵全破壊
-			BreakAll();
-		}
-	}
+void EnemyComp::OnCollision([[maybe_unused]] Entity *const other) {
+	//// プレイヤのコンポーネントを取得
+	//auto *const springObjectComp = other->GetComponent<SpringObjectComp>();
+	//// もし存在したら実行
+	//if (springObjectComp) {
+	//	auto *const playerState = springObjectComp->GetManager()->GetState();
+	//	if (dynamic_cast<const FallingState *const>(playerState)) {
+	//		// スタン中の敵全破壊
+	//		BreakAll();
+	//	}
+	//}
 }
 
 void EnemyComp::Destroy() {
@@ -106,6 +79,13 @@ void EnemyComp::StaticUpdate(float deltaTime) {
 
 void EnemyComp::StaticInit() {
 	sStanTime_ = 0.f;
+}
+
+void EnemyComp::StartStan() {
+	isStan_ = true;
+	if (sStanTime_ <= 0.f) {
+		sStanTime_ = vDefaultStanTime_;
+	}
 }
 
 void EnemyState::IdleState::Init([[maybe_unused]] float deltaTime) {

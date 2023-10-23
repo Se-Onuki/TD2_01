@@ -74,8 +74,6 @@ public:
 	/// @brief スタン中の敵全破壊
 	void BreakAll();
 
-	bool GetIsStan() const { return isStan_; }
-
 	static void SetEnemyList(std::list<std::unique_ptr<Entity>> *const enemys) { sEnemys_ = enemys; }
 
 	static void StaticUpdate(float deltaTime);
@@ -87,6 +85,13 @@ public:
 			nextState_.reset(newState);
 		}
 	}
+
+	bool GetIsStan() const { return isStan_; }
+	void SetIsStan(const bool stan) { isStan_ = stan; }
+
+	float GetStanTime() const { return sStanTime_; }
+
+	void StartStan();
 
 private:
 
