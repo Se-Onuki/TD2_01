@@ -7,45 +7,15 @@
 #include <imgui.h>
 #include "Math.hpp"
 
-//Transform::Transform(const Transform &other) {
-//}
-
-//Transform Transform::operator=(const Transform &other) noexcept {
-//	other;
-//	return Transform();
-//}
-//
-//Transform Transform::operator=(Transform &&other) noexcept {
-//	other;
-//	return Transform{};
-//}
-
-Matrix4x4 Transform::Affine() const
-{
+Matrix4x4 Transform::Affine() const {
 	return Matrix4x4::Affine(scale, rotate, translate);
 }
 
-void Transform::InitResource()
-{
-	CreateConstBuffer();
-	SetMap();
+void Transform::InitResource() {
 	UpdateMatrix();
 }
 
-void Transform::CreateConstBuffer()
-{
-	//constBuffer_ = CreateBufferResource(DirectXCommon::GetInstance()->GetDevice(), sizeof(TransformMatrix));
-}
-
-void Transform::SetMap()
-{
-	/*HRESULT result = S_FALSE;
-	result = constBuffer_->Map(0, nullptr, reinterpret_cast<void **>(&mapData_));
-	assert(SUCCEEDED(result));*/
-}
-
-void Transform::CalcMatrix()
-{
+void Transform::CalcMatrix() {
 	matWorld_ = Affine();
 	if (parent_) {
 		matWorld_ *= parent_->matWorld_;
@@ -56,14 +26,12 @@ void Transform::TransferMatrix() {
 	mapBuffer_->World = matWorld_;
 }
 
-void Transform::UpdateMatrix()
-{
+void Transform::UpdateMatrix() {
 	CalcMatrix();
 	TransferMatrix();
 }
 
-bool Transform::ImGuiWidget()
-{
+bool Transform::ImGuiWidget() {
 	if (ImGui::TreeNode("Transform")) {
 		bool isUsing = false;
 
@@ -79,8 +47,7 @@ bool Transform::ImGuiWidget()
 	return false;
 }
 
-bool Transform::ImGuiWidget2D()
-{
+bool Transform::ImGuiWidget2D() {
 	if (ImGui::TreeNode("Transform2D")) {
 		bool isUsing = false;
 

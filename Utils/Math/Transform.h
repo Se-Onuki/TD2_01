@@ -8,7 +8,6 @@
 
 struct Transform {
 	Transform &operator=(const Transform &other) = default;
-	//Transform &operator=(Transform &&other) = default;
 
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	struct TransformMatrix {
@@ -23,12 +22,9 @@ struct Transform {
 	Matrix4x4 matWorld_{};	// ローカル . ワールド変換
 	const Transform *parent_ = nullptr;	// 親へのアドレス
 
-	//ComPtr<ID3D12Resource> constBuffer_ = nullptr;
-	//TransformMatrix *mapData_ = nullptr;	// マップ済みデータ
-
 	CBuffer<TransformMatrix> mapBuffer_;
 
-	_NODISCARD Matrix4x4 Affine() const;
+	Matrix4x4 Affine() const;
 
 	void InitResource();
 
@@ -41,7 +37,4 @@ struct Transform {
 
 	void Create(const Matrix4x4 &mat);
 private:
-	void CreateConstBuffer();
-
-	void SetMap();
 };

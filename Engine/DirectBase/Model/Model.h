@@ -21,7 +21,6 @@
 
 #include "../../../Utils/Math/Transform.h"
 
-struct Transform;
 class ViewProjection;
 
 struct Material;

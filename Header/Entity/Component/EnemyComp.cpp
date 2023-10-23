@@ -45,16 +45,7 @@ void EnemyComp::Draw([[maybe_unused]] const Camera<Render::CameraType::Projeccti
 }
 
 void EnemyComp::OnCollision([[maybe_unused]] Entity *const other) {
-	//// プレイヤのコンポーネントを取得
-	//auto *const springObjectComp = other->GetComponent<SpringObjectComp>();
-	//// もし存在したら実行
-	//if (springObjectComp) {
-	//	auto *const playerState = springObjectComp->GetManager()->GetState();
-	//	if (dynamic_cast<const FallingState *const>(playerState)) {
-	//		// スタン中の敵全破壊
-	//		BreakAll();
-	//	}
-	//}
+
 }
 
 void EnemyComp::Destroy() {
@@ -93,7 +84,9 @@ void EnemyState::IdleState::Init([[maybe_unused]] float deltaTime) {
 }
 
 void EnemyState::IdleState::Update([[maybe_unused]] float deltaTime) {
-
+	if (enemy_->GetIsStan()) {
+		enemy_->SetState<StunState>();
+	}
 }
 
 void EnemyState::IdleState::Exit([[maybe_unused]] float deltaTime) {
@@ -118,9 +111,11 @@ void EnemyState::StunState::Init([[maybe_unused]] float deltaTime) {
 
 void EnemyState::StunState::Update([[maybe_unused]] float deltaTime) {
 
-	if (remainingTime_ <= 0.f) {
-
+	if (!enemy_->GetIsStan()) {
+		enemy_->SetState<IdleState>();
 	}
+	enemy_->object_->transform_.rotate.y += 0.1f;
+
 }
 
 void EnemyState::StunState::Exit([[maybe_unused]] float deltaTime) {

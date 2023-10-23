@@ -3,15 +3,16 @@
 #include "../../../Engine/DirectBase/Model/Model.h"
 #include <iostream>
 #include <memory>
+#include <concepts>
 #include "../../../Engine/DirectBase/File/VariantItem.h"
 
 class EnemyComp;
 namespace EnemyState {
 	class IState {
 	public:
-		IState(EnemyComp *sauce) :sauce_(sauce) {}
+		IState(EnemyComp *sauce) :enemy_(sauce) {}
 
-		EnemyComp *const sauce_ = nullptr;
+		EnemyComp *const enemy_ = nullptr;
 
 		virtual void Init(float deltaTime) {
 			deltaTime;
@@ -26,6 +27,8 @@ namespace EnemyState {
 
 		virtual void OnCollision(Entity *const other) { other; }
 	};
+	template <typename T>
+	concept IsBaseIState = std::derived_from<T, IState>;
 
 	class IdleState : public IState {
 	public:
@@ -79,10 +82,10 @@ public:
 	static void StaticUpdate(float deltaTime);
 	static void StaticInit();
 
-
-	void SetState(EnemyState::IState *const newState) {
+	template <EnemyState::IsBaseIState T>
+	void SetState() {
 		if (nextState_ == nullptr) {
-			nextState_.reset(newState);
+			nextState_ = std::make_unique<T>(this);
 		}
 	}
 

@@ -26,7 +26,8 @@ void SpringObjectComp::Init() {
 	rigidbody->SetMaxSpeed({ 3.f,1.f,0.f });
 
 	auto *const colliderComp = object_->AddComponent<ColliderComp>();
-	colliderComp->SetRadius(1.f);
+	colliderComp->SetRadius(1.5f);
+	colliderComp->SetCentor({ 0.f,0.75f,0.f });
 	colliderComp->SetCollisionAttribute(static_cast<uint32_t>(CollisionFilter::Player));
 	colliderComp->SetCollisionMask(~static_cast<uint32_t>(CollisionFilter::Player));
 
@@ -234,6 +235,10 @@ void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {
 				// スタン中の敵全破壊
 				enemyComp->BreakAll();
 			}
+			else {
+				other->SetActive(false);
+			}
+
 		}
 	}
 
