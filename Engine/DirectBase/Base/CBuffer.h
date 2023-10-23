@@ -284,9 +284,9 @@ inline void ArrayCBuffer<T>::CreateBuffer(size_t size) {
 
 template<SoLib::IsNotPointer T>
 inline ArrayCBuffer<T>::~ArrayCBuffer() {
-	resources_->Release();
-	//cbView_ = {};
-	//mapData_ = nullptr;
+	if (resources_) {
+		resources_->Release();
+	}
 }
 
 

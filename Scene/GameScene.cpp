@@ -76,7 +76,6 @@ void GameScene::Update() {
 
 		sceneManager_->ChangeScene<TitleScene>(60);
 	}
-	//	transform_.UpdateMatrix();
 }
 
 void GameScene::Draw() {
@@ -114,6 +113,7 @@ void GameScene::Draw() {
 	Sprite::StartDraw(commandList);
 
 	// スプライトの描画
+	gameManager_->Draw2D();
 
 	Sprite::EndDraw();
 

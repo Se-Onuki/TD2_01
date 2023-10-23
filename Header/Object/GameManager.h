@@ -31,6 +31,8 @@ public:
 
 	void Draw() const;
 
+	void Draw2D() const;
+
 	void ImGuiWidget();
 
 	const Vector2 kMapCentor_ = Vector2{ 1280.f, 720.f } / 2.f;

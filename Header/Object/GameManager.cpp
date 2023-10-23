@@ -27,7 +27,6 @@ void GameManager::Init() {
 
 #pragma region Enemy
 
-	AddEnemy({ 0.f,10.f,0.f });
 	AddEnemy({ 10.f,10.f,0.f });
 	AddEnemy({ -10.f,10.f,0.f });
 	EnemyComp::SetEnemyList(&enemys_);
@@ -115,6 +114,10 @@ void GameManager::Update(const float deltaTime) {
 		spring_->Update(deltaTime);
 	}
 
+	if (followCamera_) {
+		followCamera_->Update(deltaTime);
+	}
+
 	for (auto &enemy : enemys_) {
 		enemy->Update(deltaTime);
 	}
@@ -124,10 +127,6 @@ void GameManager::Update(const float deltaTime) {
 
 	if (orb_) {
 		orb_->Update(deltaTime);
-	}
-
-	if (followCamera_) {
-		followCamera_->Update(deltaTime);
 	}
 
 }
@@ -150,6 +149,12 @@ void GameManager::Draw() const {
 		orb_->Draw(camera);
 	}
 	mapChip_->Draw(camera);
+}
+
+void GameManager::Draw2D() const {
+	for (auto &enemy : enemys_) {
+		enemy->Draw2D();
+	}
 }
 
 void GameManager::ImGuiWidget() {

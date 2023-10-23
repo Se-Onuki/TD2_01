@@ -68,12 +68,12 @@ public:
 	/// @brief 画面上の座標を取得する
 	/// @param pos ワールド座標
 	/// @return スクリーン座標
-	Vector3 GetScreenPoint(const Vector3 &pos);
+	Vector3 GetScreenPoint(const Vector3 &pos) const;
 
 	/// @brief ワールド座標を取得する
 	/// @param pos スクリーン座標
 	/// @return ワールド座標の両端[近 : 遠]
-	std::pair<Vector3, Vector3> GetWorldPos(const Vector2 &pos);
+	std::pair<Vector3, Vector3> GetWorldPos(const Vector2 &pos) const;
 
 };
 

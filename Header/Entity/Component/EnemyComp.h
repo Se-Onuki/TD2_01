@@ -5,6 +5,7 @@
 #include <memory>
 #include <concepts>
 #include "../../../Engine/DirectBase/File/VariantItem.h"
+#include "../../../Engine/DirectBase/2D/Sprite.h"
 
 class EnemyComp;
 namespace EnemyState {
@@ -69,6 +70,7 @@ public:
 	void Init() override;
 	void Update(float deltaTime) override;
 	void Draw(const Camera<Render::CameraType::Projecction> &camera) const override;
+	void Draw2D() const override;
 
 	void OnCollision(Entity *const other) override;
 
@@ -116,4 +118,5 @@ private:
 	std::unique_ptr<EnemyState::IState> currentState_;
 	std::unique_ptr<EnemyState::IState> nextState_;
 
+	std::unique_ptr<Sprite> stunSprite_ = nullptr;
 };

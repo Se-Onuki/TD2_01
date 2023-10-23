@@ -36,7 +36,7 @@ bool Camera<Render::CameraType::Projecction>::ImGuiWidget() {
 	return false;
 }
 
-Vector3 Camera<Render::CameraType::Projecction>::GetScreenPoint(const Vector3 &pos) {
+Vector3 Camera<Render::CameraType::Projecction>::GetScreenPoint(const Vector3 &pos) const {
 
 	const Matrix4x4 &matViewport =
 		Render::MakeViewportMatrix({ 0.f,0.f }, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
@@ -44,7 +44,7 @@ Vector3 Camera<Render::CameraType::Projecction>::GetScreenPoint(const Vector3 &p
 	return Render::WorldToScreen(pos, matVPVp);
 }
 
-std::pair<Vector3, Vector3> Camera<Render::CameraType::Projecction>::GetWorldPos(const Vector2 &pos) {
+std::pair<Vector3, Vector3> Camera<Render::CameraType::Projecction>::GetWorldPos(const Vector2 &pos) const {
 	const Matrix4x4 &matViewport =
 		Render::MakeViewportMatrix({ 0.f,0.f }, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
 	const Matrix4x4 &matVPVp = matView_ * matProjection_ * matViewport;

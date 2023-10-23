@@ -30,6 +30,12 @@ void Entity::Draw(const Camera<Render::CameraType::Projecction> &vp) const {
 	}
 }
 
+void Entity::Draw2D() const {
+	for (auto &component : componentMap_) {
+		component.second->Draw2D();
+	}
+}
+
 void Entity::Destroy() {
 	for (auto &component : componentMap_) {
 		component.second->Destroy();

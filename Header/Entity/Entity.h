@@ -53,6 +53,9 @@ public:
 	/// @brief 描画処理
 	/// @param vp Cameraクラス
 	virtual void Draw(const Camera<Render::CameraType::Projecction> &) const {};
+
+	/// @brief 二次元描画処理
+	virtual void Draw2D() const {};
 	/// @brief 破棄時に実行される関数
 	virtual void Destroy() {};
 
@@ -106,6 +109,8 @@ public:
 	virtual void Reset();
 	virtual void Update(float deltaTime);
 	virtual void Draw(const Camera<Render::CameraType::Projecction> &vp) const;
+
+	virtual void Draw2D() const;
 
 	virtual void Destroy();
 
