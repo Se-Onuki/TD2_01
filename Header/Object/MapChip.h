@@ -21,7 +21,7 @@ public:
 		kBox,			// 箱
 		kCrack,			// ヒビ
 
-		kBarrier,		// バリア
+		kBarrier,		// バリア (不透明の移動不可枠)
 	};
 
 	struct ChipData {
