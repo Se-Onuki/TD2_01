@@ -5,23 +5,60 @@
 
 void MapChip::Init() {
 
-	//const float xCentor = kMapWidth_ / 2.f - 0.5f;
-	//const float yCentor = kMapHight_ / 2.f - 0.5f;
+	SetDefaultMap();
 
+#pragma region マップ確保
 
-	for (uint32_t x = 0u; x < kMapWidth_; ++x) {
-		mapChip_[0][x].chipState_ = ChipState::kBox;
-		mapChip_[kMapHight_ - 1][x].chipState_ = ChipState::kBox;
+	for (uint32_t y = 0u; y < kMapHight_; ++y) {
+		for (uint32_t x = 0u; x < kMapWidth_; ++x) {
 
-		if (x > kMapWidth_ / 2 - 5 && x < kMapWidth_ / 2 + 4) {
-			mapChip_[0][x].chipState_ = ChipState::kUnbreakable;
+			mapChip_[y][x].Create(x, y);
+
 		}
 	}
 
-	for (uint32_t y = 0u; y < kMapHight_; ++y) {
-		mapChip_[y][0].chipState_ = ChipState::kUnbreakable;
-		mapChip_[y][kMapWidth_ - 1u].chipState_ = ChipState::kUnbreakable;
+#pragma endregion
+
+}
+
+void MapChip::Init(const std::string &file_path) {
+
+	// ステージを読み込む
+	std::ifstream file{ file_path };
+
+	// もしファイルが読み込めなかったらその場で終了
+	if (!file.is_open()) {
+		assert(0 && "ステージファイルが読み込めません");
+		return;
 	}
+
+	std::string line;
+	int row = kMapHight_;
+
+	while (std::getline(file, line) && row > 0u) {
+		std::stringstream ss(line);
+		int col = 0;
+		std::string cell;
+
+		while (std::getline(ss, cell, ',') && col < kMapWidth_) {
+
+			if (cell == "") {
+				mapChip_[row - 1][col] = ChipState::kAir;
+			}
+			else {
+				mapChip_[row - 1][col] = static_cast<ChipState>(std::stoul(cell));
+			}
+
+			col++;
+		}
+
+		row--;
+	}
+
+	// ファイルを閉じる
+	file.close();
+
+
 
 #pragma region マップ確保
 
@@ -468,6 +505,22 @@ Vector3 MapChip::HitMap(const Vector3 &beforePos, const Vector3 &afterPos, float
 
 	return (resultPos * kScale_) / kChipSize - offset;
 
+}
+
+void MapChip::SetDefaultMap() {
+	for (uint32_t x = 0u; x < kMapWidth_; ++x) {
+		mapChip_[0][x].chipState_ = ChipState::kBox;
+		mapChip_[kMapHight_ - 1][x].chipState_ = ChipState::kBox;
+
+		if (x > kMapWidth_ / 2 - 5 && x < kMapWidth_ / 2 + 4) {
+			mapChip_[0][x].chipState_ = ChipState::kUnbreakable;
+		}
+	}
+
+	for (uint32_t y = 0u; y < kMapHight_; ++y) {
+		mapChip_[y][0].chipState_ = ChipState::kUnbreakable;
+		mapChip_[y][kMapWidth_ - 1u].chipState_ = ChipState::kUnbreakable;
+	}
 }
 
 void MapChip::ChipData::Init() {

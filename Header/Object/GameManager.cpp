@@ -23,7 +23,7 @@ void GameManager::Init() {
 #pragma region MapChip
 
 	mapChip_ = MapChip::GetInstance();
-	mapChip_->Init();
+	mapChip_->Init("resources/Level/Level1.csv");
 
 #pragma endregion
 
@@ -75,7 +75,7 @@ void GameManager::Exit() {
 
 void GameManager::Update(const float deltaTime) {
 
-	enemys_.remove_if([this](std::unique_ptr<Entity>& enemy) {
+	enemys_.remove_if([this](std::unique_ptr<Entity> &enemy) {
 		if (!enemy->GetActive()) {
 			AddSoul(enemy->GetWorldPos());
 			enemy->Destroy();
@@ -85,7 +85,7 @@ void GameManager::Update(const float deltaTime) {
 		return false;
 		}
 	);
-	souls_.remove_if([](std::unique_ptr<Entity>& soul) {
+	souls_.remove_if([](std::unique_ptr<Entity> &soul) {
 		if (!soul->GetActive()) {
 			soul->Destroy();
 			soul.reset();
@@ -103,7 +103,7 @@ void GameManager::Update(const float deltaTime) {
 	if (spring_) {
 		collisionManager_->push_back(spring_.get());
 	}
-	for (auto& enemy : enemys_) {
+	for (auto &enemy : enemys_) {
 		collisionManager_->push_back(enemy.get());
 	}
 	collisionManager_->ChackAllCollision();
@@ -127,10 +127,10 @@ void GameManager::Update(const float deltaTime) {
 		followCamera_->Update(deltaTime);
 	}
 
-	for (auto& enemy : enemys_) {
+	for (auto &enemy : enemys_) {
 		enemy->Update(deltaTime);
 	}
-	for (auto& soul : souls_) {
+	for (auto &soul : souls_) {
 		soul->Update(deltaTime);
 	}
 
@@ -148,7 +148,7 @@ void GameManager::Update(const float deltaTime) {
 		AddEnemy(buff);
 	}
 	if (ImGui::Button("KillAll")) {
-		for (auto& enemy : enemys_) {
+		for (auto &enemy : enemys_) {
 			enemy->SetActive(false);
 		}
 	}
@@ -161,16 +161,16 @@ void GameManager::Update(const float deltaTime) {
 }
 
 void GameManager::Draw() const {
-	const auto& camera = *followCamera_->GetCamera();
+	const auto &camera = *followCamera_->GetCamera();
 
 	if (spring_) {
 		spring_->Draw(camera);
 	}
 
-	for (auto& enemy : enemys_) {
+	for (auto &enemy : enemys_) {
 		enemy->Draw(camera);
 	}
-	for (auto& soul : souls_) {
+	for (auto &soul : souls_) {
 		soul->Draw(camera);
 	}
 	if (orbGauge_) {
@@ -183,7 +183,7 @@ void GameManager::Draw() const {
 }
 
 void GameManager::Draw2D() const {
-	for (auto& enemy : enemys_) {
+	for (auto &enemy : enemys_) {
 		enemy->Draw2D();
 	}
 }
@@ -194,9 +194,9 @@ void GameManager::ImGuiWidget() {
 	}
 }
 
-void GameManager::AddEnemy(const Vector3& pos) {
+void GameManager::AddEnemy(const Vector3 &pos) {
 	enemys_.push_back(std::make_unique<Entity>());
-	auto& newEnemy = enemys_.back();
+	auto &newEnemy = enemys_.back();
 
 	newEnemy->Init();
 
@@ -205,9 +205,9 @@ void GameManager::AddEnemy(const Vector3& pos) {
 	newEnemy->AddComponent<EnemyComp>();
 }
 
-void GameManager::AddSoul(const Vector3& pos) {
+void GameManager::AddSoul(const Vector3 &pos) {
 	souls_.push_back(std::make_unique<Entity>());
-	auto& newSoul = souls_.back();
+	auto &newSoul = souls_.back();
 
 	newSoul->Init();
 	newSoul->transform_.translate = pos;

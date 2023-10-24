@@ -16,11 +16,12 @@ class MapChip {
 public:
 
 	enum class ChipState : uint32_t {
-		kAir,	// 空白
-		kBox,	// 箱
-		kBarrier,		// バリア
+		kAir,			// 空白
+		kUnbreakable,	// 破壊不可
+		kBox,			// 箱
 		kCrack,			// ヒビ
-		kUnbreakable	// 破壊不可
+
+		kBarrier,		// バリア
 	};
 
 	struct ChipData {
@@ -57,6 +58,7 @@ public:
 	}
 
 	void Init();
+	void Init(const std::string &file_path);
 
 	void Exit();
 
@@ -85,6 +87,8 @@ public:
 	Vector3 HitMap(const Vector3 &beforePos, const Vector3 &afterPos, float radius) const;
 
 private:
+
+	void SetDefaultMap();
 
 	MapArray mapChip_ = {};
 
