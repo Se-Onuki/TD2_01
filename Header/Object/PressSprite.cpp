@@ -12,8 +12,8 @@ void PressSprite::Init() {
 	state_->SetNextState(st);
 
 	// タイトルロゴのスプライトを生成、いろいろ設定
-	pressSprite.reset(Sprite::Create(TextureManager::Load("uvChecker.png")));
-	pressSprite->SetPosition({640.0f, 400.0f });
+	pressSprite.reset(Sprite::Create(TextureManager::Load("pressSpace.png")));
+	pressSprite->SetPosition({640.0f, 500.0f });
 	pressSprite->SetScale({ 0.0f, 0.0f });
 	pressSprite->SetPivot({ 0.5f, 0.5f });
 
@@ -49,10 +49,10 @@ void OpPressSpriteEase::Init(){
 	start_ = { 0.0f, 0.0f };
 
 	// イージング後の大きさ
-	end_ = { 300.0f,50.0f };
+	end_ = { 600.0f,100.0f };
 }
 
-void OpPressSpriteEase::Update(float deltaTime) {
+void OpPressSpriteEase::Update(float) {
 	// 大きさのイージング
 	pressSpriteScale_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
 	pressSpriteScale_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
@@ -64,7 +64,7 @@ void OpPressSpriteEase::Update(float deltaTime) {
 		stateManager_->SetNextState(st);
 	}
 	else {
-		t_easing_ += 0.8f * deltaTime;
+		t_easing_ += 0.08f /** deltaTime*/;
 	}
 
 	// 大きさを設定
@@ -81,7 +81,7 @@ void DefaultUpPressSpriteEase::Init() {
 
 }
 
-void DefaultUpPressSpriteEase::Update(float deltaTime) {
+void DefaultUpPressSpriteEase::Update(float ) {
 	// 位置のイージング
 	pressSpritePosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
 	pressSpritePosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
@@ -93,7 +93,7 @@ void DefaultUpPressSpriteEase::Update(float deltaTime) {
 		stateManager_->SetNextState(st);
 	}
 	else {
-		t_easing_ += 1.5f * deltaTime;
+		t_easing_ += 0.03f/* * deltaTime*/;
 	}
 
 	// 位置を設定
@@ -106,7 +106,7 @@ void DefaultDownPressSpriteEase::Init() {
 	end_ = nowPos - Vector2{0.0f, 50.0f};
 }
 
-void DefaultDownPressSpriteEase::Update(float deltaTime) {
+void DefaultDownPressSpriteEase::Update(float ) {
 	// 位置のイージング
 	pressSpritePosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeOutBack(t_easing_));
 	pressSpritePosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeOutBack(t_easing_));
@@ -118,7 +118,7 @@ void DefaultDownPressSpriteEase::Update(float deltaTime) {
 		stateManager_->SetNextState(st);
 	}
 	else {
-		t_easing_ += 1.5f * deltaTime;
+		t_easing_ += 0.03f /** deltaTime*/;
 	}
 
 	// 位置を設定
@@ -136,7 +136,7 @@ void EpPressSpriteState::Init() {
 	t_colorEasing = 0.0f;
 }
 
-void EpPressSpriteState::Update(float deltaTime) {
+void EpPressSpriteState::Update(float) {
 	// 位置のイージング
 	pressSpritePosition_.x = start_.x + ((end_.x - start_.x) * SoLib::easeInOutBack(t_easing_));
 	pressSpritePosition_.y = start_.y + ((end_.y - start_.y) * SoLib::easeInOutBack(t_easing_));
@@ -149,7 +149,7 @@ void EpPressSpriteState::Update(float deltaTime) {
 		t_easing_ = 1.0f;
 	}
 	else {
-		t_easing_ += 1.0f * deltaTime;
+		t_easing_ += 0.02f /** deltaTime*/;
 	}
 
 	// 色イージングの媒介変数の処理
@@ -157,7 +157,7 @@ void EpPressSpriteState::Update(float deltaTime) {
 		t_colorEasing = 1.0f;
 	}
 	else {
-		t_colorEasing += 1.5f * deltaTime;
+		t_colorEasing += 0.02f /** deltaTime*/;
 	}
 
 	// 位置、色を設定

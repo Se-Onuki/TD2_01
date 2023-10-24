@@ -8,31 +8,27 @@
 #include "../Engine/DirectBase/Input/Input.h"
 #include "../Engine/DirectBase/Base/Audio.h"
 
-#include "../Header/Object/SkyCylinder.h"
-
 #include "../Header/Object/TitleLogo.h"
 #include "../Header/Object/PressSprite.h"
 
-class TitleScene : public IScene {
+#include "../Header/Object/SkyCylinder.h"
+
+class GameOverScene : public IScene {
 public:
-	TitleScene();
-	~TitleScene();
+	GameOverScene();
+	~GameOverScene();
 
 	void OnEnter() override;
-
 	void OnExit() override;
 
 	void Update() override;
-
 	void Draw() override;
 public:
 	static bool isChangeSceneCall_;
 
 private:
-
-	Input *input_ = nullptr;
-	Audio *audio_ = nullptr;
-
+	Input* input_ = nullptr;
+	Audio* audio_ = nullptr;
 
 	std::unique_ptr<DirectionLight> light_ = nullptr;
 

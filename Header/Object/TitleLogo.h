@@ -164,7 +164,7 @@ private:
 class TitleLogo {
 public:
 	// 初期化処理
-	void Init();
+	void Init(const std::string& fileName);
 
 	// 更新処理
 	void Update(float deltaTime);
@@ -211,6 +211,9 @@ private:
 	int stateNum_ = -1;
 	// 状態
 	std::unique_ptr<TitleLogoStateManager> state_ = nullptr;
+
+	// 
+	std::string imageName_;
 
 	// シーンチェンジ指令
 	bool isChangeSceneCall_ = false;
