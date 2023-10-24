@@ -118,6 +118,14 @@ public:
 
 	void StartStan();
 
+	static int GetStunSum() {
+		return stunCount_;
+	}
+	static int GetEnemySum() {
+		return int(sEnemys_->size());
+
+	}
+
 private:
 
 	void SetStanTime(float stanTime) { sStanTime_ = stanTime; }
@@ -142,4 +150,6 @@ private:
 	uint32_t oneStunTex;
 	uint32_t twoStunTex;
 	std::unique_ptr<Sprite> stunSprite_ = nullptr;
+
+	static int stunCount_;
 };

@@ -29,6 +29,11 @@ void GameManager::Init() {
 #pragma endregion
 
 #pragma region Enemy
+	AddEnemy({ -5.0f,13.0f,0.f });
+	AddEnemy({ -10.0f,4.0f,0.f });
+	AddEnemy({ 4.0f,7.0f,0.f });
+	AddEnemy({ 3.0f,5.0f,0.f });
+	AddEnemy({ 7.0f,15.0f,0.f });
 
 	AddEnemy({ 10.f,10.f,0.f });
 	AddEnemy({ -10.f,10.f,0.f });
@@ -90,7 +95,7 @@ void GameManager::Update(const float deltaTime) {
 
 	enemys_.remove_if([this](std::unique_ptr<Entity> &enemy) {
 		if (!enemy->GetActive()) {
-			AddSoul(enemy->GetWorldPos());
+			AddSoul(enemy->GetWorldPos(), enemy->GetComponent<EnemyComp>()->GetIsStan());
 			enemy->Destroy();
 			enemy.reset();
 			return true;
@@ -223,7 +228,7 @@ void GameManager::AddEnemy(const Vector3 &pos) {
 	newEnemy->AddComponent<EnemyComp>();
 }
 
-void GameManager::AddSoul(const Vector3 &pos) {
+void GameManager::AddSoul(const Vector3 &pos, bool isStun) {
 	souls_.push_back(std::make_unique<Entity>());
 	auto &newSoul = souls_.back();
 
@@ -231,6 +236,8 @@ void GameManager::AddSoul(const Vector3 &pos) {
 	newSoul->transform_.translate = pos;
 	newSoul->transform_.UpdateMatrix();
 	newSoul->AddComponent<SoulComp>();
+	newSoul->GetComponent<SoulComp>()->SetIsStun(isStun);
+	newSoul->GetComponent<SoulComp>()->ModelInit();
 
 }
 
