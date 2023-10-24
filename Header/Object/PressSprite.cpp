@@ -13,7 +13,7 @@ void PressSprite::Init() {
 
 	// タイトルロゴのスプライトを生成、いろいろ設定
 	pressSprite.reset(Sprite::Create(TextureManager::Load("pressSpace.png")));
-	pressSprite->SetPosition({640.0f, 400.0f });
+	pressSprite->SetPosition({640.0f, 500.0f });
 	pressSprite->SetScale({ 0.0f, 0.0f });
 	pressSprite->SetPivot({ 0.5f, 0.5f });
 
