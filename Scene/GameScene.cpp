@@ -18,20 +18,27 @@ GameScene::GameScene() {
 
 	camera_.translation_ = Vector3{ 0.f, 10.f, -30.f };
 	camera_.UpdateMatrix();
+	uint32_t backTexHandle = TextureManager::Load("backTexture.png");
+	sprite_.reset(Sprite::Create());
+	sprite_->SetTextureHaundle(backTexHandle);
+	sprite_->SetScale({ 1280.0f, 720.0f });
+	sprite_->SetPosition({ 0.0f, 0.0f });
 
 	auto *const modelManager = ModelManager::GetInstance();
 	modelManager->AddModel("Spring", Model::LoadObjFile("Model/Player/", "player.obj"));
 	modelManager->AddModel("Enemy", Model::LoadObjFile("Model/Enemy/", "enemy.obj"));
-	modelManager->AddModel("Gauge", Model::LoadObjFile("", "sphere.obj"));
+	auto* const orb = modelManager->AddModel("Orb", Model::LoadObjFile("Model/Orb/", "orb.obj"));
+	orb->materialMap_["Material"]->blendMode_ = Model::BlendMode::kNormal;
+	orb->materialMap_["Material"]->materialBuff_->color = { 1.0f,1.0f, 1.0f, 0.6f };
 
 	auto *const unbleakble = modelManager->AddModel("Unbreakable", Model::LoadObjFile("Model/Block/", "block.obj"));
-	unbleakble->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/unbreakableBlock.png");
+	unbleakble->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/unbreakableBlock_test.png");
 
 	auto *const crack = modelManager->AddModel("Crack", Model::LoadObjFile("Model/Block/", "block.obj"));
-	crack->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/creakedBlock.png");
+	crack->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/creakedBlock_test.png");
 
 	auto *const box = modelManager->AddModel("Box", Model::LoadObjFile("Model/Block/", "block.obj"));
-	box->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/stoneBlock.png");
+	box->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/stoneBlock_test.png");
 
 	modelManager->AddModel("Soul", Model::LoadObjFile("Model/Souls/purple_soul/", "purple_soul.obj"));
 
@@ -87,7 +94,7 @@ void GameScene::Draw() {
 	Sprite::StartDraw(commandList);
 
 	// スプライトの描画
-
+	sprite_->Draw();
 	Sprite::EndDraw();
 
 #pragma endregion
