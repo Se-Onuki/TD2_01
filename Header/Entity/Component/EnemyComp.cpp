@@ -163,6 +163,6 @@ void EnemyState::StapUpState::Update([[maybe_unused]] float deltaTime) {
 
 }
 
-void EnemyState::StapUpState::Exit(float deltaTime) {
+void EnemyState::StapUpState::Exit([[maybe_unused]] float deltaTime) {
 
 }
