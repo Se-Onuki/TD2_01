@@ -114,6 +114,9 @@ void EnemyState::AttackState::Init([[maybe_unused]] float deltaTime) {
 }
 
 void EnemyState::AttackState::Update([[maybe_unused]] float deltaTime) {
+	if (enemy_->GetIsStan()) {
+		enemy_->SetState<StunState>();
+	}
 
 }
 
@@ -135,5 +138,31 @@ void EnemyState::StunState::Update([[maybe_unused]] float deltaTime) {
 }
 
 void EnemyState::StunState::Exit([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::ApproachState::Init([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::ApproachState::Update([[maybe_unused]] float deltaTime) {
+	if (enemy_->GetIsStan()) {
+		enemy_->SetState<StunState>();
+	}
+}
+
+void EnemyState::ApproachState::Exit([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::StapUpState::Init([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::StapUpState::Update([[maybe_unused]] float deltaTime) {
+
+}
+
+void EnemyState::StapUpState::Exit(float deltaTime) {
 
 }

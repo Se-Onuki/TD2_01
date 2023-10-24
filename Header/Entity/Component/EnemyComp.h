@@ -31,7 +31,27 @@ namespace EnemyState {
 	template <typename T>
 	concept IsBaseIState = std::derived_from<T, IState>;
 
+	class StapUpState :public IState {
+	public:
+		using IState::IState;
+		void Init(float deltaTime) override;
+
+		void Update(float deltaTime) override;
+
+		void Exit(float deltaTime) override;
+	};
+
 	class IdleState : public IState {
+	public:
+		using IState::IState;
+		void Init(float deltaTime) override;
+
+		void Update(float deltaTime) override;
+
+		void Exit(float deltaTime) override;
+	};
+
+	class ApproachState : public IState {
 	public:
 		using IState::IState;
 		void Init(float deltaTime) override;
@@ -107,6 +127,7 @@ public:
 
 	// デフォルトのスタン時間
 	VariantItem<float> vDefaultStanTime_{ "StanTime", 10.f };
+
 
 private:
 
