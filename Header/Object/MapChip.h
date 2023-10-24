@@ -79,7 +79,9 @@ public:
 		return Vector2{ (global.x / 2.f) + xCenter, (global.y - 1.f) / 2.f };
 	}
 
-	const ChipData &GetChipData(const Vector2 &vec);
+	float GetDistanceToGround(const Vector2 &localPos) const;
+
+	const ChipData &GetChipData(const Vector2 &vec) const;
 
 
 	const MapArray &GetMapArray()const { return mapChip_; }

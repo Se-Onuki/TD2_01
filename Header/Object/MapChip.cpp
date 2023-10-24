@@ -109,7 +109,46 @@ void MapChip::Draw(const Camera<Render::CameraType::Projecction> &camera) const 
 	}
 }
 
-const MapChip::ChipData &MapChip::GetChipData(const Vector2 &vec) {
+float MapChip::GetDistanceToGround(const Vector2 &localPos) const {
+
+	float distance = 0.f;
+
+	const float decimalOnlyValue = localPos.y - std::floor(localPos.y);
+
+	Vector2 leftDown = localPos + Vector2{ -0.5f, 0.f };
+	Vector2 rightDown = localPos + Vector2{ +0.5f,0.f };
+	if (
+		(leftDown.x < 0.f || rightDown.x >= kMapWidth_)		// 左右が画面外
+		|| (localPos.y + 0.5f >= kMapHight_ || leftDown.y < 0.f)	// 上下が画面外
+		) {
+		return -1.f;
+	}
+
+	while (true) {
+
+		if (
+			(leftDown.y < 0.f)	// 上下が画面外
+			) {
+			return -1.f;
+		}
+
+		--leftDown.y;
+		if (GetChipData(leftDown).chipState_ != ChipState::kAir) {
+			return distance + decimalOnlyValue;
+		}
+
+		--rightDown.y;
+		if (GetChipData(rightDown).chipState_ != ChipState::kAir) {
+			return  distance + decimalOnlyValue;
+		}
+
+		++distance;
+	}
+
+	return 0.f;
+}
+
+const MapChip::ChipData &MapChip::GetChipData(const Vector2 &vec) const {
 
 	return mapChip_[static_cast<int32_t>(vec.y)][static_cast<int32_t>(vec.x)];
 }

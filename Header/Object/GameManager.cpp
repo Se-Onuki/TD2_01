@@ -134,6 +134,7 @@ void GameManager::Update(const float deltaTime) {
 
 	if (spring_) {
 		spring_->Update(deltaTime);
+		ImGui::Text("ToGround : %f", mapChip_->GetDistanceToGround(MapChip::GlobalToLocal(spring_->transform_.translate)));
 	}
 
 	if (followCamera_) {
