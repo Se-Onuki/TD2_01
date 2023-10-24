@@ -191,7 +191,7 @@ void JumpingState::Update([[maybe_unused]] float deltaTime) {
 		stateManager_->ChangeState<DefaultState>();
 	}
 
-	if (Input::GetInstance()->GetDirectInput()->IsTrigger(DIK_SPACE) && MapChip::GetInstance()->GetDistanceToGround(MapChip::GlobalToLocal(stateManager_->parent_->object_->GetWorldPos())) > stateManager_->parent_->vInputDisableHeight) {
+	if (Input::GetInstance()->GetDirectInput()->IsPress(DIK_SPACE) && MapChip::GetInstance()->GetDistanceToGround(MapChip::GlobalToLocal(stateManager_->parent_->object_->GetWorldPos())) > stateManager_->parent_->vInputDisableHeight) {
 		stateManager_->ChangeState<FallingState>();
 	}
 
