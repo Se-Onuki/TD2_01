@@ -288,6 +288,9 @@
     <ClCompile Include="Header\Entity\Component\OrbGaugeComp.cpp">
       <Filter>Header\Entity\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Header\Object\Fade.cpp">
+      <Filter>Header\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -517,6 +520,9 @@
     </ClInclude>
     <ClInclude Include="Header\Entity\Component\OrbGaugeComp.h">
       <Filter>Header\Entity\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Object\Fade.h">
+      <Filter>Header\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

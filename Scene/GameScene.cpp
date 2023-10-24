@@ -9,6 +9,8 @@
 #include "../Header/Entity/Component/ModelComp.h"
 #include "../Utils/SoLib/SoLib_ImGui.h"
 
+#include "../Header/Object/Fade.h"
+
 void GameScene::StartupLoad() {
 
 	auto *const modelManager = ModelManager::GetInstance();
@@ -65,6 +67,8 @@ void GameScene::OnEnter() {
 	gameManager_ = GameManager::GetInstance();
 	gameManager_->Init();
 
+	Fade::GetInstance()->Start({ 0.f,0.f }, Fade::kFadeColor_, 20u);
+
 }
 
 void GameScene::OnExit() {
@@ -93,7 +97,7 @@ void GameScene::Update() {
 	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) ||
 		input_->GetDirectInput()->IsTrigger(DIK_3)) {
 
-		sceneManager_->ChangeScene<TitleScene>(60);
+		sceneManager_->ChangeScene<TitleScene>(30);
 	}
 }
 
@@ -133,6 +137,8 @@ void GameScene::Draw() {
 
 	// スプライトの描画
 	gameManager_->Draw2D();
+
+	Fade::GetInstance()->Draw();
 
 	Sprite::EndDraw();
 

@@ -41,6 +41,9 @@ void TitleScene::OnEnter() {
 
 #pragma endregion
 
+
+	Fade::GetInstance()->Start({ 0.f,0.f }, Fade::kFadeColor_, 20u);
+
 }
 
 void TitleScene::OnExit() {
@@ -111,6 +114,9 @@ void TitleScene::Draw() {
 
 	titleLogo_->Draw();
 	pressSprite_->Draw();
+
+
+	Fade::GetInstance()->Draw();
 
 	Sprite::EndDraw();
 

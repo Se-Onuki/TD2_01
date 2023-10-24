@@ -41,6 +41,7 @@
 #include "Engine/DirectBase/Base/Audio.h"
 
 #include "Engine/DirectBase/File/GlobalVariables.h"
+#include "Header/Object/Fade.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
@@ -99,6 +100,12 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	//Audio *const audio = Audio::GetInstance();
 
 #pragma endregion
+
+
+	Fade::StaticInit();
+	Fade::GetInstance()->SetState({ 0.f,0.f }, Vector4{ 0.f,0.f,0.f,1.f });
+	Fade::GetInstance()->SetEaseFunc(SoLib::easeOutQuad);
+
 
 	GlobalVariables *const gVariable = GlobalVariables::GetInstance();
 	gVariable->LoadFile();
