@@ -5,6 +5,10 @@
 #include <memory>
 #include "../Utils/SoLib/SoLib_Timer.h"
 #include "../Engine/DirectBase/Base/LeakChecker.h"
+
+#include "../Header/Object/Fade.h"
+#include "../Utils/Math/Vector4.h"
+
 //#include "Scene.hpp"
 
 class SceneManager;
@@ -100,6 +104,10 @@ template<IsSceneClass T>
 inline void SceneManager::ChangeScene(const int transitionTime) {
 	// もし、次のシーンがあったらキャンセル
 	if (nextScene_ != nullptr || sceneLoadThread_.joinable()) { return; }
+
+	Fade::GetInstance()->Start(Vector2{ 0.f,0.f }, Vector4(Fade::kFadeColor_ + Vector4{ 0.f,0.f,0.f,1.f }), transitionTime);
+
+
 	// 遷移タイマーを開始
 	transitionTimer_.Start(transitionTime);
 

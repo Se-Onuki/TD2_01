@@ -36,6 +36,9 @@ void SceneManager::ChangeScene(IScene *const nextScene, const int transitionTime
 }
 
 void SceneManager::Update() {
+
+	Fade::GetInstance()->Update();
+
 	if (transitionTimer_.Update() && transitionTimer_.IsFinish()) {
 		if (sceneLoadThread_.joinable()) {
 			sceneLoadThread_.join();
