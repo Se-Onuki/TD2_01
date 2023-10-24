@@ -95,6 +95,7 @@ void GameScene::Update() {
 
 		sceneManager_->ChangeScene<TitleScene>(60);
 	}
+
 }
 
 void GameScene::Draw() {
