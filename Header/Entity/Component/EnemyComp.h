@@ -98,6 +98,10 @@ public:
 
 	void StartStan();
 
+	static int GetStunSum() {
+		return stunCount_;
+	}
+
 private:
 
 	void SetStanTime(float stanTime) { sStanTime_ = stanTime; }
@@ -119,4 +123,6 @@ private:
 	std::unique_ptr<EnemyState::IState> nextState_;
 
 	std::unique_ptr<Sprite> stunSprite_ = nullptr;
+
+	static int stunCount_;
 };

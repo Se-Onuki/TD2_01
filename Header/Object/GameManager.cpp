@@ -27,6 +27,11 @@ void GameManager::Init() {
 #pragma endregion
 
 #pragma region Enemy
+	AddEnemy({ -5.0f,13.0f,0.f });
+	AddEnemy({ -10.0f,4.0f,0.f });
+	AddEnemy({ 4.0f,7.0f,0.f });
+	AddEnemy({ 3.0f,5.0f,0.f });
+	AddEnemy({ 7.0f,15.0f,0.f });
 
 	AddEnemy({ 10.f,10.f,0.f });
 	AddEnemy({ -10.f,10.f,0.f });

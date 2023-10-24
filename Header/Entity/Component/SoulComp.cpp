@@ -5,6 +5,7 @@
 #include "../../../Engine/DirectBase/Model/ModelManager.h"
 #include "../../Object/GameManager.h"
 #include "OrbComp.h"
+#include "EnemyComp.h"
 
 #include "../../../Utils/SoLib/SoLib_ImGui.h"
 
@@ -21,25 +22,32 @@ void SoulComp::Init() {
 	energy_ = 7.f - (orbWorldPos - selfWorldPos).Length() / 2.f;
 	if (energy_ < 1.f) { energy_ = 1.f; }
 
-	if (energy_ >= 5.0f) {
+	int stunEnemyCount = EnemyComp::GetStunSum();
+	if (stunEnemyCount >= 6) {
 		modelComp_ = object_->AddComponent<ModelComp>();
 		auto* const orbModel = ModelManager::GetInstance()->GetModel("Gold_Soul");
 		modelComp_->AddBone("Gold_Soul", orbModel);
-		modelComp_->object_->transform_.scale = { 0.9f, 0.9f, 0.9f };
 	}
-	else if (energy_ >= 3.0f) {
+	else if (stunEnemyCount >= 3) {
 		modelComp_ = object_->AddComponent<ModelComp>();
 		auto* const orbModel = ModelManager::GetInstance()->GetModel("Red_Soul");
 		modelComp_->AddBone("Red_Soul", orbModel);
+	}
+	else if (stunEnemyCount >= 0) {
+		modelComp_ = object_->AddComponent<ModelComp>();
+		auto* const orbModel = ModelManager::GetInstance()->GetModel("Purple_Soul");
+		modelComp_->AddBone("Purple_Soul", orbModel);
+	}
+
+	if (energy_ >= 5.0f) {
+		modelComp_->object_->transform_.scale = { 0.9f, 0.9f, 0.9f };
+	}
+	else if (energy_ >= 3.0f) {
 		modelComp_->object_->transform_.scale = { 0.7f, 0.7f, 0.7f };
 
 	}
 	else if (energy_ >= 1.0f) {
-		modelComp_ = object_->AddComponent<ModelComp>();
-		auto* const orbModel = ModelManager::GetInstance()->GetModel("Purple_Soul");
-		modelComp_->AddBone("Purple_Soul", orbModel);
 		modelComp_->object_->transform_.scale = { 0.5f, 0.5f, 0.5f };
-
 	}
 }
 

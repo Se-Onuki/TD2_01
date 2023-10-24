@@ -9,6 +9,7 @@
 
 std::list<std::unique_ptr<Entity>> *EnemyComp::sEnemys_ = {};
 float EnemyComp::sStanTime_ = 0.f;
+int EnemyComp::stunCount_ = 0;
 
 void EnemyComp::Init() {
 	object_->AddComponent<Rigidbody>();
@@ -70,9 +71,10 @@ void EnemyComp::Destroy() {
 
 void EnemyComp::BreakAll() {
 	object_->SetActive(false);
-
+	stunCount_ = 0;
 	for (auto &enemy : *sEnemys_) {
 		if (enemy->GetComponent<EnemyComp>()->GetIsStan()) {
+			stunCount_++;
 			enemy->SetActive(false);
 		}
 	}
