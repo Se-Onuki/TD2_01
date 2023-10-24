@@ -51,9 +51,7 @@ GameScene::GameScene() {
 	camera_.translation_ = Vector3{ 0.f, 10.f, -30.f };
 	camera_.UpdateMatrix();
 
-	uint32_t backTexHandle = TextureManager::Load("backTexture.png");
-	sprite_.reset(Sprite::Create());
-	sprite_->SetTextureHaundle(backTexHandle);
+	sprite_.reset(Sprite::Create(TextureManager::Load("backTexture.png")));
 	sprite_->SetScale({ 1280.0f, 720.0f });
 	sprite_->SetPosition({ 0.0f, 0.0f });
 }
