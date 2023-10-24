@@ -39,7 +39,7 @@ public:
 
 	void AddEnemy(const Vector3 &pos = Vector3::zero);
 
-	void AddSoul(const Vector3 &pos = Vector3::zero);
+	void AddSoul(const Vector3 &pos = Vector3::zero, bool isStun = false);
 
 	void AddPlayer();
 

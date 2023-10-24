@@ -81,7 +81,7 @@ void GameManager::Update(const float deltaTime) {
 
 	enemys_.remove_if([this](std::unique_ptr<Entity> &enemy) {
 		if (!enemy->GetActive()) {
-			AddSoul(enemy->GetWorldPos());
+			AddSoul(enemy->GetWorldPos(), enemy->GetComponent<EnemyComp>()->GetIsStan());
 			enemy->Destroy();
 			enemy.reset();
 			return true;
@@ -192,7 +192,7 @@ void GameManager::AddEnemy(const Vector3 &pos) {
 	newEnemy->AddComponent<EnemyComp>();
 }
 
-void GameManager::AddSoul(const Vector3 &pos) {
+void GameManager::AddSoul(const Vector3 &pos, bool isStun) {
 	souls_.push_back(std::make_unique<Entity>());
 	auto &newSoul = souls_.back();
 
@@ -200,6 +200,7 @@ void GameManager::AddSoul(const Vector3 &pos) {
 	newSoul->transform_.translate = pos;
 	newSoul->transform_.UpdateMatrix();
 	newSoul->AddComponent<SoulComp>();
+	newSoul->GetComponent<SoulComp>()->SetIsStun(isStun);
 
 }
 

@@ -101,6 +101,10 @@ public:
 	static int GetStunSum() {
 		return stunCount_;
 	}
+	static int GetEnemySum() {
+		return int(sEnemys_->size());
+
+	}
 
 private:
 
