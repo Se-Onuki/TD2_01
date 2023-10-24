@@ -83,7 +83,7 @@ void GameManager::Exit() {
 }
 
 void GameManager::Update(const float deltaTime) {
-	//skyCylinder_->SetChangeSceneCall(isChangeSceneCall_);
+
 	if (skyCylinder_) {
 		skyCylinder_->Update(deltaTime);
 	}
