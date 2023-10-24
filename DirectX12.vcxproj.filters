@@ -270,9 +270,6 @@
     <ClCompile Include="Header\Object\PressSprite.cpp">
       <Filter>Header\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Object\SkyCylinder.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Header\Object\TitleLogo.cpp">
       <Filter>Header\Object</Filter>
     </ClCompile>
@@ -288,11 +285,14 @@
     <ClCompile Include="Header\Entity\Component\OrbGaugeComp.cpp">
       <Filter>Header\Entity\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\GameOverScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\GameClearScene.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Object\SkyCylinder.cpp">
+      <Filter>Header\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameOverScene.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -518,17 +518,17 @@
     <ClInclude Include="Scene\InitScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Object\SkyCylinder.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Entity\Component\OrbGaugeComp.h">
       <Filter>Header\Entity\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\GameOverScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\GameClearScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameOverScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Object\SkyCylinder.h">
+      <Filter>Header\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
