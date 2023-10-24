@@ -8,6 +8,7 @@
 #include "../Entity/Entity.h"
 #include "MapChip.h"
 
+#include "../Object/SkyCylinder.h"
 #include "../Entity/Component/Collider.h"
 #include "FollowCamera.h"
 
@@ -61,6 +62,7 @@ private:
 
 	std::unique_ptr<Entity> orb_;
 	std::unique_ptr<Entity> orbGauge_;
+	std::unique_ptr<SkyCylinder> skyCylinder_ = nullptr;
 
 	CollisionManager *collisionManager_ = nullptr;
 };

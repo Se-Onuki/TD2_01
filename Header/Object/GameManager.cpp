@@ -53,6 +53,14 @@ void GameManager::Init() {
 
 #pragma endregion
 
+#pragma region SkyCylinderComp
+
+	skyCylinder_ = std::make_unique<SkyCylinder>();
+	//skyCylinder_->AddComponent<SkyCylinderComp>();
+	skyCylinder_->Init("skyCylinder");
+
+#pragma endregion
+
 #pragma region Camera
 
 	followCamera_ = std::make_unique<FollowCamera>();
@@ -75,6 +83,10 @@ void GameManager::Exit() {
 }
 
 void GameManager::Update(const float deltaTime) {
+	//skyCylinder_->SetChangeSceneCall(isChangeSceneCall_);
+	if (skyCylinder_) {
+		skyCylinder_->Update(deltaTime);
+	}
 
 	enemys_.remove_if([this](std::unique_ptr<Entity> &enemy) {
 		if (!enemy->GetActive()) {
@@ -164,6 +176,9 @@ void GameManager::Update(const float deltaTime) {
 
 void GameManager::Draw() const {
 	const auto &camera = *followCamera_->GetCamera();
+	if (skyCylinder_) {
+		skyCylinder_->Draw(camera);
+	}
 
 	if (spring_) {
 		spring_->Draw(camera);
