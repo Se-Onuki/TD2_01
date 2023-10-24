@@ -23,7 +23,7 @@ void GameClearScene::OnEnter() {
 	isChangeSceneCall_ = false;
 
 	titleLogo_ = std::make_unique<TitleLogo>();
-	titleLogo_->Init("monsterBall.png");
+	titleLogo_->Init("GameClearLogo.png");
 	pressSprite_ = std::make_unique<PressSprite>();
 	pressSprite_->Init();
 

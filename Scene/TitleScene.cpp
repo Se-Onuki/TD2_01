@@ -29,7 +29,7 @@ void TitleScene::OnEnter() {
 
 
 	titleLogo_ = std::make_unique<TitleLogo>();
-	titleLogo_->Init("uvChecker.png");
+	titleLogo_->Init("TitleLogo.png");
 	pressSprite_ = std::make_unique<PressSprite>();
 	pressSprite_->Init();
 

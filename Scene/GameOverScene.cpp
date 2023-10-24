@@ -23,7 +23,7 @@ void GameOverScene::OnEnter() {
 	isChangeSceneCall_ = false;
 
 	titleLogo_ = std::make_unique<TitleLogo>();
-	titleLogo_->Init("checkerBoard.png");
+	titleLogo_->Init("GameOverLogo.png");
 	pressSprite_ = std::make_unique<PressSprite>();
 	pressSprite_->Init();
 

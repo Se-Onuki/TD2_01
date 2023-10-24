@@ -51,7 +51,7 @@ void OpLogoEase::Init() {
 	start_ = { 0.0f, 0.0f };
 
 	// イージング後の大きさ
-	end_ = { 700.0f,200.f };
+	end_ = { 900.0f,250.f };
 }
 
 void OpLogoEase::Update(float) {

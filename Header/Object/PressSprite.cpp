@@ -12,7 +12,7 @@ void PressSprite::Init() {
 	state_->SetNextState(st);
 
 	// タイトルロゴのスプライトを生成、いろいろ設定
-	pressSprite.reset(Sprite::Create(TextureManager::Load("uvChecker.png")));
+	pressSprite.reset(Sprite::Create(TextureManager::Load("pressSpace.png")));
 	pressSprite->SetPosition({640.0f, 400.0f });
 	pressSprite->SetScale({ 0.0f, 0.0f });
 	pressSprite->SetPivot({ 0.5f, 0.5f });
@@ -49,7 +49,7 @@ void OpPressSpriteEase::Init(){
 	start_ = { 0.0f, 0.0f };
 
 	// イージング後の大きさ
-	end_ = { 300.0f,50.0f };
+	end_ = { 600.0f,100.0f };
 }
 
 void OpPressSpriteEase::Update(float) {
