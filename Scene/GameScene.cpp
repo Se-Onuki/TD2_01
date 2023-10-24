@@ -22,11 +22,11 @@ void GameScene::StartupLoad() {
 	auto *const orb = modelManager->AddModel("Orb", Model::LoadObjFile("Model/Orb/", "orb.obj"));
 	orb->materialMap_["Material"]->blendMode_ = Model::BlendMode::kNormal;
 	orb->materialMap_["Material"]->materialBuff_->color = { 1.0f,1.0f, 1.0f, 0.6f };
-	orb->materialMap_["Material"]->materialBuff_->emissive = Vector4::one;
+	orb->materialMap_["Material"]->materialBuff_->emissive = Vector4::one * 0.2f;
 
 	auto *const orbGauge = modelManager->AddModel("OrbGauge", Model::LoadObjFile("Model/OrbGauge/", "orbGauge.obj"));
 	orbGauge->materialMap_["Material"]->blendMode_ = Model::BlendMode::kNormal;
-	orbGauge->materialMap_["Material"]->materialBuff_->emissive = Vector4::one;
+	orbGauge->materialMap_["Material"]->materialBuff_->emissive = Vector4::one * 0.2f;
 
 
 	auto *const unbleakble = modelManager->AddModel("Unbreakable", Model::LoadObjFile("Model/Block/", "block.obj"));
