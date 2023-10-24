@@ -1,12 +1,13 @@
 {
     "Player": {
         "HitBox": 2.299999952316284,
+        "InputDisableHeight": 0.6000000238418579,
         "InvincibleTime": 3.0,
         "JumpAnimTime": 0.75,
         "JumpPower": 15.0,
         "LandingTime": 0.75,
         "MaxSpeed": [
-            4.0,
+            4.099999904632568,
             5.5,
             0.0
         ],
