@@ -9,15 +9,7 @@
 #include "../Header/Entity/Component/ModelComp.h"
 #include "../Utils/SoLib/SoLib_ImGui.h"
 
-GameScene::GameScene() {
-	input_ = Input::GetInstance();
-	audio_ = Audio::GetInstance();
-
-	// ライトの生成
-	light_.reset(DirectionLight::Create());
-
-	camera_.translation_ = Vector3{ 0.f, 10.f, -30.f };
-	camera_.UpdateMatrix();
+void GameScene::StartupLoad() {
 
 	auto *const modelManager = ModelManager::GetInstance();
 	modelManager->AddModel("Spring", Model::LoadObjFile("Model/Player/", "player.obj"));
@@ -46,6 +38,17 @@ GameScene::GameScene() {
 	modelManager->AddModel("Red_Soul", Model::LoadObjFile("Model/Souls/red_soul/", "red_soul.obj"));
 	modelManager->AddModel("Gold_Soul", Model::LoadObjFile("Model/Souls/gold_soul/", "gold_soul.obj"));
 
+}
+
+GameScene::GameScene() {
+	input_ = Input::GetInstance();
+	audio_ = Audio::GetInstance();
+
+	// ライトの生成
+	light_.reset(DirectionLight::Create());
+
+	camera_.translation_ = Vector3{ 0.f, 10.f, -30.f };
+	camera_.UpdateMatrix();
 }
 
 GameScene::~GameScene() {

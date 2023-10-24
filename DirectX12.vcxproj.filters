@@ -282,11 +282,11 @@
     <ClCompile Include="Scene\InitScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Entity\Component\OrbGaugeComp.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\Math\Vector4.cpp">
       <Filter>Utils\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Entity\Component\OrbGaugeComp.cpp">
+      <Filter>Header\Entity\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -516,7 +516,7 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Header\Entity\Component\OrbGaugeComp.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Header\Entity\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
