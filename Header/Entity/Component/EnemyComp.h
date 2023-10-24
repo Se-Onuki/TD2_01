@@ -139,5 +139,7 @@ private:
 	std::unique_ptr<EnemyState::IState> currentState_;
 	std::unique_ptr<EnemyState::IState> nextState_;
 
+	uint32_t oneStunTex;
+	uint32_t twoStunTex;
 	std::unique_ptr<Sprite> stunSprite_ = nullptr;
 };

@@ -25,12 +25,27 @@ void EnemyComp::Init() {
 	colliderComp->SetCollisionAttribute(static_cast<uint32_t>(CollisionFilter::Enemy));
 	colliderComp->SetCollisionMask(~static_cast<uint32_t>(CollisionFilter::Enemy));
 
-	stunSprite_.reset(Sprite::Create(TextureManager::Load("oneStun_effect.png")));
+	oneStunTex = TextureManager::Load("oneStun_effect.png");
+	twoStunTex = TextureManager::Load("twoStun_effect.png");
+
+	stunSprite_.reset(Sprite::Create(oneStunTex));
 	stunSprite_->SetScale({ 100.f,100.f });
 	stunSprite_->SetPivot({ 0.5f,0.5f });
 }
 
 void EnemyComp::Update([[maybe_unused]] float deltaTime) {
+	int stunCount = 0;
+	for (auto &enemy : *sEnemys_) {
+		if (enemy->GetComponent<EnemyComp>()->GetIsStan()) {
+			stunCount++;
+		}
+	}
+	if (stunCount >= 2) {
+		stunSprite_->SetTextureHaundle(twoStunTex);
+	}
+	else {
+		stunSprite_->SetTextureHaundle(oneStunTex);
+	}
 
 	if (sStanTime_ <= 0.f) {
 		isStan_ = false;
