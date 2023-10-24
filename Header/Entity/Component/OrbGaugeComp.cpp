@@ -36,9 +36,10 @@ void OrbGaugeComp::Update(float deltaTime) {
 #endif // _DEBUG
 	// もしフラグがオンなら
 	if (isGaugeUp) {
+		float maxSize = pOrb_->transform_.scale.x * 0.99f;
 		// はじめとおわりを設定
-		float startEnergyValue = 4.8f * preEnergyProgress;
-		float endEnergyValue = 4.8f * energyProgress;
+		float startEnergyValue = maxSize * preEnergyProgress;
+		float endEnergyValue = maxSize * energyProgress;
 
 		// 実際の値を計算
 		energyValue = startEnergyValue + ((endEnergyValue - startEnergyValue) * SoLib::easeInOutQuint(easingT));
@@ -56,7 +57,7 @@ void OrbGaugeComp::Update(float deltaTime) {
 
 
 	// 先ほど計算した値を設定
-	energy = { energyValue, energyValue, energyValue };
+	energy = Vector3::one * energyValue;
 	modelComp_->object_->transform_.scale = energy;
 
 	// もしゲージ上がりフラグが無効なら
