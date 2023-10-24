@@ -28,13 +28,13 @@ void GameScene::StartupLoad() {
 
 
 	auto *const unbleakble = modelManager->AddModel("Unbreakable", Model::LoadObjFile("Model/Block/", "block.obj"));
-	unbleakble->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/unbreakableBlock.png");
+	unbleakble->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/unbreakableBlock_test.png");
 
 	auto *const crack = modelManager->AddModel("Crack", Model::LoadObjFile("Model/Block/", "block.obj"));
-	crack->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/creakedBlock.png");
+	crack->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/creakedBlock_test.png");
 
 	auto *const box = modelManager->AddModel("Box", Model::LoadObjFile("Model/Block/", "block.obj"));
-	box->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/stoneBlock.png");
+	box->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/stoneBlock_test.png");
 
 	modelManager->AddModel("Purple_Soul", Model::LoadObjFile("Model/Souls/purple_soul/", "purple_soul.obj"));
 	modelManager->AddModel("Red_Soul", Model::LoadObjFile("Model/Souls/red_soul/", "red_soul.obj"));
