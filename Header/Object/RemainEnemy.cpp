@@ -12,12 +12,24 @@ void RemainEnemy::Init() {
 		numberSprite_[i].reset(Sprite::Create(TextureManager::Load("nums.png")));
 		numberSprite_[i]->SetScale({ numWidth * scale, numHeight * scale });
 		numberSprite_[i]->SetPivot({ 0.5f, 0.5f });
+		numberSprite_[i]->SetColor({ 1.0f, 1.0f, 1.0f, 0.5f });
 	}
+
+	numberSprite_[2]->SetColor({ 1.0f, 0.4f, 0.4f, 0.5f });
+	numberSprite_[3]->SetColor({ 1.0f, 0.4f, 0.4f, 0.5f });
 
 	// "/" のスプライトの初期化処理
 	slashSprite_.reset(Sprite::Create(TextureManager::Load("slash.png")));
 	slashSprite_->SetScale({ numWidth * scale, numHeight * scale });
 	slashSprite_->SetPivot({ 0.5f, 0.5f });
+	slashSprite_->SetColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+
+
+	enemySprite_.reset(Sprite::Create(TextureManager::Load("example_enemy.png")));
+	enemySprite_->SetScale({ 128.0f * scale,128.0f * scale });
+	enemySprite_->SetPivot({ 0.5f, 0.5f });
+	enemySprite_->SetColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+
 
 	// 数字一つの横幅と縦幅を設定
 	numWidth = numberSprite_[0]->GetUV().second.x / 10.0f;
@@ -60,6 +72,7 @@ void RemainEnemy::Update() {
 	
 	numberSprite_[3]->SetPosition(
 		{ numberSprite_[2]->GetTransform().translate.x + numSpacing, pos.y });
+	enemySprite_->SetPosition({ numberSprite_[1]->GetTransform().translate.x - (128.0f * scale), pos.y });
 
 }
 
@@ -69,6 +82,7 @@ void RemainEnemy::Draw() {
 	slashSprite_->Draw();
 	numberSprite_[2]->Draw();
 	numberSprite_[3]->Draw();
+	enemySprite_->Draw();
 }
 
 void RemainEnemy::ApplyVariables(const char* const groupName) {

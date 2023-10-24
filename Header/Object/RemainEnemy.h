@@ -44,6 +44,7 @@ private:
 
 	// "/" のスプライト
 	std::unique_ptr<Sprite> slashSprite_;
+	std::unique_ptr<Sprite> enemySprite_;
 
 	// 数字一つの横幅
 	float numWidth;
