@@ -41,9 +41,6 @@ void SoulComp::Init() {
 		modelComp_->object_->transform_.scale = { 0.5f, 0.5f, 0.5f };
 
 	}
-
-
-
 }
 
 void SoulComp::Update(float deltaTime) {
