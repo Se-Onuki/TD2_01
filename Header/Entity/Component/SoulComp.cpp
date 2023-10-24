@@ -17,6 +17,7 @@ void SoulComp::Init() {
 	// 魂自身がいる位置
 	Vector3 selfWorldPos = object_->GetWorldPos();
 	orbWorldPos.z = selfWorldPos.z;
+	orbWorldPos.y = selfWorldPos.y;
 
 	// エネルギーの計算
 	energy_ = 7.f - (orbWorldPos - selfWorldPos).Length() / 2.f;
@@ -71,6 +72,7 @@ void SoulComp::Update(float deltaTime) {
 
 #ifdef _DEBUG
 	ImGui::Text("%s", std::format("energy : {:4.2} / Length : {:3.2} ", selfWorldPos.x, selfWorldPos.y, selfWorldPos.z, distance.Length(), energy_).c_str());
+	//ImGui::Text("%f", pOrb_->GetComponent<OrbComp>)
 #endif // _DEBUG
 
 	// もし距離が近くなったら
