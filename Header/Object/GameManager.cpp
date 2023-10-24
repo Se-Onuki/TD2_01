@@ -9,6 +9,7 @@
 #include "../Entity/Component/OrbGaugeComp.h"
 #include "../Entity/Component/SoulComp.h"
 #include "../../Utils/SoLib/SoLib_ImGui.h"
+#include "../../Utils/SoLib/SoLib_Lerp.h"
 
 void GameManager::Init() {
 
@@ -135,6 +136,7 @@ void GameManager::Update(const float deltaTime) {
 	}
 
 	if (orb_) {
+		orb_->transform_.translate.y = SoLib::Lerp(orb_->transform_.translate.y, followCamera_->GetCamera()->translation_.y, 0.2f);
 		orb_->Update(deltaTime);
 	}
 	if (orbGauge_) {

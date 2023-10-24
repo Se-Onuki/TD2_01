@@ -7,11 +7,11 @@
 
 #include "../../../Utils/SoLib/SoLib_ImGui.h"
 #include "../../../Utils/SoLib/SoLib.h"
-Entity* OrbGaugeComp::pOrb_ = nullptr;
+Entity *OrbGaugeComp::pOrb_ = nullptr;
 
 void OrbGaugeComp::Init() {
 	modelComp_ = object_->AddComponent<ModelComp>();
-	auto* const orbModel = ModelManager::GetInstance()->GetModel("OrbGauge");
+	auto *const orbModel = ModelManager::GetInstance()->GetModel("OrbGauge");
 	modelComp_->AddBone("OrbGauge", orbModel);
 	modelComp_->object_->transform_.scale = { 3.0f, 3.0f, 3.0f };
 	modelComp_->object_->transform_.translate.y = 5.0f;
@@ -19,7 +19,9 @@ void OrbGaugeComp::Init() {
 }
 
 void OrbGaugeComp::Update(float deltaTime) {
-	auto* const orbComp = pOrb_->GetComponent<OrbComp>();
+	auto *const orbComp = pOrb_->GetComponent<OrbComp>();
+	object_->transform_.translate.y = pOrb_->transform_.translate.y;
+
 	// 今のエネルギー情報を取得
 	energyProgress = orbComp->GetProgress();
 	Vector3 energy;
@@ -35,12 +37,12 @@ void OrbGaugeComp::Update(float deltaTime) {
 	// もしフラグがオンなら
 	if (isGaugeUp) {
 		// はじめとおわりを設定
- 		float startEnergyValue = 4.8f * preEnergyProgress;
+		float startEnergyValue = 4.8f * preEnergyProgress;
 		float endEnergyValue = 4.8f * energyProgress;
 
 		// 実際の値を計算
 		energyValue = startEnergyValue + ((endEnergyValue - startEnergyValue) * SoLib::easeInOutQuint(easingT));
-	
+
 		// イージングの媒介変数を加算
 		if (easingT >= 1.0f) {
 			easingT = 1.0f;
@@ -70,6 +72,6 @@ void OrbGaugeComp::Reset()
 {
 }
 
-void OrbGaugeComp::SetOrbComp(Entity* orbComp) {
+void OrbGaugeComp::SetOrbComp(Entity *orbComp) {
 	pOrb_ = orbComp;
 }
