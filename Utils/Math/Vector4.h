@@ -21,7 +21,7 @@ struct Vector4 {
 	/// ベクトル長関数
 	/// </summary>
 	/// <returns>ベクトルの長さ</returns>
-	_NODISCARD float Length() const {
+	float Length() const {
 		return std::sqrt((*this) * (*this));
 	}
 
@@ -29,7 +29,7 @@ struct Vector4 {
 	/// ベクトル長関数
 	/// </summary>
 	/// <returns>ベクトルの長さ</returns>
-	_NODISCARD float LengthSQ() const {
+	float LengthSQ() const {
 		return (*this) * (*this);
 	}
 
@@ -37,23 +37,23 @@ struct Vector4 {
 	/// 正規化
 	/// </summary>
 	/// <returns>ベクトル長が1のベクトル</returns>
-	_NODISCARD Vector4 Nomalize() const {
+	Vector4 Nomalize() const {
 
 		float Length = this->Length();
 		if (Length != 0) {
 			return *this / Length;
 		}
 		else {
-			return zero();
+			return zero;
 		}
 	}
 
-	_NODISCARD Vector4 operator+(const Vector4 &v) const {
+	Vector4 operator+(const Vector4 &v) const {
 		__m128 res = _mm_add_ps(*(__m128 *)this, *(__m128 *) & v);
 		return *(reinterpret_cast<const Vector4 *>(&res));
 	}
 
-	_NODISCARD Vector4 operator-(const Vector4 &v) const {
+	Vector4 operator-(const Vector4 &v) const {
 		__m128 res = _mm_sub_ps(*(__m128 *)this, *(__m128 *) & v);
 		return *(reinterpret_cast<const Vector4 *>(&res));
 	}
@@ -67,14 +67,14 @@ struct Vector4 {
 		return *this = *(reinterpret_cast<const Vector4 *>(&res));
 	}
 
-	_NODISCARD Vector4 operator*(const float &value) const {
+	Vector4 operator*(const float &value) const {
 		const __m128 res =
 			_mm_mul_ps(*(__m128 *)this, _mm_set_ps1(value)); // 各要素を value で乗算
 		return *(reinterpret_cast<const Vector4 *>(&res));
 		// float{ 0, 1, 2, 3 } の順序で構成される__m128型を、
 		// float{ x, y, z, w } で構成されるVector4に解釈して変換
 	}
-	_NODISCARD Vector4 operator/(const float &value) const {
+	Vector4 operator/(const float &value) const {
 		const __m128 res =
 			_mm_div_ps(*(__m128 *)this, _mm_set_ps1(value)); // 各要素を value で乗算
 		return *(reinterpret_cast<const Vector4 *>(&res));
@@ -99,20 +99,20 @@ struct Vector4 {
 	// Vector4& operator*=(const Matrix4x4& Second);
 
 	// 逆ベクトル
-	_NODISCARD inline Vector4 operator-() const {
+	inline Vector4 operator-() const {
 		return *this * -1;
 	}
 
 	// 内積
-	_NODISCARD inline float operator*(const Vector4 &v) const {
+	inline float operator*(const Vector4 &v) const {
 		return _mm_cvtss_f32(_mm_dp_ps(*(__m128 *)this, *(__m128 *) & v, 0xFF));
 	}
 	// 外積
 	// inline float operator^(const Vector3& v) const { return x * v.y - y * v.x; }
 
-	_NODISCARD inline static Vector4 zero() {
-		return Vector4{ 0, 0, 0, 0 };
-	}
+	static const Vector4 zero;
+
+	static const Vector4 one;
 
 	// inline Vector4 Reflect(Vector4 normal) const {
 	//	return (*this) - normal * 2 * ((*this) * normal);
@@ -120,7 +120,7 @@ struct Vector4 {
 	//	// return {this->x- 2}
 	//}
 
-	_NODISCARD inline bool operator==(const Vector4 &vec) const {
+	inline bool operator==(const Vector4 &vec) const {
 		return (this->x == vec.x) && (this->y == vec.y) && (this->z == vec.z) && (this->w == vec.w);
 	}
 

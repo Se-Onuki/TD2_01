@@ -159,6 +159,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Utils\Math\ValueRange.cpp" />
     <ClCompile Include="Utils\Math\Vector2.cpp" />
     <ClCompile Include="Utils\Math\Vector3.cpp" />
+    <ClCompile Include="Utils\Math\Vector4.cpp" />
     <ClCompile Include="Utils\SoLib\SoLib_Easing.cpp" />
     <ClCompile Include="Utils\SoLib\SoLib_ImGui.cpp" />
     <ClCompile Include="Utils\SoLib\SoLib_Lerp.cpp" />

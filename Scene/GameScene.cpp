@@ -22,12 +22,15 @@ GameScene::GameScene() {
 	auto *const modelManager = ModelManager::GetInstance();
 	modelManager->AddModel("Spring", Model::LoadObjFile("Model/Player/", "player.obj"));
 	modelManager->AddModel("Enemy", Model::LoadObjFile("Model/Enemy/", "enemy.obj"));
-	auto* const orb = modelManager->AddModel("Orb", Model::LoadObjFile("Model/Orb/", "orb.obj"));
+
+	auto *const orb = modelManager->AddModel("Orb", Model::LoadObjFile("Model/Orb/", "orb.obj"));
 	orb->materialMap_["Material"]->blendMode_ = Model::BlendMode::kNormal;
 	orb->materialMap_["Material"]->materialBuff_->color = { 1.0f,1.0f, 1.0f, 0.6f };
+	orb->materialMap_["Material"]->materialBuff_->emissive = Vector4::one;
 
-	auto* const orbGauge = modelManager->AddModel("OrbGauge", Model::LoadObjFile("Model/OrbGauge/", "orbGauge.obj"));
+	auto *const orbGauge = modelManager->AddModel("OrbGauge", Model::LoadObjFile("Model/OrbGauge/", "orbGauge.obj"));
 	orbGauge->materialMap_["Material"]->blendMode_ = Model::BlendMode::kNormal;
+	orbGauge->materialMap_["Material"]->materialBuff_->emissive = Vector4::one;
 
 
 	auto *const unbleakble = modelManager->AddModel("Unbreakable", Model::LoadObjFile("Model/Block/", "block.obj"));

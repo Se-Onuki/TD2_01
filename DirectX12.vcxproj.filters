@@ -285,6 +285,9 @@
     <ClCompile Include="Header\Entity\Component\OrbGaugeComp.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\Math\Vector4.cpp">
+      <Filter>Utils\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
