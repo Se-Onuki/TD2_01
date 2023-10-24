@@ -19,6 +19,11 @@ private:
 	ModelComp* modelComp_ = nullptr;
 	static Entity* pOrb_;
 
+	float energyProgress = 0.0f;
+	float preEnergyProgress = energyProgress;
+	float easingT = 0.0f;
+	float energyValue;
+	bool isGaugeUp = false;;
 	//// エネルギー
 	//float energy_ = 0.f;
 	//// エネルギーの限界量
