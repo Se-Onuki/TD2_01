@@ -22,7 +22,13 @@ GameScene::GameScene() {
 	auto *const modelManager = ModelManager::GetInstance();
 	modelManager->AddModel("Spring", Model::LoadObjFile("Model/Player/", "player.obj"));
 	modelManager->AddModel("Enemy", Model::LoadObjFile("Model/Enemy/", "enemy.obj"));
-	modelManager->AddModel("Gauge", Model::LoadObjFile("", "sphere.obj"));
+	auto* const orb = modelManager->AddModel("Orb", Model::LoadObjFile("Model/Orb/", "orb.obj"));
+	orb->materialMap_["Material"]->blendMode_ = Model::BlendMode::kNormal;
+	orb->materialMap_["Material"]->materialBuff_->color = { 1.0f,1.0f, 1.0f, 0.6f };
+
+	auto* const orbGauge = modelManager->AddModel("OrbGauge", Model::LoadObjFile("Model/OrbGauge/", "orbGauge.obj"));
+	orbGauge->materialMap_["Material"]->blendMode_ = Model::BlendMode::kNormal;
+
 
 	auto *const unbleakble = modelManager->AddModel("Unbreakable", Model::LoadObjFile("Model/Block/", "block.obj"));
 	unbleakble->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/unbreakableBlock.png");
@@ -33,7 +39,9 @@ GameScene::GameScene() {
 	auto *const box = modelManager->AddModel("Box", Model::LoadObjFile("Model/Block/", "block.obj"));
 	box->materialMap_["Material"]->texHandle_ = TextureManager::Load("Model/Block/stoneBlock.png");
 
-	modelManager->AddModel("Soul", Model::LoadObjFile("Model/Souls/purple_soul/", "purple_soul.obj"));
+	modelManager->AddModel("Purple_Soul", Model::LoadObjFile("Model/Souls/purple_soul/", "purple_soul.obj"));
+	modelManager->AddModel("Red_Soul", Model::LoadObjFile("Model/Souls/red_soul/", "red_soul.obj"));
+	modelManager->AddModel("Gold_Soul", Model::LoadObjFile("Model/Souls/gold_soul/", "gold_soul.obj"));
 
 }
 

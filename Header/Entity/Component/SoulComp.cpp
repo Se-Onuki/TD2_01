@@ -10,12 +10,7 @@
 
 Entity *SoulComp::pOrb_ = nullptr;
 
-void SoulComp::Init() {
-	modelComp_ = object_->AddComponent<ModelComp>();
-	auto *const orbModel = ModelManager::GetInstance()->GetModel("Soul");
-	modelComp_->AddBone("Soul", orbModel);
-	modelComp_->object_->transform_.scale = { 0.5f, 0.5f, 0.5f };
-
+void SoulComp::Init() {	
 	// オーブのいる位置
 	Vector3 orbWorldPos = pOrb_->GetWorldPos();
 	// 魂自身がいる位置
@@ -25,6 +20,30 @@ void SoulComp::Init() {
 	// エネルギーの計算
 	energy_ = 7.f - (orbWorldPos - selfWorldPos).Length() / 2.f;
 	if (energy_ < 1.f) { energy_ = 1.f; }
+
+	if (energy_ >= 5.0f) {
+		modelComp_ = object_->AddComponent<ModelComp>();
+		auto* const orbModel = ModelManager::GetInstance()->GetModel("Gold_Soul");
+		modelComp_->AddBone("Gold_Soul", orbModel);
+		modelComp_->object_->transform_.scale = { 0.9f, 0.9f, 0.9f };
+	}
+	else if (energy_ >= 3.0f) {
+		modelComp_ = object_->AddComponent<ModelComp>();
+		auto* const orbModel = ModelManager::GetInstance()->GetModel("Red_Soul");
+		modelComp_->AddBone("Red_Soul", orbModel);
+		modelComp_->object_->transform_.scale = { 0.7f, 0.7f, 0.7f };
+
+	}
+	else if (energy_ >= 1.0f) {
+		modelComp_ = object_->AddComponent<ModelComp>();
+		auto* const orbModel = ModelManager::GetInstance()->GetModel("Purple_Soul");
+		modelComp_->AddBone("Purple_Soul", orbModel);
+		modelComp_->object_->transform_.scale = { 0.5f, 0.5f, 0.5f };
+
+	}
+
+
+
 }
 
 void SoulComp::Update(float deltaTime) {

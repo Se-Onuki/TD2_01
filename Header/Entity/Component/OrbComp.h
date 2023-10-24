@@ -9,6 +9,8 @@ public:
 	~OrbComp() = default;
 
 	void Init() override;
+	void Update(float deltaTime) override;
+
 	void Reset() override;
 
 	void SetMaxEnergy(float value) { vMaxEnergy_ = value; }
@@ -17,7 +19,11 @@ public:
 	void SetEnergy(float value) { energy_ = value; }
 	void AddEnergy(float value) { energy_ += value; }
 
-	float GetProgress() const { return energy_ / static_cast<float>(vMaxEnergy_); }
+	float GetProgress() const { 
+		if (energy_ >= static_cast<float>(vMaxEnergy_)) {
+			return 1.0f;
+		}
+		return energy_ / static_cast<float>(vMaxEnergy_); }
 
 private:
 	// モデル
