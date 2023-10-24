@@ -79,6 +79,9 @@ public:
 		return Vector2{ (global.x / 2.f) + xCenter, (global.y - 1.f) / 2.f };
 	}
 
+	/// @brief ローカル2次元座標から、何マス下に箱があるかを検知
+	/// @param localPos ローカル座標
+	/// @return 地面への距離
 	float GetDistanceToGround(const Vector2 &localPos) const;
 
 	const ChipData &GetChipData(const Vector2 &vec) const;
