@@ -36,7 +36,7 @@ void GameManager::Init() {
 	AddEnemy({ -5.0f,5.0f,0.f });
 	AddEnemy({ -2.0f,8.0f,0.f });
 	EnemyComp::SetEnemyList(&enemys_);
-
+	perWave_MaxEnemy_ = 0;
 	for (auto& enemy : enemys_) {
 		enemy;
 		perWave_MaxEnemy_++;
@@ -72,9 +72,14 @@ void GameManager::Init() {
 	followCamera_->Reset();
 
 #pragma endregion
+
+#pragma region RemainEnemy
+
 	remainEnemy_ = std::make_unique<RemainEnemy>();
 	remainEnemy_->Init();
-	
+
+#pragma endregion
+
 	EnemyComp::StaticInit();
 
 }
@@ -85,24 +90,26 @@ void GameManager::Exit() {
 	spring_.reset();
 	collisionManager_->clear();
 	followCamera_.reset();
-
+	remainEnemy_.reset();
 	mapChip_->Exit();
 }
 
 void GameManager::Update(const float deltaTime) {
+	// 今の敵の数を計算
 	int nowEnemyCount = 0;
 	for (auto& enemy : enemys_) {
 		if (enemy->GetActive()) {
 			nowEnemyCount++;
 		}
 	}
-	remainEnemy_->SetNumber(nowEnemyCount);
+	remainEnemy_->SetNumber(perWave_MaxEnemy_ - nowEnemyCount);
 	remainEnemy_->SetMaxNumber(perWave_MaxEnemy_);
-	remainEnemy_->SetPosition({640.0f, 360.0f});
 	remainEnemy_->Update();
+
 #ifdef _DEBUG
 	ImGui::Text("%d / %d", nowEnemyCount, perWave_MaxEnemy_);
 #endif // _DEBUG
+
 	if (skyCylinder_) {
 		skyCylinder_->Update(deltaTime);
 	}
