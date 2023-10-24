@@ -37,6 +37,11 @@ void GameManager::Init() {
 	AddEnemy({ -2.0f,8.0f,0.f });
 	EnemyComp::SetEnemyList(&enemys_);
 
+	for (auto& enemy : enemys_) {
+		enemy;
+		perWave_MaxEnemy_++;
+	}
+
 #pragma endregion
 
 #pragma region Orb
@@ -67,7 +72,9 @@ void GameManager::Init() {
 	followCamera_->Reset();
 
 #pragma endregion
-
+	remainEnemy_ = std::make_unique<RemainEnemy>();
+	remainEnemy_->Init();
+	
 	EnemyComp::StaticInit();
 
 }
@@ -83,7 +90,19 @@ void GameManager::Exit() {
 }
 
 void GameManager::Update(const float deltaTime) {
-	//skyCylinder_->SetChangeSceneCall(isChangeSceneCall_);
+	int nowEnemyCount = 0;
+	for (auto& enemy : enemys_) {
+		if (enemy->GetActive()) {
+			nowEnemyCount++;
+		}
+	}
+	remainEnemy_->SetNumber(nowEnemyCount);
+	remainEnemy_->SetMaxNumber(perWave_MaxEnemy_);
+	remainEnemy_->SetPosition({640.0f, 360.0f});
+	remainEnemy_->Update();
+#ifdef _DEBUG
+	ImGui::Text("%d / %d", nowEnemyCount, perWave_MaxEnemy_);
+#endif // _DEBUG
 	if (skyCylinder_) {
 		skyCylinder_->Update(deltaTime);
 	}
@@ -200,6 +219,7 @@ void GameManager::Draw() const {
 }
 
 void GameManager::Draw2D() const {
+	remainEnemy_->Draw();
 	for (auto &enemy : enemys_) {
 		enemy->Draw2D();
 	}

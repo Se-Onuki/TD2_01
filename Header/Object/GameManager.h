@@ -11,7 +11,7 @@
 #include "../Object/SkyCylinder.h"
 #include "../Entity/Component/Collider.h"
 #include "FollowCamera.h"
-
+#include "../Object/RemainEnemy.h"
 class GameManager {
 	GameManager() = default;
 	GameManager(const GameManager &) = delete;
@@ -65,4 +65,8 @@ private:
 	std::unique_ptr<SkyCylinder> skyCylinder_ = nullptr;
 
 	CollisionManager *collisionManager_ = nullptr;
+
+	std::unique_ptr<RemainEnemy> remainEnemy_ = nullptr;
+	// ウェーブ毎の敵の最大数
+	int perWave_MaxEnemy_ = 0;
 };
