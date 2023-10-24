@@ -71,6 +71,7 @@ void SpringObjectComp::ApplyVariables(const char *const groupName) {
 	cGroup >> vJumpAnimTime_;
 	cGroup >> vLandingTime_;
 	cGroup >> vHitBox;
+	cGroup >> vInputDisableHeight;
 }
 
 void SpringObjectComp::AddVariable(const char *const groupName) const {
@@ -86,6 +87,7 @@ void SpringObjectComp::AddVariable(const char *const groupName) const {
 	group << vJumpAnimTime_;
 	group << vLandingTime_;
 	group << vHitBox;
+	group << vInputDisableHeight;
 }
 
 void DefaultState::Init([[maybe_unused]] float deltaTime) {
@@ -189,7 +191,7 @@ void JumpingState::Update([[maybe_unused]] float deltaTime) {
 		stateManager_->ChangeState<DefaultState>();
 	}
 
-	if (Input::GetInstance()->GetDirectInput()->IsTrigger(DIK_SPACE) && MapChip::GetInstance()->GetDistanceToGround(MapChip::GlobalToLocal(stateManager_->parent_->object_->GetWorldPos())) > 0.75f) {
+	if (Input::GetInstance()->GetDirectInput()->IsTrigger(DIK_SPACE) && MapChip::GetInstance()->GetDistanceToGround(MapChip::GlobalToLocal(stateManager_->parent_->object_->GetWorldPos())) > stateManager_->parent_->vInputDisableHeight) {
 		stateManager_->ChangeState<FallingState>();
 	}
 

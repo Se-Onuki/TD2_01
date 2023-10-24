@@ -19,16 +19,16 @@ concept IsPlayerState = std::is_base_of<IPlayerState, T>::value;
 
 class IPlayerState {
 protected:
-	PlayerStateManager* stateManager_ = nullptr;
+	PlayerStateManager *stateManager_ = nullptr;
 public:
-	IPlayerState(PlayerStateManager* player) :stateManager_(player) {}
+	IPlayerState(PlayerStateManager *player) :stateManager_(player) {}
 	virtual ~IPlayerState() {}
 	virtual void Init(float deltaTime) { deltaTime; };
 	virtual void Update(float deltaTime) { deltaTime; };
 
 	virtual void Exit(float deltaTime) { deltaTime; };
 
-	virtual void OnCollision(Entity* const other) { other; }
+	virtual void OnCollision(Entity *const other) { other; }
 };
 
 class DefaultState : public IPlayerState {
@@ -48,7 +48,7 @@ public:
 	void Update(float deltaTime) override;
 	void Exit(float deltaTime) override;
 
-	void OnCollision(Entity* const other) override;
+	void OnCollision(Entity *const other) override;
 };
 
 class JumpingState : public IPlayerState {
@@ -57,7 +57,7 @@ public:
 	void Init(float deltaTime) override;
 	void Update(float deltaTime) override;
 
-	void OnCollision(Entity* const other) override;
+	void OnCollision(Entity *const other) override;
 
 	SoLib::RealTimer stateTimer_{};
 	Vector3 startModelScale_;
@@ -87,10 +87,10 @@ private:
 
 public:
 
-	SpringObjectComp* const parent_ = nullptr;
+	SpringObjectComp *const parent_ = nullptr;
 
 public:
-	PlayerStateManager(SpringObjectComp* const parent) : state_(std::make_unique<DefaultState>(this)), parent_(parent) {}
+	PlayerStateManager(SpringObjectComp *const parent) : state_(std::make_unique<DefaultState>(this)), parent_(parent) {}
 
 	template <IsPlayerState T>
 	void ChangeState() {  // 状態を変更するメソッド
@@ -102,7 +102,7 @@ public:
 		state_ = std::make_unique<T>(this);
 	}
 
-	const IPlayerState* const GetState()const { return state_.get(); }
+	const IPlayerState *const GetState()const { return state_.get(); }
 
 	void Init() {
 		state_ = std::make_unique<FallingState>(this);
@@ -117,7 +117,7 @@ public:
 		state_->Update(deltaTime);
 	}
 
-	void OnCollision(Entity* const other) {
+	void OnCollision(Entity *const other) {
 		state_->OnCollision(other);
 	}
 };
@@ -131,7 +131,7 @@ public:
 	void Init() override;
 	void Update(float deltaTime) override;
 
-	void OnCollision(Entity* const other) override;
+	void OnCollision(Entity *const other) override;
 
 	VariantItem<float> vJumpString_{ "JumpPower", 15.f };
 	VariantItem<float> vMoveString_{ "MovePower", 3.f };
@@ -147,23 +147,25 @@ public:
 
 	VariantItem<float> vHitBox{ "HitBox", 1.5f };
 
+	VariantItem<float> vInputDisableHeight{ "InputDisableHeight", 0.6f };
+
 	VariantItem<float> vJumpAnimTime_{ "JumpAnimTime", 0.25f };
 
-	const auto* const GetManager()const { return state_.get(); }
+	const auto *const GetManager()const { return state_.get(); }
 
 	/// @brief jsonからの読み込み
 	/// @param groupName グループ名
-	virtual void ApplyVariables(const char* const groupName);
+	virtual void ApplyVariables(const char *const groupName);
 
 	/// @brief jsonへの紐づけ
 	/// @param groupName グループ名
-	virtual void AddVariable(const char* const groupName) const;
+	virtual void AddVariable(const char *const groupName) const;
 
 private:
 
 	const std::string groupName_ = "Player";
 
-	Input* input_ = nullptr;
+	Input *input_ = nullptr;
 
 	std::unique_ptr<PlayerStateManager> state_ = nullptr;
 };
