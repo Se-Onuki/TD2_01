@@ -60,6 +60,7 @@ private:
 	std::unique_ptr<FollowCamera> followCamera_ = nullptr;
 
 	std::unique_ptr<Entity> orb_;
+	std::unique_ptr<Entity> orbGauge_;
 
 	CollisionManager *collisionManager_ = nullptr;
 };

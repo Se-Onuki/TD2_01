@@ -24,6 +24,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	static void StartupLoad();
+
 private:
 
 	Input *input_ = nullptr;

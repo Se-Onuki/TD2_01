@@ -9,7 +9,9 @@ void OrbComp::Init() {
 	
 	auto* const orbModel = ModelManager::GetInstance()->GetModel("Orb");
 	modelComp_->AddBone("Orb", orbModel);
-	
+	//auto* const orbGaugeModel = ModelManager::GetInstance()->GetModel("OrbGauge");
+	//gaugeModelComp_->AddBone("OrbGauge", orbGaugeModel);
+
 	//auto* const colliderComp = object_->AddComponent<ColliderComp>();
 	//colliderComp->SetRadius(5.f);
 	//colliderComp->SetCollisionAttribute(static_cast<uint32_t>(CollisionFilter::Ground));
@@ -17,8 +19,15 @@ void OrbComp::Init() {
 
 	// 仮で球の大きさを調整中
 	modelComp_->object_->transform_.scale = { 5.0f, 5.0f, 5.0f };
-	modelComp_->object_->transform_.translate.z = 20.0f;
+	modelComp_->object_->transform_.translate.y = 5.0f;
+	modelComp_->object_->transform_.translate.z = 10.0f;
+	//gaugeModelComp_->object_->transform_.scale = { 4.8f, 4.8f, 4.8f };
+	//gaugeModelComp_->object_->transform_.translate.z = 20.0f;
 
+}
+
+void OrbComp::Update(float)
+{
 }
 
 void OrbComp::Reset() {

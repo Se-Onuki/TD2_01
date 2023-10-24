@@ -4,7 +4,8 @@
 #include "../Engine/DirectBase/Base/WinApp.h"
 
 void InitScene::OnEnter() {
-	auto gameScene = std::make_unique<GameScene>();
+	//auto gameScene = std::make_unique<GameScene>();
+	GameScene::StartupLoad();
 
 	sceneManager_->ChangeScene<TitleScene>(2);
 

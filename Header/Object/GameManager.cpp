@@ -6,6 +6,7 @@
 #include "../Entity/Component/Rigidbody.h"
 #include "../Entity/Component/EnemyComp.h"
 #include "../Entity/Component/OrbComp.h"
+#include "../Entity/Component/OrbGaugeComp.h"
 #include "../Entity/Component/SoulComp.h"
 
 void GameManager::Init() {
@@ -28,12 +29,10 @@ void GameManager::Init() {
 #pragma region Enemy
 
 	AddEnemy({ 10.f,10.f,0.f });
-	AddEnemy({ -10.f,10.f,0.f });	
-	AddEnemy({ -4.f,20.f,0.f });
-	AddEnemy({ -12.f,14.f,0.f });
-	AddEnemy({ 12.f,18.f,0.f });
-	AddEnemy({ 12.f,18.f,0.f });
-
+	AddEnemy({ -10.f,10.f,0.f });
+	AddEnemy({ 5.0f,2.f,0.f });
+	AddEnemy({ -5.0f,5.0f,0.f });
+	AddEnemy({ -2.0f,8.0f,0.f });
 	EnemyComp::SetEnemyList(&enemys_);
 
 #pragma endregion
@@ -43,7 +42,11 @@ void GameManager::Init() {
 	orb_ = std::make_unique<Entity>();
 	orb_->AddComponent<OrbComp>();
 	orb_->Init();
+	orbGauge_ = std::make_unique<Entity>();
+	orbGauge_->AddComponent<OrbGaugeComp>();
+	orbGauge_->Init();
 
+	OrbGaugeComp::SetOrbComp(orb_.get());
 	SoulComp::SetOrbComp(orb_.get());
 
 #pragma endregion
@@ -133,6 +136,9 @@ void GameManager::Update(const float deltaTime) {
 	if (orb_) {
 		orb_->Update(deltaTime);
 	}
+	if (orbGauge_) {
+		orbGauge_->Update(deltaTime);
+	}
 
 }
 
@@ -149,7 +155,9 @@ void GameManager::Draw() const {
 	for (auto &soul : souls_) {
 		soul->Draw(camera);
 	}
-
+	if (orbGauge_) {
+		orbGauge_->Draw(camera);
+	}
 	if (orb_) {
 		orb_->Draw(camera);
 	}
