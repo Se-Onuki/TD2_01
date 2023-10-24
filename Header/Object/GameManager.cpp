@@ -201,6 +201,7 @@ void GameManager::AddSoul(const Vector3 &pos, bool isStun) {
 	newSoul->transform_.UpdateMatrix();
 	newSoul->AddComponent<SoulComp>();
 	newSoul->GetComponent<SoulComp>()->SetIsStun(isStun);
+	newSoul->GetComponent<SoulComp>()->ModelInit();
 
 }
 

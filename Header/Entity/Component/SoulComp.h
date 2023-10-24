@@ -8,6 +8,7 @@ public:
 	~SoulComp() = default;
 
 	void Init() override;
+	void ModelInit();
 	void Update(float deltaTime) override;
 	void Reset() override;
 

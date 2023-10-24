@@ -22,6 +22,9 @@ void SoulComp::Init() {
 	energy_ = 7.f - (orbWorldPos - selfWorldPos).Length() / 2.f;
 	if (energy_ < 1.f) { energy_ = 1.f; }
 
+}
+
+void SoulComp::ModelInit() {
 	int stunEnemyCount = EnemyComp::GetStunSum();
 	//int enemySum = EnemyComp::GetEnemySum();
 	if (isStun_) {
@@ -53,6 +56,7 @@ void SoulComp::Init() {
 	else if (energy_ >= 1.0f) {
 		modelComp_->object_->transform_.scale = { 0.5f, 0.5f, 0.5f };
 	}
+
 }
 
 void SoulComp::Update(float deltaTime) {
