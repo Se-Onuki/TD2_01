@@ -429,46 +429,7 @@ void GameManager::WaveEnemySet(int wave) {
 			AddEnemy(pos);
 		}
 		EnemyComp::SetEnemyList(&enemys_);
-	}
-	else if (wave == 3) {
-		perWave_MaxEnemy_ = 0u;
-
-		AddEnemy({ -5.0f,13.0f,0.f });
-		EnemyComp::SetEnemyList(&enemys_);
-
-		mapChip_->Init("resources/Level/Level3.csv");
-
 		spring_->SetActive(false);
-
-
-	}
-	else if (wave == 4) {
-		perWave_MaxEnemy_ = 0u;
-
-		AddEnemy({ -5.0f,13.0f,0.f });
-		EnemyComp::SetEnemyList(&enemys_);
-
-	}
-	else if (wave == 6) {
-		perWave_MaxEnemy_ = 0u;
-
-		AddEnemy({ -5.0f,13.0f,0.f });
-		EnemyComp::SetEnemyList(&enemys_);
-
-	}
-	else if (wave == 7) {
-		perWave_MaxEnemy_ = 0u;
-
-		AddEnemy({ -5.0f,13.0f,0.f });
-		EnemyComp::SetEnemyList(&enemys_);
-
-	}
-	else if (wave == 8) {
-		perWave_MaxEnemy_ = 0u;
-
-		AddEnemy({ -5.0f,13.0f,0.f });
-		EnemyComp::SetEnemyList(&enemys_);
-
 	}
 }
 

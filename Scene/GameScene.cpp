@@ -48,8 +48,8 @@ void GameScene::StartupLoad() {
 	modelManager->AddModel("Gold_Soul", Model::LoadObjFile("Model/Souls/gold_soul/", "gold_soul.obj"));
 
 	TextureManager::Load("backTexture.png");
+	TextureManager::Load("UI/KeyInput.png");
 
-	
 
 }
 
@@ -66,6 +66,12 @@ GameScene::GameScene() {
 	sprite_.reset(Sprite::Create(TextureManager::Load("backTexture.png")));
 	sprite_->SetScale({ 1280.0f, 720.0f });
 	sprite_->SetPosition({ 0.0f, 0.0f });
+
+	keyHud_.reset(Sprite::Create(TextureManager::Load("UI/KeyInput.png")));
+	keyHud_->SetScale(Vector2{ 714.f, 256.0f }*0.6f);
+	keyHud_->SetPivot({ 0.f,1.f });
+	keyHud_->SetPosition({ 0., 720.f });
+	keyHud_->SetTexOrigin({ 0.f,128.f });
 
 	BGMHandle_ = audio_->LoadWave("resources/Sounds/inGame.wav");
 }
@@ -101,6 +107,8 @@ void GameScene::Update() {
 	camera_.ImGuiWidget();
 	ImGui::End();
 	camera_.UpdateMatrix();
+
+	keyHud_->ImGuiWidget();
 
 	ImGui::Begin("Sphere");
 	//	model_->ImGuiWidget();
@@ -169,6 +177,7 @@ void GameScene::Draw() {
 
 	// スプライトの描画
 	gameManager_->Draw2D();
+	keyHud_->Draw();
 
 	Fade::GetInstance()->Draw();
 

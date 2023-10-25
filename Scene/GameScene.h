@@ -40,6 +40,7 @@ private:
 
 	std::unique_ptr<DirectionLight> light_ = nullptr;
 	std::unique_ptr<Sprite> sprite_ = nullptr;
+	std::unique_ptr<Sprite> keyHud_ = nullptr;
 	//CollisionManager *collisionManager_ = nullptr;
 
 	float bolume = 0.3f;
