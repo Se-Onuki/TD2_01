@@ -36,9 +36,11 @@ void EnemyComp::Init() {
 
 void EnemyComp::Update([[maybe_unused]] float deltaTime) {
 	int stunCount = 0;
-	for (auto &enemy : *sEnemys_) {
-		if (enemy->GetComponent<EnemyComp>()->GetIsStan()) {
-			stunCount++;
+	if (sEnemys_) {
+		for (auto &enemy : *sEnemys_) {
+			if (enemy->GetComponent<EnemyComp>()->GetIsStan()) {
+				stunCount++;
+			}
 		}
 	}
 	if (stunCount >= 2) {

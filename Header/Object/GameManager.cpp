@@ -263,6 +263,8 @@ void GameManager::AddEnemy(const Vector3 &pos) {
 	newEnemy->transform_.translate = pos;
 	newEnemy->transform_.UpdateMatrix();
 	newEnemy->AddComponent<EnemyComp>();
+
+	newEnemy->Update(0.f);
 }
 
 void GameManager::AddSoul(const Vector3 &pos, bool isStun) {
