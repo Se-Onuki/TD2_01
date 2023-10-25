@@ -85,7 +85,7 @@ void GameScene::OnEnter() {
 }
 
 void GameScene::OnExit() {
-	audio_->StopWave(voiceBGMHandle_);
+	audio_->StopAllWave();
 
 	gameManager_->Exit();
 }

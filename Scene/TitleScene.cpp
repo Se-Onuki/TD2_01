@@ -50,7 +50,7 @@ void TitleScene::OnEnter() {
 }
 
 void TitleScene::OnExit() {
-	audio_->StopWave(voiceBGMHandle_);
+	audio_->StopAllWave();
 }
 
 void TitleScene::Update() {
