@@ -11,11 +11,11 @@
 
 Entity *SoulComp::pOrb_ = nullptr;
 
-void SoulComp::Init() {	
+void SoulComp::Init() {
 	// オーブのいる位置
 	Vector3 orbWorldPos = pOrb_->GetWorldPos();
 	// 魂自身がいる位置
-	Vector3 selfWorldPos = object_->GetWorldPos();
+	const Vector3 selfWorldPos = object_->GetWorldPos();
 	orbWorldPos.z = selfWorldPos.z;
 	orbWorldPos.y = selfWorldPos.y;
 
@@ -31,13 +31,13 @@ void SoulComp::ModelInit() {
 	if (isStun_) {
 		if (stunEnemyCount >= 2) {
 			modelComp_ = object_->AddComponent<ModelComp>();
-			auto* const orbModel = ModelManager::GetInstance()->GetModel("Gold_Soul");
+			auto *const orbModel = ModelManager::GetInstance()->GetModel("Gold_Soul");
 			modelComp_->AddBone("Gold_Soul", orbModel);
 			energy_ *= 3.0f;
 		}
 		else if (stunEnemyCount == 1) {
 			modelComp_ = object_->AddComponent<ModelComp>();
-			auto* const orbModel = ModelManager::GetInstance()->GetModel("Red_Soul");
+			auto *const orbModel = ModelManager::GetInstance()->GetModel("Red_Soul");
 			modelComp_->AddBone("Red_Soul", orbModel);
 			energy_ *= 2.0f;
 		}
@@ -45,7 +45,7 @@ void SoulComp::ModelInit() {
 	}
 	else if (!isStun_) {
 		modelComp_ = object_->AddComponent<ModelComp>();
-		auto* const orbModel = ModelManager::GetInstance()->GetModel("Purple_Soul");
+		auto *const orbModel = ModelManager::GetInstance()->GetModel("Purple_Soul");
 		modelComp_->AddBone("Purple_Soul", orbModel);
 	}
 
@@ -83,8 +83,7 @@ void SoulComp::Update(float deltaTime) {
 	}
 
 	// 単位化して速度を合わせる
-	distance.Nomalize();
-	const float speed = 1.0f;
+	const float speed = 2.0f;
 	distance = distance * speed * deltaTime;
 	object_->transform_.translate += distance;
 }

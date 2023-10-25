@@ -15,9 +15,6 @@ void SpringObjectComp::Init() {
 	input_ = Input::GetInstance();
 	ApplyVariables(groupName_.c_str());
 
-	state_ = std::make_unique<PlayerStateManager>(this);
-	state_->Init();
-
 	auto *const springModel = ModelManager::GetInstance()->GetModel("Spring");
 	auto *const modelComp = object_->AddComponent<ModelComp>();
 	modelComp->AddBone("Body", springModel, Transform{ .translate{0.f,-1.f,0.f} });
@@ -31,6 +28,9 @@ void SpringObjectComp::Init() {
 	colliderComp->SetCollisionAttribute(static_cast<uint32_t>(CollisionFilter::Player));
 	colliderComp->SetCollisionMask(~static_cast<uint32_t>(CollisionFilter::Player));
 
+	state_ = std::make_unique<PlayerStateManager>(this);
+	state_->Init();
+
 	AddVariable(groupName_.c_str());
 }
 
@@ -38,16 +38,18 @@ void SpringObjectComp::Update([[maybe_unused]] float deltaTime) {
 	ApplyVariables(groupName_.c_str());
 	state_->Update(deltaTime);
 
-
 	auto *const colliderComp = object_->GetComponent<ColliderComp>();
 	colliderComp->SetRadius(vHitBox);
 	colliderComp->SetCentor({ 0.f,vHitBox.GetItem() * 0.5f,0.f });
 
 	auto *const rigidbody = object_->GetComponent<Rigidbody>();
 
-	// 毎フレームかかる処理はdeltaTimeをかける
-	rigidbody->ApplyContinuousForce(Vector3::up * -9.8f, deltaTime);
+	if (!dynamic_cast<const SpawnState *>(state_->GetState())) {
 
+		// 毎フレームかかる処理はdeltaTimeをかける
+		rigidbody->ApplyContinuousForce(Vector3::up * -9.8f, deltaTime);
+
+	}
 	Vector3 vec = rigidbody->GetVelocity();
 	vec.x = std::clamp(vec.x, -static_cast<float>(vMaxSpeed_->x), static_cast<float>(vMaxSpeed_->x));
 	rigidbody->SetVelocity(vec);
@@ -72,6 +74,7 @@ void SpringObjectComp::ApplyVariables(const char *const groupName) {
 	cGroup >> vLandingTime_;
 	cGroup >> vHitBox;
 	cGroup >> vInputDisableHeight;
+	cGroup >> vSpawnTime_;
 }
 
 void SpringObjectComp::AddVariable(const char *const groupName) const {
@@ -88,6 +91,7 @@ void SpringObjectComp::AddVariable(const char *const groupName) const {
 	group << vLandingTime_;
 	group << vHitBox;
 	group << vInputDisableHeight;
+	group << vSpawnTime_;
 }
 
 void DefaultState::Init([[maybe_unused]] float deltaTime) {
@@ -270,5 +274,25 @@ void SquattingState::Update([[maybe_unused]] float deltaTime) {
 	Vector3 &modelScale = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale;
 
 	modelScale = SoLib::Lerp(startModelScale_, squatScale, SoLib::easeOutElastic(stateTimer_.GetProgress()));
+
+}
+
+void SpawnState::Init([[maybe_unused]] float deltaTime) {
+	stateTimer_.Start(stateManager_->parent_->vSpawnTime_);
+	stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale = Vector3::zero;
+	startModelScale_ = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale;
+}
+
+void SpawnState::Update(float deltaTime) {
+	// タイマーの更新
+	stateTimer_.Update(deltaTime);
+
+	Vector3 &modelScale = stateManager_->parent_->object_->GetComponent<ModelComp>()->GetBone("Body")->transform_.scale;
+
+	modelScale = SoLib::Lerp(startModelScale_, Vector3::one, SoLib::easeOutBounce(stateTimer_.GetProgress()));
+
+	if (stateTimer_.IsActive() && stateTimer_.IsFinish()) {
+		stateManager_->ChangeState<FallingState>();
+	}
 
 }
