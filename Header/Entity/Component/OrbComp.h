@@ -32,5 +32,5 @@ private:
 	// エネルギー
 	float energy_ = 0.f;
 	// エネルギーの限界量
-	VariantItem<float> vMaxEnergy_{ "MaxEnergy", 10.f };
+	VariantItem<float> vMaxEnergy_{ "MaxEnergy", 30.f };
 };

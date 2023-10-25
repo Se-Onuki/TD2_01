@@ -12,8 +12,7 @@
 #include "../Entity/Component/OrbComp.h"
 #include "../Entity/Component/OrbGaugeComp.h"
 #include "../Entity/Component/SoulComp.h"
-#include "../../Utils/SoLib/SoLib_ImGui.h"
-#include "../../Utils/SoLib/SoLib_Lerp.h"
+#include "../../Utils/SoLib/SoLib.h"
 
 void GameManager::Init() {
 
@@ -85,6 +84,7 @@ void GameManager::Init() {
 
 	EnemyComp::StaticInit();
 	isClear_ = false;
+	isFinish_ = false;
 }
 
 void GameManager::Exit() {
@@ -98,6 +98,8 @@ void GameManager::Exit() {
 }
 
 void GameManager::Update(const float deltaTime) {
+
+	slowmotionTimer_.Update(deltaTime);
 	// 今の敵の数を計算
 	int nowEnemyCount = 0;
 	for (auto &enemy : enemys_) {
@@ -184,7 +186,13 @@ void GameManager::Update(const float deltaTime) {
 	}
 
 	if (spring_) {
-		spring_->Update(deltaTime);
+		if (slowmotionTimer_.IsActive()) {
+			const float slowScale = 1.f - SoLib::easeOutExpo(slowmotionTimer_.GetProgress());
+			spring_->Update(deltaTime * slowScale);
+		}
+		else {
+			spring_->Update(deltaTime);
+		}
 		ImGui::Text("ToGround : %f", mapChip_->GetDistanceToGround(MapChip::GlobalToLocal(spring_->transform_.translate)));
 	}
 
@@ -208,7 +216,12 @@ void GameManager::Update(const float deltaTime) {
 	}
 
 	if (perWave_MaxEnemy_ - nowEnemyCount == perWave_MaxEnemy_) {
-		WaveChange();
+		if (!slowmotionTimer_.IsActive()) {
+			slowmotionTimer_.Start(slowCount);
+		}
+		if (slowmotionTimer_.IsActive() && slowmotionTimer_.IsFinish()) {
+			WaveChange();
+		}
 	}
 	ImGui::Text("wave : %d", wave_);
 
@@ -300,11 +313,10 @@ void GameManager::AddPlayer() {
 
 void GameManager::WaveChange() {
 	if (maxWave_ <= wave_) {
-		wave_ = maxWave_;
+		//wave_ = maxWave_;
+		isFinish_ = true;
 	}
-	else {
-		wave_++;
-	}
+	wave_++;
 
 	WaveEnemySet(wave_);
 }
@@ -313,35 +325,107 @@ void GameManager::WaveEnemySet(int wave) {
 	if (wave == 1) {
 		perWave_MaxEnemy_ = 0u;
 
-		AddEnemy({ -5.0f,13.0f,0.f });
-		AddEnemy({ -10.0f,4.0f,0.f });
-		AddEnemy({ 4.0f,7.0f,0.f });
-		AddEnemy({ 3.0f,5.0f,0.f });
-		AddEnemy({ 7.0f,15.0f,0.f });
-
-		AddEnemy({ 10.f,10.f,0.f });
-		AddEnemy({ -10.f,10.f,0.f });
-		AddEnemy({ 5.0f,2.f,0.f });
-		AddEnemy({ -5.0f,5.0f,0.f });
-		AddEnemy({ -2.0f,8.0f,0.f });
+		for (uint32_t i = 0u; i < 10u; ++i) {
+			Vector3 pos{};
+			Vector2 buff = Random::GetRandom<float>({ -18.f,20.f }, { 18.f,50.f });
+			pos.x = buff.x;
+			pos.y = buff.y;
+			AddEnemy(pos);
+		}
 		EnemyComp::SetEnemyList(&enemys_);
+
+		mapChip_->Init("resources/Level/Level1.csv");
+
+		spring_->SetActive(false);
 
 	}
 	else if (wave == 2) {
 		perWave_MaxEnemy_ = 0u;
 
-		AddEnemy({ -5.0f,13.0f,0.f });
-		AddEnemy({ -10.0f,4.0f,0.f });
-		AddEnemy({ 4.0f,7.0f,0.f });
-		AddEnemy({ 3.0f,5.0f,0.f });
-		AddEnemy({ 7.0f,15.0f,0.f });
-
-		AddEnemy({ 10.f,10.f,0.f });
-		AddEnemy({ -10.f,10.f,0.f });
-		AddEnemy({ 5.0f,2.f,0.f });
-		AddEnemy({ -5.0f,5.0f,0.f });
-		AddEnemy({ -2.0f,8.0f,0.f });
+		for (uint32_t i = 0u; i < 10u; ++i) {
+			Vector3 pos{};
+			Vector2 buff = Random::GetRandom<float>({ -18.f,20.f }, { 18.f,50.f });
+			pos.x = buff.x;
+			pos.y = buff.y;
+			AddEnemy(pos);
+		}
 		EnemyComp::SetEnemyList(&enemys_);
+
+		mapChip_->Init("resources/Level/Level2.csv");
+
+		spring_->SetActive(false);
+
+
+	}
+	else if (wave == 3) {
+		perWave_MaxEnemy_ = 0u;
+
+		for (uint32_t i = 0u; i < 10u; ++i) {
+			Vector3 pos{};
+			Vector2 buff = Random::GetRandom<float>({ -18.f,20.f }, { 18.f,50.f });
+			pos.x = buff.x;
+			pos.y = buff.y;
+			AddEnemy(pos);
+		}
+		EnemyComp::SetEnemyList(&enemys_);
+
+		mapChip_->Init("resources/Level/Level3.csv");
+
+		spring_->SetActive(false);
+
+
+	}
+	else if (wave == 4) {
+		perWave_MaxEnemy_ = 0u;
+
+		for (uint32_t i = 0u; i < 10u; ++i) {
+			Vector3 pos{};
+			Vector2 buff = Random::GetRandom<float>({ -18.f,20.f }, { 18.f,50.f });
+			pos.x = buff.x;
+			pos.y = buff.y;
+			AddEnemy(pos);
+		}
+		EnemyComp::SetEnemyList(&enemys_);
+
+		mapChip_->Init("resources/Level/Level1.csv");
+
+		spring_->SetActive(false);
+
+	}
+	else if (wave == 5) {
+		perWave_MaxEnemy_ = 0u;
+
+		for (uint32_t i = 0u; i < 10u; ++i) {
+			Vector3 pos{};
+			Vector2 buff = Random::GetRandom<float>({ -18.f,20.f }, { 18.f,50.f });
+			pos.x = buff.x;
+			pos.y = buff.y;
+			AddEnemy(pos);
+		}
+		EnemyComp::SetEnemyList(&enemys_);
+
+		mapChip_->Init("resources/Level/Level2.csv");
+
+		spring_->SetActive(false);
+
+
+	}
+	else if (wave == 6) {
+		perWave_MaxEnemy_ = 0u;
+
+		for (uint32_t i = 0u; i < 10u; ++i) {
+			Vector3 pos{};
+			Vector2 buff = Random::GetRandom<float>({ -18.f,20.f }, { 18.f,50.f });
+			pos.x = buff.x;
+			pos.y = buff.y;
+			AddEnemy(pos);
+		}
+		EnemyComp::SetEnemyList(&enemys_);
+
+		mapChip_->Init("resources/Level/Level3.csv");
+
+		spring_->SetActive(false);
+
 
 	}
 

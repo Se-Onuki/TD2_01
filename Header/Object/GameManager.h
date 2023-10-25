@@ -51,6 +51,7 @@ public:
 	const auto *const GetCamera() const { return followCamera_->GetCamera(); }
 
 	const bool GetIsClear() { return isClear_; }
+	const bool GetIsFinish() { return isFinish_; }
 
 	void WaveChange();
 	void WaveEnemySet(int wave);
@@ -77,13 +78,16 @@ private:
 	std::unique_ptr<RemainEnemy> remainEnemy_ = nullptr;
 	std::unique_ptr<RemainWave> remainWave_ = nullptr;
 
+	const float slowCount = 1.0f;
+	SoLib::RealTimer slowmotionTimer_;
+
 	// ウェーブ毎の敵の最大数
 	uint32_t perWave_MaxEnemy_ = 0;
 
 	int wave_ = 0;
-	const int maxWave_ = 8;
+	const int maxWave_ = 6;
 	bool isClear_ = false;
+	bool isFinish_ = false;
 
-	
 
 };

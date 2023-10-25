@@ -20,9 +20,8 @@ void SoulComp::Init() {
 	orbWorldPos.y = selfWorldPos.y;
 
 	// エネルギーの計算
-	energy_ = 7.f - (orbWorldPos - selfWorldPos).Length() / 0.2f;
-	if (energy_ < 0.2f) { energy_ = 0.2f; }
-
+	energy_ = 1.f - SoLib::easeInQuad(std::abs(orbWorldPos.x - selfWorldPos.x) / 20.f);
+	energy_ *= 0.75f;
 }
 
 void SoulComp::ModelInit() {

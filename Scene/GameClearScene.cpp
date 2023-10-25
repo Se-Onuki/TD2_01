@@ -35,6 +35,7 @@ void GameClearScene::OnEnter() {
 
 #pragma endregion
 
+	Fade::GetInstance()->Start({ 0.f,0.f }, Fade::kFadeColor_, 20u);
 
 }
 
@@ -101,6 +102,8 @@ void GameClearScene::Draw() {
 	// スプライトの描画
 	titleLogo_->Draw();
 	pressSprite_->Draw();
+
+	Fade::GetInstance()->Draw();
 
 	Sprite::EndDraw();
 

@@ -26,6 +26,10 @@ void EnemyComp::Init() {
 	colliderComp->SetCollisionAttribute(static_cast<uint32_t>(CollisionFilter::Enemy));
 	colliderComp->SetCollisionMask(~static_cast<uint32_t>(CollisionFilter::Enemy));
 
+	auto *const rigidbody = object_->AddComponent<Rigidbody>();
+	rigidbody->SetMaxSpeed({ 1.f,1.f,0.f });
+	//	rigidbody->hasCollider_ = true;
+
 	oneStunTex = TextureManager::Load("oneStun_effect.png");
 	twoStunTex = TextureManager::Load("twoStun_effect.png");
 
@@ -127,6 +131,16 @@ void EnemyState::IdleState::Update([[maybe_unused]] float deltaTime) {
 	if (enemy_->GetIsStan()) {
 		enemy_->SetState<StunState>();
 	}
+
+	const Vector3 &playerPos = GameManager::GetInstance()->GetPlayer()->transform_.translate;
+
+	Vector3 diff = playerPos - enemy_->object_->transform_.translate;
+
+	auto *const rigidbody = enemy_->object_->AddComponent<Rigidbody>();
+	rigidbody->SetVelocity(diff.Nomalize() * 100.f * deltaTime);
+
+	enemy_->object_->transform_.rotate.y = Angle::Lerp(enemy_->object_->transform_.rotate.y, 0, 10.f * deltaTime);
+
 }
 
 void EnemyState::IdleState::Exit([[maybe_unused]] float deltaTime) {
@@ -149,6 +163,10 @@ void EnemyState::AttackState::Exit([[maybe_unused]] float deltaTime) {
 }
 
 void EnemyState::StunState::Init([[maybe_unused]] float deltaTime) {
+	auto *const rigidbody = enemy_->object_->AddComponent<Rigidbody>();
+
+	rigidbody->SetAcceleration(Vector3::zero);
+	rigidbody->SetVelocity(Vector3::zero);
 
 }
 

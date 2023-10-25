@@ -109,8 +109,13 @@ void GameScene::Update() {
 	//	input_->GetDirectInput()->IsTrigger(DIK_3)) {
 	//	sceneManager_->ChangeScene<GameOverScene>(60);
 	//}
-	if (gameManager_->GetIsClear()) {
-		sceneManager_->ChangeScene<GameClearScene>(60);
+	if (gameManager_->GetIsFinish()) {
+		if (gameManager_->GetIsClear()) {
+			sceneManager_->ChangeScene<GameClearScene>(60);
+		}
+		else {
+			sceneManager_->ChangeScene<GameOverScene>(60);
+		}
 	}
 
 }
