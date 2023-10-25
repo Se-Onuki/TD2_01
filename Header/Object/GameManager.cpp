@@ -308,7 +308,7 @@ void GameManager::AddPlayer() {
 	spring_->AddComponent<SpringObjectComp>();
 	spring_->timeScale_ = 3.f;
 	spring_->GetComponent<Rigidbody>()->hasCollider_ = true;
-	spring_->transform_.translate = Vector3{ 0.f,10.f,0.f };
+	spring_->transform_.translate = spawnPos_;
 }
 
 void GameManager::WaveChange() {
@@ -327,7 +327,7 @@ void GameManager::WaveEnemySet(int wave) {
 
 		for (uint32_t i = 0u; i < 10u; ++i) {
 			Vector3 pos{};
-			Vector2 buff = Random::GetRandom<float>({ -18.f,20.f }, { 18.f,50.f });
+			Vector2 buff = Random::GetRandom<float>({ -18.f,10.f }, { 18.f,30.f });
 			pos.x = buff.x;
 			pos.y = buff.y;
 			AddEnemy(pos);
@@ -337,6 +337,7 @@ void GameManager::WaveEnemySet(int wave) {
 		mapChip_->Init("resources/Level/Level1.csv");
 
 		spring_->SetActive(false);
+		spawnPos_.y = 50.f;
 
 	}
 	else if (wave == 2) {
@@ -344,7 +345,7 @@ void GameManager::WaveEnemySet(int wave) {
 
 		for (uint32_t i = 0u; i < 10u; ++i) {
 			Vector3 pos{};
-			Vector2 buff = Random::GetRandom<float>({ -18.f,20.f }, { 18.f,50.f });
+			Vector2 buff = Random::GetRandom<float>({ -18.f,10.f }, { 18.f,30.f });
 			pos.x = buff.x;
 			pos.y = buff.y;
 			AddEnemy(pos);
@@ -354,6 +355,7 @@ void GameManager::WaveEnemySet(int wave) {
 		mapChip_->Init("resources/Level/Level2.csv");
 
 		spring_->SetActive(false);
+		spawnPos_.y = 50.f;
 
 
 	}
@@ -373,6 +375,7 @@ void GameManager::WaveEnemySet(int wave) {
 
 		spring_->SetActive(false);
 
+		spawnPos_ = kDefaultSpawn_;
 
 	}
 	else if (wave == 4) {

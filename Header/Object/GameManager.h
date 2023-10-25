@@ -89,5 +89,8 @@ private:
 	bool isClear_ = false;
 	bool isFinish_ = false;
 
+	const Vector3 kDefaultSpawn_{ 0.f,10.f,0.f };
+
+	Vector3 spawnPos_ = kDefaultSpawn_;
 
 };
