@@ -29,6 +29,7 @@ void GameManager::Init() {
 #pragma endregion
 
 #pragma region Enemy
+
 	AddEnemy({ -5.0f,13.0f,0.f });
 	AddEnemy({ -10.0f,4.0f,0.f });
 	AddEnemy({ 4.0f,7.0f,0.f });
@@ -41,11 +42,13 @@ void GameManager::Init() {
 	AddEnemy({ -5.0f,5.0f,0.f });
 	AddEnemy({ -2.0f,8.0f,0.f });
 	EnemyComp::SetEnemyList(&enemys_);
-	perWave_MaxEnemy_ = 0;
-	for (auto& enemy : enemys_) {
-		enemy;
-		perWave_MaxEnemy_++;
-	}
+
+#ifdef _DEBUG
+
+	debugSpawn_ = std::make_unique<Entity>();
+	debugSpawn_->AddComponent<ModelComp>()->AddBone("Body", ModelManager::GetInstance()->GetModel("Sphere"));
+
+#endif // _DEBUG
 
 #pragma endregion
 
@@ -102,7 +105,7 @@ void GameManager::Exit() {
 void GameManager::Update(const float deltaTime) {
 	// 今の敵の数を計算
 	int nowEnemyCount = 0;
-	for (auto& enemy : enemys_) {
+	for (auto &enemy : enemys_) {
 		if (enemy->GetActive()) {
 			nowEnemyCount++;
 		}
@@ -188,10 +191,11 @@ void GameManager::Update(const float deltaTime) {
 	}
 #ifdef _DEBUG
 	ImGui::Begin("Enemy");
-	static Vector3 buff;
-	SoLib::ImGuiWidget("SpawnPos", &buff);
+	if (SoLib::ImGuiWidget("SpawnPos", &debugSpawn_->transform_.translate)) {
+		debugSpawn_->Update(deltaTime);
+	}
 	if (ImGui::Button("Spawn")) {
-		AddEnemy(buff);
+		AddEnemy(debugSpawn_->transform_.translate);
 	}
 	if (ImGui::Button("KillAll")) {
 		for (auto &enemy : enemys_) {
@@ -229,6 +233,11 @@ void GameManager::Draw() const {
 		orb_->Draw(camera);
 	}
 	mapChip_->Draw(camera);
+
+#ifdef _DEBUG
+	debugSpawn_->Draw(camera);
+#endif // _DEBUG
+
 }
 
 void GameManager::Draw2D() const {
@@ -248,6 +257,7 @@ void GameManager::AddEnemy(const Vector3 &pos) {
 	enemys_.push_back(std::make_unique<Entity>());
 	auto &newEnemy = enemys_.back();
 
+	++perWave_MaxEnemy_;
 	newEnemy->Init();
 
 	newEnemy->transform_.translate = pos;

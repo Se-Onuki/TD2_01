@@ -16,6 +16,11 @@
 void GameScene::StartupLoad() {
 
 	auto *const modelManager = ModelManager::GetInstance();
+	auto *const sphere = modelManager->AddModel("Sphere", Model::LoadObjFile("", "sphere.obj"));
+	sphere->materialMap_["Material"]->materialBuff_->color = Vector4{ 1.f,1.f,1.f,0.5f };
+	sphere->materialMap_["Material"]->materialBuff_->emissive = Vector4::one;
+	sphere->materialMap_["Material"]->blendMode_ = Model::BlendMode::kNormal;
+
 	modelManager->AddModel("Spring", Model::LoadObjFile("Model/Player/", "player.obj"));
 	modelManager->AddModel("Enemy", Model::LoadObjFile("Model/Enemy/", "enemy.obj"));
 

@@ -66,7 +66,9 @@ private:
 
 	CollisionManager *collisionManager_ = nullptr;
 
+	std::unique_ptr<Entity> debugSpawn_ = nullptr;
+
 	std::unique_ptr<RemainEnemy> remainEnemy_ = nullptr;
 	// ウェーブ毎の敵の最大数
-	int perWave_MaxEnemy_ = 0;
+	uint32_t perWave_MaxEnemy_ = 0;
 };
