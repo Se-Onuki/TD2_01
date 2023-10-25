@@ -101,21 +101,18 @@ void GameScene::Update() {
 	gameManager_->ImGuiWidget();
 
 	light_->ImGuiWidget();
-	if (/*input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER)*/
-		input_->GetDirectInput()->IsTrigger(DIK_2)) {
-
-		sceneManager_->ChangeScene<TitleScene>(30);
-	}
-	if (/*input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) */
-		input_->GetDirectInput()->IsTrigger(DIK_3)) {
-
-		sceneManager_->ChangeScene<GameOverScene>(60);
-	}
-	if (/*input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) */
-		input_->GetDirectInput()->IsTrigger(DIK_4)) {
-
-		sceneManager_->ChangeScene<GameClearScene>(60);
-	}
+	//if (/*input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER)*/
+	//	input_->GetDirectInput()->IsTrigger(DIK_2)) {
+	//	sceneManager_->ChangeScene<TitleScene>(30);
+	//}
+	//if (/*input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) */
+	//	input_->GetDirectInput()->IsTrigger(DIK_3)) {
+	//	sceneManager_->ChangeScene<GameOverScene>(60);
+	//}
+	//if (/*input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) */
+	//	input_->GetDirectInput()->IsTrigger(DIK_4)) {
+	//	sceneManager_->ChangeScene<GameClearScene>(60);
+	//}
 
 }
 
