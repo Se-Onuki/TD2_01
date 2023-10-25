@@ -6,22 +6,23 @@
 #include "../../Object/GameManager.h"
 #include "OrbComp.h"
 #include "EnemyComp.h"
-
+#include "../../../Engine/DirectBase/Base/Audio.h"
 #include "../../../Utils/SoLib/SoLib_ImGui.h"
 
 Entity *SoulComp::pOrb_ = nullptr;
-
-void SoulComp::Init() {
+uint32_t SoulComp::energySE = Audio::GetInstance()->LoadWave("resources/Sounds/energy.wav");;
+void SoulComp::Init() {	
 	// オーブのいる位置
 	Vector3 orbWorldPos = pOrb_->GetWorldPos();
 	// 魂自身がいる位置
 	const Vector3 selfWorldPos = object_->GetWorldPos();
 	orbWorldPos.z = selfWorldPos.z;
-	orbWorldPos.y = selfWorldPos.y;
+	orbWorldPos.y = selfWorldPos.y;	
 
 	// エネルギーの計算
 	energy_ = 1.f - SoLib::easeInQuad(std::abs(orbWorldPos.x - selfWorldPos.x) / 20.f);
 	energy_ *= 0.65f;
+	Audio::GetInstance()->PlayWave(energySE, false, 0.3f);
 }
 
 void SoulComp::ModelInit() {

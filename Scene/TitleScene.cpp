@@ -15,6 +15,8 @@ TitleScene::TitleScene() {
 }
 
 TitleScene::~TitleScene() {
+	//audio_->StopWave(voiceBGMHandle_);
+
 }
 
 void TitleScene::OnEnter() {
@@ -40,24 +42,27 @@ void TitleScene::OnEnter() {
 	skyCylinder_->Init("skyCylinder");
 
 #pragma endregion
-
+	BGMHandle_ = audio_->LoadWave("resources/Sounds/title.wav");
+	selectSEHandle_ = audio_->LoadWave("resources/Sounds/firstButton.wav");
 
 	Fade::GetInstance()->Start({ 0.f,0.f }, Fade::kFadeColor_, 20u);
 
 }
 
 void TitleScene::OnExit() {
+	audio_->StopAllWave();
 }
 
 void TitleScene::Update() {
 	const float deltaTime = ImGui::GetIO().DeltaTime;
+	// BGM再生
+	if (audio_->IsPlaying(voiceBGMHandle_) == 0 || voiceBGMHandle_ == -1) {
+		voiceBGMHandle_ = audio_->PlayWave(BGMHandle_, true, bolume);
+	}
+	
 	if (isChangeSceneCall_) {
 		sceneManager_->ChangeScene(new GameScene, 60);
 	}
-
-	/*if (!skyCylinder_->GetActive()) {
-		skyCylinder_.reset();
-	}*/	
 	skyCylinder_->SetChangeSceneCall(isChangeSceneCall_);
 	if (skyCylinder_) {
 		skyCylinder_->Update(deltaTime);
@@ -75,10 +80,14 @@ void TitleScene::Update() {
 
 	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) ||
 		input_->GetDirectInput()->IsTrigger(DIK_SPACE)) {
+		audio_->PlayWave(selectSEHandle_, false, bolume); 
 		isChangeSceneCall_ = true;
 	}
 
 	if (isChangeSceneCall_) {
+		
+	
+		audio_->StopWave(voiceBGMHandle_);
 		titleLogo_->SetIsChangeSceneCall(isChangeSceneCall_);
 		pressSprite_->SetIsChangeSceneCall(isChangeSceneCall_);
 		sceneManager_->ChangeScene<GameScene>(60);

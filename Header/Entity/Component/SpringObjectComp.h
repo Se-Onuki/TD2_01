@@ -174,6 +174,10 @@ public:
 	/// @param groupName グループ名
 	virtual void AddVariable(const char *const groupName) const;
 
+	uint32_t GetJumpSE() { return jumpSE; }
+	uint32_t GetBindSE() { return bindSE; }
+	//uint32_t GetBlockBreakSE() { return blockBreakSE; }
+
 private:
 
 	const std::string groupName_ = "Player";
@@ -181,4 +185,9 @@ private:
 	Input *input_ = nullptr;
 
 	std::unique_ptr<PlayerStateManager> state_ = nullptr;
+
+	uint32_t jumpSE;
+	uint32_t bindSE;
+	//uint32_t blockBreakSE;
+
 };

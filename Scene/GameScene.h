@@ -41,4 +41,10 @@ private:
 	std::unique_ptr<DirectionLight> light_ = nullptr;
 	std::unique_ptr<Sprite> sprite_ = nullptr;
 	//CollisionManager *collisionManager_ = nullptr;
+
+	float bolume = 0.3f;
+	uint32_t BGMHandle_ = 0u;
+	uint32_t voiceBGMHandle_ = 0u;
+
+
 };

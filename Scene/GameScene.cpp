@@ -48,6 +48,9 @@ void GameScene::StartupLoad() {
 	modelManager->AddModel("Gold_Soul", Model::LoadObjFile("Model/Souls/gold_soul/", "gold_soul.obj"));
 
 	TextureManager::Load("backTexture.png");
+
+	
+
 }
 
 GameScene::GameScene() {
@@ -63,9 +66,12 @@ GameScene::GameScene() {
 	sprite_.reset(Sprite::Create(TextureManager::Load("backTexture.png")));
 	sprite_->SetScale({ 1280.0f, 720.0f });
 	sprite_->SetPosition({ 0.0f, 0.0f });
+
+	BGMHandle_ = audio_->LoadWave("resources/Sounds/inGame.wav");
 }
 
 GameScene::~GameScene() {
+	//audio_->StopWave(voiceBGMHandle_);
 
 }
 
@@ -79,11 +85,17 @@ void GameScene::OnEnter() {
 }
 
 void GameScene::OnExit() {
+	audio_->StopAllWave();
+
 	gameManager_->Exit();
 }
 
 void GameScene::Update() {
 	const float deltaTime = ImGui::GetIO().DeltaTime;
+	// BGM再生
+	if (audio_->IsPlaying(voiceBGMHandle_) == 0 || voiceBGMHandle_ == -1) {
+		voiceBGMHandle_ = audio_->PlayWave(BGMHandle_, true, bolume);
+	}
 
 	ImGui::Begin("Camera");
 	camera_.ImGuiWidget();
@@ -110,6 +122,7 @@ void GameScene::Update() {
 	//	sceneManager_->ChangeScene<GameOverScene>(60);
 	//}
 	if (gameManager_->GetIsFinish()) {
+		audio_->StopWave(voiceBGMHandle_);
 		if (gameManager_->GetIsClear()) {
 			sceneManager_->ChangeScene<GameClearScene>(60);
 		}

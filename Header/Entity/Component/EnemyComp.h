@@ -136,7 +136,7 @@ public:
 	// デフォルトのスタン時間
 	VariantItem<float> vDefaultStanTime_{ "StanTime", 10.f };
 	VariantItem<float> vAddStanTine_{ "AddStanTime", 1.f };
-
+	uint32_t GetStunSE() { return stunSE; }
 
 private:
 
@@ -153,4 +153,8 @@ private:
 	std::unique_ptr<Sprite> stunSprite_ = nullptr;
 
 	static int stunCount_;
+
+	uint32_t stunSE = 0u;	
+	uint32_t damageSE = 0u;
+
 };

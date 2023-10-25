@@ -39,5 +39,9 @@ private:
 	Camera<Render::CameraType::Projecction> camera_;
 
 	std::unique_ptr<SkyCylinder> skyCylinder_ = nullptr;
+	float bolume = 0.3f;
+	uint32_t selectSEHandle_ = 0u;
+	uint32_t BGMHandle_ = 0u;
+	uint32_t voiceBGMHandle_ = 0u;
 
 };
