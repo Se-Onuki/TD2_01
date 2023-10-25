@@ -1,8 +1,8 @@
 {
-    "RemainEnemy": {
-        "NumberSpacing": 35.0,
+    "RemainWave": {
+        "NumberSpacing": 35.900001525878906,
         "Position": [
-            830.0,
+            545.0,
             680.0
         ],
         "Scale": 0.4000000059604645

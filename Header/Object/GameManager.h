@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <list>
+#include <sstream>
 
 #include "../../Engine/DirectBase/2D/Sprite.h"
 #include "../../Engine/DirectBase/Model/Model.h"
@@ -12,6 +13,7 @@
 #include "../Entity/Component/Collider.h"
 #include "FollowCamera.h"
 #include "../Object/RemainEnemy.h"
+#include "../Object/RemainWave.h"
 class GameManager {
 	GameManager() = default;
 	GameManager(const GameManager &) = delete;
@@ -50,6 +52,8 @@ public:
 
 	const bool GetIsClear() { return isClear_; }
 
+	void WaveChange();
+	void WaveEnemySet(int wave);
 private:
 
 	std::list<std::unique_ptr<Entity>> enemys_;
@@ -71,9 +75,15 @@ private:
 	std::unique_ptr<Entity> debugSpawn_ = nullptr;
 
 	std::unique_ptr<RemainEnemy> remainEnemy_ = nullptr;
+	std::unique_ptr<RemainWave> remainWave_ = nullptr;
+
 	// ウェーブ毎の敵の最大数
 	uint32_t perWave_MaxEnemy_ = 0;
 
-
+	int wave_ = 0;
+	const int maxWave_ = 8;
 	bool isClear_ = false;
+
+	
+
 };

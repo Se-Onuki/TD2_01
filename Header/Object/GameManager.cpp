@@ -1,4 +1,8 @@
 #include "Gamemanager.h"
+
+#include <fstream>
+
+
 #include "../../Engine/DirectBase/Model/ModelManager.h"
 
 #include "../Entity/Component/ModelComp.h"
@@ -29,21 +33,8 @@ void GameManager::Init() {
 #pragma endregion
 
 #pragma region Enemy
-
-	perWave_MaxEnemy_ = 0u;
-
-	AddEnemy({ -5.0f,13.0f,0.f });
-	AddEnemy({ -10.0f,4.0f,0.f });
-	AddEnemy({ 4.0f,7.0f,0.f });
-	AddEnemy({ 3.0f,5.0f,0.f });
-	AddEnemy({ 7.0f,15.0f,0.f });
-
-	AddEnemy({ 10.f,10.f,0.f });
-	AddEnemy({ -10.f,10.f,0.f });
-	AddEnemy({ 5.0f,2.f,0.f });
-	AddEnemy({ -5.0f,5.0f,0.f });
-	AddEnemy({ -2.0f,8.0f,0.f });
-	EnemyComp::SetEnemyList(&enemys_);
+	wave_ = 0;
+	WaveChange();
 
 #ifdef _DEBUG
 
@@ -87,6 +78,8 @@ void GameManager::Init() {
 
 	remainEnemy_ = std::make_unique<RemainEnemy>();
 	remainEnemy_->Init();
+	remainWave_ = std::make_unique<RemainWave>();
+	remainWave_->Init();
 
 #pragma endregion
 
@@ -112,9 +105,14 @@ void GameManager::Update(const float deltaTime) {
 			nowEnemyCount++;
 		}
 	}
+
 	remainEnemy_->SetNumber(perWave_MaxEnemy_ - nowEnemyCount);
 	remainEnemy_->SetMaxNumber(perWave_MaxEnemy_);
 	remainEnemy_->Update();
+
+	remainWave_->SetNumber(wave_);
+	remainWave_->SetMaxNumber(maxWave_);
+	remainWave_->Update();
 
 #ifdef _DEBUG
 	ImGui::Text("%d / %d", nowEnemyCount, perWave_MaxEnemy_);
@@ -209,6 +207,13 @@ void GameManager::Update(const float deltaTime) {
 	if (orbGauge_) {
 		orbGauge_->Update(deltaTime);
 	}
+
+	if (perWave_MaxEnemy_ - nowEnemyCount == perWave_MaxEnemy_) {
+		WaveChange();
+	}
+	ImGui::Text("wave : %d", wave_);
+
+	// クリア条件
 	if (orb_->GetComponent<OrbComp>()->GetProgress() >= 1.0f) {
 		isClear_ = true;
 	}
@@ -247,6 +252,8 @@ void GameManager::Draw() const {
 
 void GameManager::Draw2D() const {
 	remainEnemy_->Draw();
+	remainWave_->Draw();
+
 	for (auto &enemy : enemys_) {
 		enemy->Draw2D();
 	}
@@ -291,3 +298,53 @@ void GameManager::AddPlayer() {
 	spring_->GetComponent<Rigidbody>()->hasCollider_ = true;
 	spring_->transform_.translate = Vector3{ 0.f,10.f,0.f };
 }
+
+void GameManager::WaveChange() {
+	if (maxWave_ <= wave_) {
+		wave_ = maxWave_;
+	}
+	else {
+		wave_++;
+	}
+
+	WaveEnemySet(wave_);
+}
+
+void GameManager::WaveEnemySet(int wave) {
+	if (wave == 1) {
+		perWave_MaxEnemy_ = 0u;
+		
+		AddEnemy({ -5.0f,13.0f,0.f });
+		AddEnemy({ -10.0f,4.0f,0.f });
+		AddEnemy({ 4.0f,7.0f,0.f });
+		AddEnemy({ 3.0f,5.0f,0.f });
+		AddEnemy({ 7.0f,15.0f,0.f });
+
+		AddEnemy({ 10.f,10.f,0.f });
+		AddEnemy({ -10.f,10.f,0.f });
+		AddEnemy({ 5.0f,2.f,0.f });
+		AddEnemy({ -5.0f,5.0f,0.f });
+		AddEnemy({ -2.0f,8.0f,0.f });
+		EnemyComp::SetEnemyList(&enemys_);
+
+	}
+	else if (wave == 2) {
+		perWave_MaxEnemy_ = 0u;
+
+		AddEnemy({ -5.0f,13.0f,0.f });
+		AddEnemy({ -10.0f,4.0f,0.f });
+		AddEnemy({ 4.0f,7.0f,0.f });
+		AddEnemy({ 3.0f,5.0f,0.f });
+		AddEnemy({ 7.0f,15.0f,0.f });
+
+		AddEnemy({ 10.f,10.f,0.f });
+		AddEnemy({ -10.f,10.f,0.f });
+		AddEnemy({ 5.0f,2.f,0.f });
+		AddEnemy({ -5.0f,5.0f,0.f });
+		AddEnemy({ -2.0f,8.0f,0.f });
+		EnemyComp::SetEnemyList(&enemys_);
+
+	}
+
+}
+

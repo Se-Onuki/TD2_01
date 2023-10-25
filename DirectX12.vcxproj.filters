@@ -300,6 +300,9 @@
     <ClCompile Include="Header\Object\RemainEnemy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Header\Object\RemainWave.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imgui.h">
@@ -540,6 +543,9 @@
       <Filter>Header\Object</Filter>
     </ClInclude>
     <ClInclude Include="Header\Object\RemainEnemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Object\RemainWave.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
