@@ -95,6 +95,7 @@ void EnemyComp::BreakAll() {
 			enemy->SetActive(false);
 		}
 	}
+	sStanTime_ = 0.f;
 }
 
 void EnemyComp::StaticUpdate(float deltaTime) {
@@ -111,6 +112,10 @@ void EnemyComp::StartStan() {
 	isStan_ = true;
 	if (sStanTime_ <= 0.f) {
 		sStanTime_ = vDefaultStanTime_;
+	}
+	else {
+		sStanTime_ += vAddStanTine_;
+		sStanTime_ = std::clamp(sStanTime_, 0.f, vDefaultStanTime_.GetItem());
 	}
 }
 

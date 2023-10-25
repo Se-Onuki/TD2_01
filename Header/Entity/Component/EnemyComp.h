@@ -135,6 +135,7 @@ public:
 
 	// デフォルトのスタン時間
 	VariantItem<float> vDefaultStanTime_{ "StanTime", 10.f };
+	VariantItem<float> vAddStanTine_{ "AddStanTime", 1.f };
 
 
 private:

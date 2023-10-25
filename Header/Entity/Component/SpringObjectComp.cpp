@@ -219,14 +219,6 @@ void JumpingState::Update([[maybe_unused]] float deltaTime) {
 void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {
 
 	auto *const rigidbody = stateManager_->parent_->object_->GetComponent<Rigidbody>();
-	//if (rigidbody->GetVelocity().y <= 0.f) {
-	//}
-	//else {
-	//	auto *const enemyComp = other->GetComponent<EnemyComp>();
-	//	if (enemyComp) {
-	//		//other->SetActive(false);
-	//	}
-	//}
 
 
 	// 敵のコンポーネントを取得
@@ -241,7 +233,7 @@ void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {
 
 		}
 		// 下から叩かれた場合
-		else {
+		else if (stateManager_->parent_->object_->transform_.translate.y <= other->transform_.translate.y) {
 
 			// 自分自身がスタンしてる場合
 			if (enemyComp->GetIsStan()) {

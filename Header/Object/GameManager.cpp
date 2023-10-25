@@ -160,6 +160,10 @@ void GameManager::Update(const float deltaTime) {
 		}
 	);
 
+	if (spring_ && spring_->transform_.translate.y < -20.f) {
+		spring_->SetActive(false);
+	}
+
 	if (spring_ && !spring_->GetActive()) {
 		spring_.reset();
 	}
@@ -175,13 +179,8 @@ void GameManager::Update(const float deltaTime) {
 
 	EnemyComp::StaticUpdate(deltaTime);
 
-	if (Input::GetInstance()->GetDirectInput()->IsTrigger(DIK_P)) {
-		if (spring_) {
-			spring_->SetActive(false);
-		}
-		else {
-			AddPlayer();
-		}
+	if (!spring_) {
+		AddPlayer();
 	}
 
 	if (spring_) {
@@ -313,7 +312,7 @@ void GameManager::WaveChange() {
 void GameManager::WaveEnemySet(int wave) {
 	if (wave == 1) {
 		perWave_MaxEnemy_ = 0u;
-		
+
 		AddEnemy({ -5.0f,13.0f,0.f });
 		AddEnemy({ -10.0f,4.0f,0.f });
 		AddEnemy({ 4.0f,7.0f,0.f });
