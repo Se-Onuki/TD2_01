@@ -48,6 +48,8 @@ public:
 
 	const auto *const GetCamera() const { return followCamera_->GetCamera(); }
 
+	const bool GetIsClear() { return isClear_; }
+
 private:
 
 	std::list<std::unique_ptr<Entity>> enemys_;
@@ -71,4 +73,7 @@ private:
 	std::unique_ptr<RemainEnemy> remainEnemy_ = nullptr;
 	// ウェーブ毎の敵の最大数
 	uint32_t perWave_MaxEnemy_ = 0;
+
+
+	bool isClear_ = false;
 };

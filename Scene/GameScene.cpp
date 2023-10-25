@@ -109,10 +109,9 @@ void GameScene::Update() {
 	//	input_->GetDirectInput()->IsTrigger(DIK_3)) {
 	//	sceneManager_->ChangeScene<GameOverScene>(60);
 	//}
-	//if (/*input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) */
-	//	input_->GetDirectInput()->IsTrigger(DIK_4)) {
-	//	sceneManager_->ChangeScene<GameClearScene>(60);
-	//}
+	if (gameManager_->GetIsClear()) {
+		sceneManager_->ChangeScene<GameClearScene>(60);
+	}
 
 }
 

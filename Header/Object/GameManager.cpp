@@ -91,7 +91,7 @@ void GameManager::Init() {
 #pragma endregion
 
 	EnemyComp::StaticInit();
-
+	isClear_ = false;
 }
 
 void GameManager::Exit() {
@@ -209,7 +209,9 @@ void GameManager::Update(const float deltaTime) {
 	if (orbGauge_) {
 		orbGauge_->Update(deltaTime);
 	}
-
+	if (orb_->GetComponent<OrbComp>()->GetProgress() >= 1.0f) {
+		isClear_ = true;
+	}
 
 }
 

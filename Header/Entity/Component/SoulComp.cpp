@@ -20,8 +20,8 @@ void SoulComp::Init() {
 	orbWorldPos.y = selfWorldPos.y;
 
 	// エネルギーの計算
-	energy_ = 7.f - (orbWorldPos - selfWorldPos).Length() / 2.f;
-	if (energy_ < 1.f) { energy_ = 1.f; }
+	energy_ = 7.f - (orbWorldPos - selfWorldPos).Length() / 0.2f;
+	if (energy_ < 0.2f) { energy_ = 0.2f; }
 
 }
 
@@ -33,11 +33,13 @@ void SoulComp::ModelInit() {
 			modelComp_ = object_->AddComponent<ModelComp>();
 			auto* const orbModel = ModelManager::GetInstance()->GetModel("Gold_Soul");
 			modelComp_->AddBone("Gold_Soul", orbModel);
+			energy_ *= 3.0f;
 		}
 		else if (stunEnemyCount == 1) {
 			modelComp_ = object_->AddComponent<ModelComp>();
 			auto* const orbModel = ModelManager::GetInstance()->GetModel("Red_Soul");
 			modelComp_->AddBone("Red_Soul", orbModel);
+			energy_ *= 2.0f;
 		}
 
 	}
