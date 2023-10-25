@@ -21,7 +21,7 @@ void SoulComp::Init() {
 
 	// エネルギーの計算
 	energy_ = 1.f - SoLib::easeInQuad(std::abs(orbWorldPos.x - selfWorldPos.x) / 20.f);
-	energy_ *= 0.75f;
+	energy_ *= 0.65f;
 }
 
 void SoulComp::ModelInit() {
