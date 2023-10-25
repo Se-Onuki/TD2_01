@@ -122,6 +122,24 @@ void GameManager::Update(const float deltaTime) {
 		skyCylinder_->Update(deltaTime);
 	}
 
+#ifdef _DEBUG
+	ImGui::Begin("Enemy");
+	if (SoLib::ImGuiWidget("SpawnPos", &debugSpawn_->transform_.translate)) {
+		debugSpawn_->Update(deltaTime);
+	}
+	if (ImGui::Button("Spawn")) {
+		AddEnemy(debugSpawn_->transform_.translate);
+	}
+	if (ImGui::Button("KillAll")) {
+		for (auto &enemy : enemys_) {
+			enemy->SetActive(false);
+		}
+	}
+
+	ImGui::End();
+
+#endif // _DEBUG
+
 	enemys_.remove_if([this](std::unique_ptr<Entity> &enemy) {
 		if (!enemy->GetActive()) {
 			AddSoul(enemy->GetWorldPos(), enemy->GetComponent<EnemyComp>()->GetIsStan());
@@ -189,23 +207,6 @@ void GameManager::Update(const float deltaTime) {
 	if (orbGauge_) {
 		orbGauge_->Update(deltaTime);
 	}
-#ifdef _DEBUG
-	ImGui::Begin("Enemy");
-	if (SoLib::ImGuiWidget("SpawnPos", &debugSpawn_->transform_.translate)) {
-		debugSpawn_->Update(deltaTime);
-	}
-	if (ImGui::Button("Spawn")) {
-		AddEnemy(debugSpawn_->transform_.translate);
-	}
-	if (ImGui::Button("KillAll")) {
-		for (auto &enemy : enemys_) {
-			enemy->SetActive(false);
-		}
-	}
-
-	ImGui::End();
-
-#endif // _DEBUG
 
 
 }
@@ -263,8 +264,6 @@ void GameManager::AddEnemy(const Vector3 &pos) {
 	newEnemy->transform_.translate = pos;
 	newEnemy->transform_.UpdateMatrix();
 	newEnemy->AddComponent<EnemyComp>();
-
-	newEnemy->Update(0.f);
 }
 
 void GameManager::AddSoul(const Vector3 &pos, bool isStun) {
