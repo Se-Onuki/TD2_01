@@ -34,18 +34,25 @@ void GameClearScene::OnEnter() {
 	skyCylinder_->Init("skyCylinder");
 
 #pragma endregion
+	BGMHandle_ = audio_->LoadWave("resources/Sounds/result.wav");
+	selectSEHandle_ = audio_->LoadWave("resources/Sounds/firstButton.wav");
 
 
 }
 
 void GameClearScene::OnExit() {
+	audio_->StopWave(voiceBGMHandle_);
+
 }
 
 void GameClearScene::Update() {
 	const float deltaTime = ImGui::GetIO().DeltaTime;
-	if (isChangeSceneCall_) {
-		sceneManager_->ChangeScene(new TitleScene, 60);
+	// BGM再生
+	if (audio_->IsPlaying(voiceBGMHandle_) == 0 || voiceBGMHandle_ == -1) {
+		voiceBGMHandle_ = audio_->PlayWave(BGMHandle_, true, bolume);
 	}
+
+
 
 	skyCylinder_->SetChangeSceneCall(isChangeSceneCall_);
 	if (skyCylinder_) {
@@ -60,8 +67,16 @@ void GameClearScene::Update() {
 
 	if (input_->GetXInput()->IsTrigger(KeyCode::RIGHT_SHOULDER) ||
 		input_->GetDirectInput()->IsTrigger(DIK_SPACE)) {
+		audio_->PlayWave(selectSEHandle_, false, bolume);
 		isChangeSceneCall_ = true;
+	}	
+	
+	if (isChangeSceneCall_) {
+		audio_->StopWave(voiceBGMHandle_);
+
+		sceneManager_->ChangeScene<TitleScene>(60);
 	}
+
 }
 
 void GameClearScene::Draw() {

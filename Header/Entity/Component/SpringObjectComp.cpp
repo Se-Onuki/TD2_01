@@ -8,6 +8,7 @@
 #include "EnemyComp.h"
 #include "../../../Engine/DirectBase/File/GlobalVariables.h"
 
+#include "../../../Engine/DirectBase/Base/Audio.h"
 SpringObjectComp::~SpringObjectComp() {
 }
 
@@ -30,6 +31,10 @@ void SpringObjectComp::Init() {
 	colliderComp->SetCentor({ 0.f,vHitBox.GetItem() * 0.5f,0.f });
 	colliderComp->SetCollisionAttribute(static_cast<uint32_t>(CollisionFilter::Player));
 	colliderComp->SetCollisionMask(~static_cast<uint32_t>(CollisionFilter::Player));
+
+	jumpSE = Audio::GetInstance()->LoadWave("resources/Sounds/jump.wav");
+	bindSE = Audio::GetInstance()->LoadWave("resources/Sounds/bind.wav");
+	//blockBreakSE = Audio::GetInstance()->LoadWave("resources/Sounds/brockBreak.wav");
 
 	AddVariable(groupName_.c_str());
 }
@@ -132,12 +137,13 @@ void FallingState::Update([[maybe_unused]] float deltaTime) {
 		auto *const mapChip = MapChip::GetInstance();
 		// もし足元がブロックならばヒビを入れる
 		mapChip->SetCrack(static_cast<uint32_t>(downPos.x), static_cast<uint32_t>(downPos.y));
+		//Audio::GetInstance()->PlayWave(stateManager_->parent_->GetBlockBreakSE(), false, 0.3f);
 
 		// もし空気ならば左右にヒビを入れる
 		if (mapChip->GetChipData(downPos) == MapChip::ChipState::kAir) {
 			mapChip->SetCrack(static_cast<uint32_t>(downPos.x + 0.5f), static_cast<uint32_t>(downPos.y));
 			mapChip->SetCrack(static_cast<uint32_t>(downPos.x - 0.5f), static_cast<uint32_t>(downPos.y));
-		}
+	 	}
 	}
 
 }
@@ -230,7 +236,9 @@ void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {
 	if (enemyComp) {
 		// 上から踏まれた場合
 		if (rigidbody->GetVelocity().y <= 0.f) {
-
+			// 跳ね返りSEの再生
+			Audio::GetInstance()->PlayWave(stateManager_->parent_->GetBindSE(), false, 0.3f);
+			
 			stateManager_->ChangeState<JumpingState>();
 
 			enemyComp->StartStan();
@@ -263,6 +271,7 @@ void SquattingState::Update([[maybe_unused]] float deltaTime) {
 	stateTimer_.Update(deltaTime);
 
 	if (Input::GetInstance()->GetDirectInput()->IsRelease(DIK_SPACE)) {
+		Audio::GetInstance()->PlayWave(stateManager_->parent_->GetJumpSE(), false, 0.3f);
 		stateManager_->ChangeState<JumpingState>();
 	}
 	const Vector3 &squatScale = stateManager_->parent_->vSquatScale_;

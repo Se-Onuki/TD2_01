@@ -6,6 +6,7 @@
 #include "ModelComp.h"
 
 #include "../../Object/GameManager.h"
+#include "../../../Engine/DirectBase/Base/Audio.h"
 
 std::list<std::unique_ptr<Entity>> *EnemyComp::sEnemys_ = {};
 float EnemyComp::sStanTime_ = 0.f;
@@ -32,7 +33,13 @@ void EnemyComp::Init() {
 	stunSprite_.reset(Sprite::Create(oneStunTex));
 	stunSprite_->SetScale({ 100.f,100.f });
 	stunSprite_->SetPivot({ 0.5f,0.5f });
+
+	stunSE = Audio::GetInstance()->LoadWave("resources/Sounds/stun.wav");
+	//damageSE = Audio::GetInstance()->LoadWave("resources/Sounds/destroy.wav");
+
 }
+
+
 
 void EnemyComp::Update([[maybe_unused]] float deltaTime) {
 	int stunCount = 0;
@@ -166,6 +173,7 @@ void EnemyState::ApproachState::Init([[maybe_unused]] float deltaTime) {
 
 void EnemyState::ApproachState::Update([[maybe_unused]] float deltaTime) {
 	if (enemy_->GetIsStan()) {
+		Audio::GetInstance()->PlayWave(enemy_->GetStunSE(), false, 0.3f);
 		enemy_->SetState<StunState>();
 	}
 }

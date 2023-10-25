@@ -26,5 +26,7 @@ private:
 	float energy_ = 0.f;
 
 	bool isStun_ = false;
+
+	static uint32_t energySE;
 };
 

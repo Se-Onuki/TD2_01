@@ -4,7 +4,7 @@
 
 
 #include "../../Engine/DirectBase/Model/ModelManager.h"
-
+#include "../../Engine/DirectBase/Base/Audio.h"
 #include "../Entity/Component/ModelComp.h"
 #include "../Entity/Component/SpringObjectComp.h"
 #include "../Entity/Component/Rigidbody.h"
@@ -82,6 +82,7 @@ void GameManager::Init() {
 	remainWave_->Init();
 
 #pragma endregion
+	waveChangeSE_ = Audio::GetInstance()->LoadWave("resources/Sounds/nextWave.wav");
 
 	EnemyComp::StaticInit();
 	isClear_ = false;
@@ -306,6 +307,7 @@ void GameManager::WaveChange() {
 	else {
 		wave_++;
 	}
+	Audio::GetInstance()->PlayWave(waveChangeSE_, false, 0.3f);
 
 	WaveEnemySet(wave_);
 }
@@ -343,8 +345,41 @@ void GameManager::WaveEnemySet(int wave) {
 		AddEnemy({ -5.0f,5.0f,0.f });
 		AddEnemy({ -2.0f,8.0f,0.f });
 		EnemyComp::SetEnemyList(&enemys_);
+	}
+	else if (wave == 3) {
+		perWave_MaxEnemy_ = 0u;
+
+		AddEnemy({ -5.0f,13.0f,0.f });
+		EnemyComp::SetEnemyList(&enemys_);
 
 	}
+	else if (wave == 4) {
+		perWave_MaxEnemy_ = 0u;
 
+		AddEnemy({ -5.0f,13.0f,0.f });
+		EnemyComp::SetEnemyList(&enemys_);
+
+	}
+	else if (wave == 6) {
+		perWave_MaxEnemy_ = 0u;
+
+		AddEnemy({ -5.0f,13.0f,0.f });
+		EnemyComp::SetEnemyList(&enemys_);
+
+	}
+	else if (wave == 7) {
+		perWave_MaxEnemy_ = 0u;
+
+		AddEnemy({ -5.0f,13.0f,0.f });
+		EnemyComp::SetEnemyList(&enemys_);
+
+	}
+	else if (wave == 8) {
+		perWave_MaxEnemy_ = 0u;
+
+		AddEnemy({ -5.0f,13.0f,0.f });
+		EnemyComp::SetEnemyList(&enemys_);
+
+	}
 }
 

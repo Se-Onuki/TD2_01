@@ -84,6 +84,7 @@ private:
 	const int maxWave_ = 8;
 	bool isClear_ = false;
 
-	
+	uint32_t waveChangeSE_ = 0u;
+
 
 };
