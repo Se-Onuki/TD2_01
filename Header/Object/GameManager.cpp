@@ -30,6 +30,8 @@ void GameManager::Init() {
 
 #pragma region Enemy
 
+	perWave_MaxEnemy_ = 0u;
+
 	AddEnemy({ -5.0f,13.0f,0.f });
 	AddEnemy({ -10.0f,4.0f,0.f });
 	AddEnemy({ 4.0f,7.0f,0.f });

@@ -126,13 +126,13 @@ float MapChip::GetDistanceToGround(const Vector2 &localPos) const {
 
 	while (true) {
 
+		--leftDown.y;
 		if (
-			(leftDown.y < 0.f)	// 上下が画面外
+			leftDown.y < 0.f	// 上下が画面外
 			) {
 			return -1.f;
 		}
 
-		--leftDown.y;
 		if (GetChipData(leftDown).chipState_ != ChipState::kAir) {
 			return distance + decimalOnlyValue;
 		}
