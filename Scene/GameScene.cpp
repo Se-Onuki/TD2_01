@@ -70,7 +70,7 @@ GameScene::GameScene() {
 	keyHud_.reset(Sprite::Create(TextureManager::Load("UI/KeyInput.png")));
 	keyHud_->SetScale(Vector2{ 714.f, 256.0f }*0.6f);
 	keyHud_->SetPivot({ 0.f,1.f });
-	keyHud_->SetPosition({ 0., 720.f });
+	keyHud_->SetPosition({ 16., 720.f });
 	keyHud_->SetTexOrigin({ 0.f,128.f });
 
 	BGMHandle_ = audio_->LoadWave("resources/Sounds/inGame.wav");
