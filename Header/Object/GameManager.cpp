@@ -14,6 +14,8 @@
 #include "../Entity/Component/SoulComp.h"
 #include "../../Utils/SoLib/SoLib.h"
 
+uint32_t GameManager::waveChangeSE_ = 0u;
+
 void GameManager::Init() {
 
 	collisionManager_ = CollisionManager::GetInstance();
@@ -81,7 +83,9 @@ void GameManager::Init() {
 	remainWave_->Init();
 
 #pragma endregion
-	waveChangeSE_ = Audio::GetInstance()->LoadWave("resources/Sounds/nextWave.wav");
+	if (waveChangeSE_ == 0u) {
+		waveChangeSE_ = Audio::GetInstance()->LoadWave("resources/Sounds/nextWave.wav");
+	}
 
 	EnemyComp::StaticInit();
 	isClear_ = false;
