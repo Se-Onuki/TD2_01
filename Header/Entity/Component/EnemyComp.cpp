@@ -8,6 +8,9 @@
 #include "../../Object/GameManager.h"
 #include "../../../Engine/DirectBase/Base/Audio.h"
 
+uint32_t EnemyComp::stunSE = 0u;
+uint32_t EnemyComp::damageSE = 0u;
+
 std::list<std::unique_ptr<Entity>> *EnemyComp::sEnemys_ = {};
 float EnemyComp::sStanTime_ = 0.f;
 int EnemyComp::stunCount_ = 0;
@@ -38,7 +41,9 @@ void EnemyComp::Init() {
 	stunSprite_->SetScale({ 100.f,100.f });
 	stunSprite_->SetPivot({ 0.5f,0.5f });
 
-	stunSE = Audio::GetInstance()->LoadWave("resources/Sounds/stun.wav");
+	if (stunSE == 0u) {
+		stunSE = Audio::GetInstance()->LoadWave("resources/Sounds/stun.wav");
+	}
 	//damageSE = Audio::GetInstance()->LoadWave("resources/Sounds/destroy.wav");
 
 }

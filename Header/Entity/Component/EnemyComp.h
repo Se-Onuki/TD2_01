@@ -154,7 +154,7 @@ private:
 
 	static int stunCount_;
 
-	uint32_t stunSE = 0u;	
-	uint32_t damageSE = 0u;
+	static uint32_t stunSE ;	
+	static uint32_t damageSE ;
 
 };
