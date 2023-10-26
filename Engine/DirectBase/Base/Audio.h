@@ -98,7 +98,7 @@ private:
 	Microsoft::WRL::ComPtr<IXAudio2> xAudio2_ = nullptr;
 	IXAudio2MasteringVoice *masterVoice_ = nullptr;
 
-	std::array<std::unique_ptr<SoundData>, 256u> soundArray_;
+	std::array<std::unique_ptr<SoundData>, 512u> soundArray_;
 	std::set<Voice*> voices_;
 	// 次に使う再生中データの番号
 	uint32_t indexVoice_ = 0u;
