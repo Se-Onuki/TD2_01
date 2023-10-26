@@ -86,6 +86,9 @@ void GameManager::Init() {
 	EnemyComp::StaticInit();
 	isClear_ = false;
 	isFinish_ = false;
+
+	orbModel_ = ModelManager::GetInstance()->GetModel("OrbGauge");
+	orbModel_->materialMap_.begin()->second->materialBuff_->color = Vector4::one;
 }
 
 void GameManager::Exit() {
@@ -229,6 +232,9 @@ void GameManager::Update(const float deltaTime) {
 	// クリア条件
 	if (orb_->GetComponent<OrbComp>()->GetProgress() >= 1.0f) {
 		isClear_ = true;
+
+		orbModel_->materialMap_.begin()->second->materialBuff_->color =
+			SoLib::Lerp(orbModel_->materialMap_.begin()->second->materialBuff_->color, Vector4 { 0.f, 1.f, 0.f, 1.f }, 0.1f);
 	}
 
 }

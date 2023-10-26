@@ -78,6 +78,8 @@ private:
 	std::unique_ptr<RemainEnemy> remainEnemy_ = nullptr;
 	std::unique_ptr<RemainWave> remainWave_ = nullptr;
 
+	Model *orbModel_ = nullptr;
+
 	const float slowCount = 1.0f;
 	SoLib::RealTimer slowmotionTimer_;
 
