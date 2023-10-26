@@ -186,8 +186,8 @@ private:
 
 	std::unique_ptr<PlayerStateManager> state_ = nullptr;
 
-	uint32_t jumpSE;
-	uint32_t bindSE;
+	static uint32_t jumpSE;
+	static uint32_t bindSE;
 	//uint32_t blockBreakSE;
 
 };

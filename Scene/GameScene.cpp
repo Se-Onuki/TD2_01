@@ -13,6 +13,7 @@
 
 #include "../Header/Object/Fade.h"
 
+uint32_t GameScene::BGMHandle_;
 void GameScene::StartupLoad() {
 
 	auto *const modelManager = ModelManager::GetInstance();
@@ -50,7 +51,7 @@ void GameScene::StartupLoad() {
 	TextureManager::Load("backTexture.png");
 	TextureManager::Load("UI/KeyInput.png");
 
-
+	BGMHandle_ = Audio::GetInstance()->LoadWave("resources/Sounds/inGame.wav");
 }
 
 GameScene::GameScene() {
@@ -72,8 +73,6 @@ GameScene::GameScene() {
 	keyHud_->SetPivot({ 0.f,1.f });
 	keyHud_->SetPosition({ 16., 720.f });
 	keyHud_->SetTexOrigin({ 0.f,128.f });
-
-	BGMHandle_ = audio_->LoadWave("resources/Sounds/inGame.wav");
 }
 
 GameScene::~GameScene() {

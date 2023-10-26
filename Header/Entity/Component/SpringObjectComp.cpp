@@ -9,6 +9,9 @@
 #include "../../../Engine/DirectBase/File/GlobalVariables.h"
 
 #include "../../../Engine/DirectBase/Base/Audio.h"
+
+uint32_t SpringObjectComp::jumpSE = 0u;
+uint32_t SpringObjectComp::bindSE = 0u;
 SpringObjectComp::~SpringObjectComp() {
 }
 
@@ -29,8 +32,10 @@ void SpringObjectComp::Init() {
 	colliderComp->SetCollisionAttribute(static_cast<uint32_t>(CollisionFilter::Player));
 	colliderComp->SetCollisionMask(~static_cast<uint32_t>(CollisionFilter::Player));
 
-	jumpSE = Audio::GetInstance()->LoadWave("resources/Sounds/jump.wav");
-	bindSE = Audio::GetInstance()->LoadWave("resources/Sounds/bind.wav");
+	if (jumpSE == 0u) {
+		jumpSE = Audio::GetInstance()->LoadWave("resources/Sounds/jump.wav");
+		bindSE = Audio::GetInstance()->LoadWave("resources/Sounds/bind.wav");
+	}
 	//blockBreakSE = Audio::GetInstance()->LoadWave("resources/Sounds/brockBreak.wav");
 
 	state_ = std::make_unique<PlayerStateManager>(this);
@@ -147,7 +152,7 @@ void FallingState::Update([[maybe_unused]] float deltaTime) {
 		if (mapChip->GetChipData(downPos) == MapChip::ChipState::kAir) {
 			mapChip->SetCrack(static_cast<uint32_t>(downPos.x + 0.5f), static_cast<uint32_t>(downPos.y));
 			mapChip->SetCrack(static_cast<uint32_t>(downPos.x - 0.5f), static_cast<uint32_t>(downPos.y));
-	 	}
+		}
 	}
 
 }
@@ -234,7 +239,7 @@ void JumpingState::OnCollision([[maybe_unused]] Entity *const other) {
 		if (rigidbody->GetVelocity().y <= 0.f) {
 			// 跳ね返りSEの再生
 			Audio::GetInstance()->PlayWave(stateManager_->parent_->GetBindSE(), false, 0.3f);
-			
+
 			stateManager_->ChangeState<JumpingState>();
 
 			enemyComp->StartStan();
