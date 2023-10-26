@@ -187,8 +187,11 @@ void GameManager::Update(const float deltaTime) {
 	}
 
 	if (spring_) {
-		if (slowmotionTimer_.IsActive()) {
-			const float slowScale = 1.f - SoLib::easeOutExpo(slowmotionTimer_.GetProgress());
+		if (slowmotionTimer_.IsActive() || isFinish_) {
+			float slowScale = 1.f - SoLib::easeOutExpo(slowmotionTimer_.GetProgress());
+			if (isFinish_ || slowmotionTimer_.IsFinish()) {
+				slowScale = 0.f;
+			}
 			spring_->Update(deltaTime * slowScale);
 		}
 		else {
@@ -428,6 +431,7 @@ void GameManager::WaveEnemySet(int wave) {
 			pos.y = buff.y;
 			AddEnemy(pos);
 		}
+		mapChip_->Init("resources/Level/Level3.csv");
 		EnemyComp::SetEnemyList(&enemys_);
 		spring_->SetActive(false);
 	}

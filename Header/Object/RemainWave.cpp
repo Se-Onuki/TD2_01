@@ -5,7 +5,7 @@ void RemainWave::Init() {
 	// グローバル変数の値を設定
 	ApplyVariables(groupName_.c_str());
 	AddVariable(groupName_.c_str());
-	const float& scale = vScale_;
+	const float &scale = vScale_;
 
 	const float alpha = 1.0f;
 
@@ -44,13 +44,13 @@ void RemainWave::Update() {
 	ApplyVariables(groupName_.c_str());
 
 	// グローバル変数の値
-	const Vector2& pos = vPos_;
-	const float& scale = vScale_;
-	const float& numSpacing = vNumSpacing_;
+	const Vector2 &pos = vPos_;
+	const float &scale = vScale_;
+	const float &numSpacing = vNumSpacing_;
 
 	// 一桁ずつ数字を抜き取る
-	num_[1] = enemyNumber_ / 10;
-	enemyNumber_ = enemyNumber_ % 10;
+	num_[1] = std::clamp(enemyNumber_ / 10, 0, maxEnemyNumber_ / 10);
+	enemyNumber_ = std::clamp(enemyNumber_ % 10, 0, maxEnemyNumber_ % 10);
 	num_[0] = enemyNumber_ / 1;
 	num_[2] = maxEnemyNumber_ / 10;
 	enemyNumber_ = maxEnemyNumber_ % 10;
@@ -89,18 +89,18 @@ void RemainWave::Draw() {
 	enemySprite_->Draw();
 }
 
-void RemainWave::ApplyVariables(const char* const groupName) {
-	const GlobalVariables* const gVariable = GlobalVariables::GetInstance();
-	const auto& cGroup = gVariable->GetGroup(groupName);
+void RemainWave::ApplyVariables(const char *const groupName) {
+	const GlobalVariables *const gVariable = GlobalVariables::GetInstance();
+	const auto &cGroup = gVariable->GetGroup(groupName);
 
 	cGroup >> vPos_;
 	cGroup >> vScale_;
 	cGroup >> vNumSpacing_;
 }
 
-void RemainWave::AddVariable(const char* const groupName) const {
-	GlobalVariables* const gVariable = GlobalVariables::GetInstance();
-	auto& group = gVariable->GetGroup(groupName);
+void RemainWave::AddVariable(const char *const groupName) const {
+	GlobalVariables *const gVariable = GlobalVariables::GetInstance();
+	auto &group = gVariable->GetGroup(groupName);
 
 	group << vPos_;
 	group << vScale_;
