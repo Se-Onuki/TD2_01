@@ -7,6 +7,8 @@
 //#include "../Header/Entity/Component/SkyCylinderComp.h"
 
 bool TitleScene::isChangeSceneCall_ = false;
+uint32_t TitleScene::selectSEHandle_ = 0u;
+uint32_t TitleScene::BGMHandle_ = 0u;
 
 TitleScene::TitleScene() {
 	input_ = Input::GetInstance();
@@ -42,9 +44,12 @@ void TitleScene::OnEnter() {
 	skyCylinder_->Init("skyCylinder");
 
 #pragma endregion
-	BGMHandle_ = audio_->LoadWave("resources/Sounds/title.wav");
-	selectSEHandle_ = audio_->LoadWave("resources/Sounds/firstButton.wav");
-
+	if (BGMHandle_ == 0u) {
+		BGMHandle_ = audio_->LoadWave("resources/Sounds/title.wav");
+	}	
+	if (selectSEHandle_ == 0u) {
+		selectSEHandle_ = audio_->LoadWave("resources/Sounds/firstButton.wav");
+	}
 	Fade::GetInstance()->Start({ 0.f,0.f }, Fade::kFadeColor_, 20u);
 
 }

@@ -7,6 +7,8 @@
 //#include "../Header/Entity/Component/SkyCylinderComp.h"
 
 bool GameClearScene::isChangeSceneCall_ = false;
+uint32_t GameClearScene::selectSEHandle_ = 0u;
+uint32_t GameClearScene::BGMHandle_ = 0u;
 
 GameClearScene::GameClearScene() {
 	input_ = Input::GetInstance();
@@ -34,8 +36,13 @@ void GameClearScene::OnEnter() {
 	skyCylinder_->Init("skyCylinder");
 
 #pragma endregion
-	BGMHandle_ = audio_->LoadWave("resources/Sounds/result.wav");
-	selectSEHandle_ = audio_->LoadWave("resources/Sounds/firstButton.wav");
+	if (BGMHandle_ == 0u) {
+		BGMHandle_ = audio_->LoadWave("resources/Sounds/result.wav");
+	}	
+	if (selectSEHandle_ == 0u) {
+		selectSEHandle_ = audio_->LoadWave("resources/Sounds/firstButton.wav");
+	}
+
 
 	Fade::GetInstance()->Start({ 0.f,0.f }, Fade::kFadeColor_, 20u);
 
