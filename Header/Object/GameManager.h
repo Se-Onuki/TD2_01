@@ -89,7 +89,7 @@ private:
 	bool isClear_ = false;
 	bool isFinish_ = false;
 
-	static uint32_t waveChangeSE_ = 0u;
+	static uint32_t waveChangeSE_;
 
 	const Vector3 kDefaultSpawn_{ 0.f,10.f,0.f };
 
